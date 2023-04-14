@@ -1,5 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
-const element = <h1>Hello Dog</h1>;
-console.log(element);
+const App = () => {
+    return <h1>Hello Dog</h1>
+}
+
+const root = document.getElementById('root');
+ReactDOM.createRoot(root).render(<App />)
+
