@@ -1,0 +1,14 @@
+.App {
+    margin-top: 200px;
+}
+
+.gif_container,
+.gif_text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gif_text {
+    margin-bottom: 100px;
+}
