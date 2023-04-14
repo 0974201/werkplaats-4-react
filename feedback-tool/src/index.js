@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import logo from './SuperVegeta.gif';
 import Header from './header';
+import Contact from '/contact';
 import './App.css';
 
 

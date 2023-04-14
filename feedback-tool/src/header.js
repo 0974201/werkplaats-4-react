@@ -1,4 +1,5 @@
-import react from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Header() {
     return (
@@ -6,7 +7,7 @@ function Header() {
             <div className='header_information'>
                 Home
                 About
-                <Link to='./Contact'>Contact Us</Link>
+                <Link to='./contact'>Contact Us</Link>
             </div>
         </nav>
     )
