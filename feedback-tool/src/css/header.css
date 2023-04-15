@@ -4,10 +4,7 @@
 
 .link {
     text-decoration: none;
-
 }
-
-
 
 .nav_login .login_button {
     border-style: none;
@@ -34,16 +31,31 @@
 .header_information {
     display: flex;
     margin-top: 10px;
+    background-color: #B6E3FF;
+    height: 75px;
 }
 
 .header_links {
     display: flex;
-    justify-content: space-around;
-    margin-right: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%
+}
 
+.header_links .link {
+    margin-right: 20px;
+    font-size: 20px;
 }
 
 .nav_login {
     margin-left: auto;
     margin-right: 100px;
+}
+
+.SVG {
+    display: flex;
+    justify-content: center;
+    margin-left: 100px;
+    margin-top: 5px;
+
 }
