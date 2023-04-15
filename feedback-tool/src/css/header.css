@@ -48,6 +48,22 @@
     font-size: 20px;
 }
 
+.link:nth-child(1):hover {
+    transform: scale(1.05)
+}
+
+.link:nth-child(2):hover {
+    transform: scale(1.05)
+}
+
+.link:nth-child(3):hover {
+    transform: scale(1.05)
+}
+
+.link:nth-child(4):hover {
+    transform: scale(1.05)
+}
+
 .nav_login {
     margin-left: auto;
     margin-right: 100px;
@@ -59,4 +75,9 @@
     margin-left: 100px;
     margin-top: 5px;
 
+}
+
+.SVG:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }

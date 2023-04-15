@@ -7,7 +7,9 @@ function Header() {
         <nav>
             <div classname='header'>
                 <div className='header_information'>
-                    <img className="SVG" width="208" height="50" src="https://www.dyflexis.com/wp-content/uploads/2019/04/logo-dyflexis-2.svg"></img>
+                    <Link to='/'>
+                        <img className="SVG" width="208" height="50" src="https://www.dyflexis.com/wp-content/uploads/2019/04/logo-dyflexis-2.svg"></img>
+                    </Link>
                     <div className='header_links'>
                         <Link to='/' className='link'>Home</Link>
                         <Link to='./About' className='link' >About us</Link>
