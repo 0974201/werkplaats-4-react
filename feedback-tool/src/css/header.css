@@ -7,16 +7,18 @@
 }
 
 .nav_login .login_button {
-    border-style: none;
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 75px;
+    border-style: none;
+    width: 50px;
+    height: 30px;
+    font-size: 20px;
+    padding: 5px;
 }
 
 .nav_login .link {
-    font-size: 20px;
     color: #ffffff;
+    text-align: center;
 }
 
 .login_button {
@@ -30,7 +32,6 @@
 
 .header_information {
     display: flex;
-    margin-top: 10px;
     background-color: #B6E3FF;
     height: 75px;
 }

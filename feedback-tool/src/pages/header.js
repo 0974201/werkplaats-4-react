@@ -9,9 +9,10 @@ function Header() {
                 <div className='header_information'>
                     <img className="SVG" width="208" height="50" src="https://www.dyflexis.com/wp-content/uploads/2019/04/logo-dyflexis-2.svg"></img>
                     <div className='header_links'>
-                        <Link to='/' className='link' style={{ marginLeft: '10px', marginRight: '20px' }}>Home</Link>
-                        <Link to='./About' className='link' style={{ marginRight: '20px' }}>About us</Link>
-                        <Link to='./contact' className='link' style={{ marginRight: '20px' }}>Contact Us</Link>
+                        <Link to='/' className='link'>Home</Link>
+                        <Link to='./About' className='link' >About us</Link>
+                        <Link to='./contact' className='link'>Contact Us</Link>
+                        <Link to='./survey' className='link'>Survey</Link>
                     </div>
                     <div className='nav_login'>
                         <div className='login_button'>
