@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// The Header for the website. //
 
 function Header() {
     return (

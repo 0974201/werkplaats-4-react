@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/* ChatGPT suggested this. */
+
 export function SurveyList() {
     const numOfSurveys = 20; // Change this to the number of surveys you want to display
     const surveys = [];
@@ -8,7 +10,7 @@ export function SurveyList() {
     for (let i = 1; i <= numOfSurveys; i++) {
         surveys.push(
             <div key={i} className='survey_link'>
-                <Link to={`/survey/${i}`}>Survey {i}</Link><br></br>
+                <Link to={`/survey/${i}`} className='link'>Survey {i}</Link><br></br>
             </div >
         );
     }

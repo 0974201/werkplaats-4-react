@@ -1,10 +1,12 @@
 import React from 'react';
 
+/* No idea if forms still work the same here.. 
+   <br> by itself does not work for React
+    Try <br></br> and for input fields they require a /> at the end */
+
 export function Login() {
     return (
-        <> {/* No idea if forms still work the same here.. 
-             <br> by itself does not work for React
-             Try <br></br> and for input fields they require a /> at the end */}
+        <>
             <div className='login_container'>
                 <form action="/handle_login" method="POST" class="login-form">
                     <p class="login_header"><h1><b>Log in</b></h1></p>

@@ -1,5 +1,7 @@
 import React from 'react';
 
+// This is the page users land on if they enter an invalid link or url. //
+
 export function NotFound() {
     return (
         <>

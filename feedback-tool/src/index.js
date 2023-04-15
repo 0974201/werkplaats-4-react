@@ -14,6 +14,9 @@ import { SurveyList } from './pages/surveylist';
 import { Survey } from './pages/survey'
 import './css/App.css';
 
+/* The App is what we throw everything inside. 
+The Header in line 23 is imported from header.js.
+The <Layout> is wrapped around the Routes so that they all have the same layout.*/
 
 function App() {
     return (
