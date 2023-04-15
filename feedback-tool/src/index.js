@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import logo from './SuperVegeta.gif';
 import Header from './pages/header';
+import Layout from './pages/layout';
 import { Home } from './pages/home';
 import { Contact } from './pages/contact';
 import { About } from './pages/about';
@@ -21,7 +22,8 @@ function App() {
                 </header>
             </div>
             <Routes>
-                <Route path='/' element={<Home />} />
+                <Route path='/' element={<Layout />} />
+                <Route index element={<Home />} />
                 <Route path='/contact' element={<Contact />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/login' element={<Login />} />
