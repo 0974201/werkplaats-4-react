@@ -6,7 +6,8 @@ import Header from './pages/header';
 import { Home } from './pages/home';
 import { Contact } from './pages/contact';
 import { About } from './pages/about';
-import './App.css';
+import { Login } from './pages/login';
+import './css/App.css';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
                 <Route path='/' element={<Home />} />
                 <Route path='/contact' element={<Contact />} />
                 <Route path='/about' element={<About />} />
+                <Route path='/login' element={<Login />} />
             </Routes>
         </>
     )

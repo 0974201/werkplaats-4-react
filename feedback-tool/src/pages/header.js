@@ -9,6 +9,9 @@ function Header() {
                 <Link to='./About'>About us</Link>
                 <Link to='./contact'>Contact Us</Link>
             </div>
+            <div className='nav_login'>
+                <Link to='./Login'>Login</Link>
+            </div>
         </nav>
     )
 }
