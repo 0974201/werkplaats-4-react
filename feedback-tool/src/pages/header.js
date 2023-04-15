@@ -5,8 +5,8 @@ function Header() {
     return (
         <nav>
             <div className='header_information'>
-                Home
-                About
+                <Link to='./Home'>Home</Link>
+                <Link to='./About'>About us</Link>
                 <Link to='./contact'>Contact Us</Link>
             </div>
         </nav>
