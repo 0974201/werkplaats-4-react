@@ -28,7 +28,8 @@ body {
     margin: 0;
 }
 
-#content {
+.container {
     display: flex;
     justify-content: center;
+    align-items: center;
 }

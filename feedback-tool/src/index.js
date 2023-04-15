@@ -20,16 +20,19 @@ function App() {
                 <Header />
                 <header className='App_header'>
                 </header>
+                <Layout>
+                    <Routes>
+                        <Route path='/' element={<Layout />} />
+                        <Route index element={<Home />} />
+                        <Route path='/contact' element={<Contact />} />
+                        <Route path='/about' element={<About />} />
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/survey' element={<Survey />} />
+                        <Route />
+                        <Route path='/*' element={<NotFound />} />
+                    </Routes>
+                </Layout>
             </div>
-            <Routes>
-                <Route path='/' element={<Layout />} />
-                <Route index element={<Home />} />
-                <Route path='/contact' element={<Contact />} />
-                <Route path='/about' element={<About />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/survey' element={<Survey />} />
-                <Route path='/*' element={<NotFound />} />
-            </Routes>
         </>
     )
 }
