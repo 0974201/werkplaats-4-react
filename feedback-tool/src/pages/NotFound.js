@@ -3,8 +3,12 @@ import React from 'react';
 export function NotFound() {
     return (
         <>
-            <h1>Error</h1>
-            <span>The page you're looking for does not exist.</span>
+            <div>
+                <h1>Error</h1>
+                <div>
+                    <p>The page you're looking for does not exist.</p>
+                </div>
+            </div>
         </>
     )
 }
