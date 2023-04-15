@@ -1,8 +1,11 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 export function Survey() {
+    const { id } = useParams();
     return (
-        <h1>Survey</h1>
+        <div>
+            <h1>Survey {id} Time</h1>
+        </div>
     )
-
 }

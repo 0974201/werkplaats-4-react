@@ -4,12 +4,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import logo from './SuperVegeta.gif';
 import Header from './pages/header';
 import Layout from './pages/layout';
+import Questions from './pages/questions';
 import { Home } from './pages/home';
 import { Contact } from './pages/contact';
 import { About } from './pages/about';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
-import { Survey } from './pages/survey';
+import { SurveyList } from './pages/surveylist';
+import { Survey } from './pages/survey'
 import './css/App.css';
 
 
@@ -27,7 +29,10 @@ function App() {
                         <Route path='/contact' element={<Contact />} />
                         <Route path='/about' element={<About />} />
                         <Route path='/login' element={<Login />} />
-                        <Route path='/survey' element={<Survey />} />
+                        <Route path='/survey' element={<SurveyList />} />
+                        <Route index element={<SurveyList />} />
+                        <Route path='/survey/:id' element={<Survey />} />
+                        <Route />
                         <Route />
                         <Route path='/*' element={<NotFound />} />
                     </Routes>

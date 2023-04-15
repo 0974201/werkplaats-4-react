@@ -2,6 +2,7 @@
 @import 'header.css';
 @import 'button.css';
 @import 'login.css';
+@import 'survey.css';
 
 
 :root {
@@ -26,9 +27,11 @@
 body {
     background-color: var(--bg-color);
     margin: 0;
+    height: 100%;
 }
 
 .container {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
