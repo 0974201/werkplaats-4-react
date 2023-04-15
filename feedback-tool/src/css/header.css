@@ -1,5 +1,34 @@
 .header div {
-    display: flex
+    display: flex;
+}
+
+.link {
+    text-decoration: none;
+
+}
+
+
+
+.nav_login .login_button {
+    border-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+}
+
+.nav_login .link {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.login_button {
+    background-color: #008fde;
+    border-color: #008fde;
+}
+
+.login_button:hover {
+    transform: scale(1.05)
 }
 
 .header_information {

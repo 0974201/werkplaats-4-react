@@ -7,12 +7,14 @@ function Header() {
             <div classname='header'>
                 <div className='header_information'>
                     <div className='header_links'>
-                        <Link to='/' style={{ marginLeft: '10px', marginRight: '20px' }}>Home</Link>
-                        <Link to='./About' style={{ marginRight: '20px' }}>About us</Link>
-                        <Link to='./contact' style={{ marginRight: '20px' }}>Contact Us</Link>
+                        <Link to='/' className='link' style={{ marginLeft: '10px', marginRight: '20px' }}>Home</Link>
+                        <Link to='./About' className='link' style={{ marginRight: '20px' }}>About us</Link>
+                        <Link to='./contact' className='link' style={{ marginRight: '20px' }}>Contact Us</Link>
                     </div>
                     <div className='nav_login'>
-                        <Link to='./Login'>Login</Link>
+                        <div className='login_button'>
+                            <Link to='./Login' className='link'>Login</Link>
+                        </div>
                     </div>
                 </div>
             </div>
