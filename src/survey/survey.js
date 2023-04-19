@@ -54,7 +54,7 @@ class Question extends React.Component {
     }
 }
 
-export default function Survey() {
+export default function Survey2() {
     let questions = [
         {
             type: "MultipleChoice",
