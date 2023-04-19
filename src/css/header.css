@@ -1,0 +1,83 @@
+.header div {
+    display: flex;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.nav_login .login_button {
+    display: flex;
+    justify-content: center;
+    border-style: none;
+    width: 50px;
+    height: 30px;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.nav_login .link {
+    color: #ffffff;
+    text-align: center;
+}
+
+.login_button {
+    background-color: #008fde;
+    border-color: #008fde;
+}
+
+.login_button:hover {
+    transform: scale(1.05)
+}
+
+.header_information {
+    display: flex;
+    background-color: #B6E3FF;
+    height: 75px;
+}
+
+.header_links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%
+}
+
+.header_links .link {
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.link:nth-child(1):hover {
+    transform: scale(1.05)
+}
+
+.link:nth-child(2):hover {
+    transform: scale(1.05)
+}
+
+.link:nth-child(3):hover {
+    transform: scale(1.05)
+}
+
+.link:nth-child(4):hover {
+    transform: scale(1.05)
+}
+
+.nav_login {
+    margin-left: auto;
+    margin-right: 100px;
+}
+
+.SVG {
+    display: flex;
+    justify-content: center;
+    margin-left: 100px;
+    margin-top: 5px;
+
+}
+
+.SVG:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}

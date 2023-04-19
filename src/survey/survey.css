@@ -1,0 +1,8 @@
+.survey {
+    background-color: blueviolet;
+    width: fit-content;
+}
+.radioList {
+    display: flex;
+    flex-direction: column;
+}
