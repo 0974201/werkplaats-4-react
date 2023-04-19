@@ -1,50 +1,49 @@
 import './survey.css'
 import React from "react";
 
+function OpenQuestion({ question }) {
+    return (
+        <div key={question.id}>
+            <h3>De open vraag</h3>
+            <input />
+        </div>
+    )
+}
+
+function MultipleChoiceQuestion({ question }) {
+    const optionsList = question.options.map(option =>
+        <label key={question.id}>
+            <input type={"radio"} value={option} name={"question" + question.id} />
+            {option}
+        </label>
+    )
+    return (
+        <div>
+            {optionsList}
+        </div>
+    )
+}
+
 class Question extends React.Component {
     constructor(props) {
         super(props)
     }
 
-    OpenQuestion({question}) {
-        return (
-            <div key={question.id}>
-                <h3>De open vraag</h3>
-                <input/>
-            </div>
-        )
-    }
-
-    MultipleChoiceQuestion({question}) {
-        const optionsList = question.options.map(option =>
-            <label key={question.id}>
-                <input type={"radio"} value={option} name={"question"+question.id}/>
-                {option}
-            </label>
-        )
-        return (
-            <div>
-                {optionsList}
-            </div>
-        )
-    }
-
     render() {
-        const questionList = this.props.questions.map(question =>
-            {
-                switch (question.type) {
-                    case 'MultipleChoice':
-                        return (
-                            <MultipleChoiceQuestion question={question} />
-                        )
-                    case 'Open':
-                        return (
-                            <OpenQuestion question={question} />
-                        )
-                    default:
-                        console.log("Wrong type")
-                }
+        const questionList = this.props.questions.map(question => {
+            switch (question.type) {
+                case 'MultipleChoice':
+                    return (
+                        <MultipleChoiceQuestion question={question} />
+                    )
+                case 'Open':
+                    return (
+                        <OpenQuestion question={question} />
+                    )
+                default:
+                    console.log("Wrong type")
             }
+        }
         )
         return (
             <>
