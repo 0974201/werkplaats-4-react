@@ -4,7 +4,7 @@ import React from "react";
 function OpenQuestion({ question }) {
     return (
         <div key={question.id}>
-            <h3>De open vraag</h3>
+            <h3>{question.question}</h3>
             <input />
         </div>
     )
@@ -19,38 +19,33 @@ function MultipleChoiceQuestion({ question }) {
     )
     return (
         <div>
+            <h3>{question.question}</h3>
             {optionsList}
         </div>
     )
 }
 
-class Question extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        const questionList = this.props.questions.map(question => {
-            switch (question.type) {
-                case 'MultipleChoice':
-                    return (
-                        <MultipleChoiceQuestion question={question} />
-                    )
-                case 'Open':
-                    return (
-                        <OpenQuestion question={question} />
-                    )
-                default:
-                    console.log("Wrong type")
-            }
+function Question({questions}) {
+    const questionList = questions.map(question => {
+        switch (question.type) {
+            case 'MultipleChoice':
+                return (
+                    <MultipleChoiceQuestion question={question} />
+                )
+            case 'Open':
+                return (
+                    <OpenQuestion question={question} />
+                )
+            default:
+                console.log("Wrong type")
         }
-        )
-        return (
-            <>
-                {questionList}
-            </>
-        )
     }
+    )
+    return (
+        <>
+            {questionList}
+        </>
+        )
 }
 
 export default function Survey2() {
@@ -72,6 +67,12 @@ export default function Survey2() {
             id: 3,
             question: "Wat is de naam van je kat?",
             options: ['Scratch', 'Tiger', 'Spot', 'Nigel']
+        },
+        {
+            type: "Open",
+            id: 4,
+            question: "Van welke saus hou je?",
+            options: null
         }
     ]
 
