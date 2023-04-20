@@ -13,6 +13,7 @@ import { NotFound } from './pages/NotFound';
 import { SurveyList } from './pages/surveylist';
 import { Survey } from './pages/survey';
 import Survey2 from './survey/survey';
+import CreateSurvey from "./create_survey/create_survey";
 import './css/App.css';
 
 /* The App is what we throw everything inside. 
@@ -37,6 +38,7 @@ function App() {
                         <Route index element={<SurveyList />} />
                         <Route path='/survey/:id' element={<Survey />} />
                         <Route path={'/question'} element={<Survey2 />} />
+                        <Route path={'/create'} element={<CreateSurvey />}/>
                         <Route />
                         <Route />
                         <Route path='/*' element={<NotFound />} />
