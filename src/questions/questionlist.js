@@ -6,29 +6,35 @@ import Survey2, { questions } from '../survey/survey'
 
 function ModifyQuestion() {
     const [name, setName] = useState('');
-    const [question, modifyQuestion] = useState(questions);
+    const [question, setQuestion] = useState(questions);
     let nextId = 0
+
+    const handleModify = (id, newQuestion) => {
+        let updatedQuestion = question.map(question => {
+            if (question.id === id) {
+                return { ...question, question: newQuestion };
+            } else {
+                return question;
+            }
+        });
+        setQuestion(updatedQuestion);
+    };
 
     return (
         <div>
             <h1> Questions </h1>
 
             {question.map(item => (
-                <div key={item.id}>{item.id + '. ' + item.question}<button>modify</button>
+                <div key={item.id}>{item.id + '. ' + item.question}
+                    <input value={item.name} onChange={e => setName(e.target.value)} className='input' />
+                    <button onClick={() => handleModify(item.id, name)}>Modify</button>
+                    <button onClick={() => setQuestion(question.filter(q =>
+                        q.id !== item.id))}>Delete</button>
                 </div>
-            )
-            )}
-            {/* <button onClick={() => {
-                modifyQuestion([
-                    ...question,
-                    { id: nextId++, question: name }
-                ]);
-            }}>Add</button> */}
-            {/* {question.map(item => (
-                <div key={item.id}>{item.name}</div>
-            ))} */}
+            ))}
         </div>
     )
 }
+
 
 export default ModifyQuestion
