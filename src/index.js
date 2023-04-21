@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './pages/header';
 import Layout from './pages/layout';
-import Questions from './pages/questions';
+import Questions from './questions/questionlist';
 import { Home } from './pages/home';
 import { Contact } from './pages/contact';
 import { About } from './pages/about';
@@ -36,9 +36,9 @@ function App() {
                         <Route path='/survey' element={<SurveyList />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         <Route path='/survey/:id' element={<Survey />} />
+                        <Route path='/questionlist' element={<Questions />} /> {/* Covers the questions */}
+                        <Route index element={<Questions />} />
                         <Route path={'/question'} element={<Survey2 />} />
-                        <Route />
-                        <Route />
                     </Routes>
                 </Layout>
             </div>
