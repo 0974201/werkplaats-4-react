@@ -1,13 +1,20 @@
 import React from 'react';
+import { useState } from 'react';
+import './questions.css';
+import Survey2 from '../survey/survey'
 
-export function Questions() {
+
+
+function Questions() {
+    const [name, setName] = useState('');
+
     return (
-        <>
-            <h1> Question </h1>
-
-
-
-        </>
+        <div>
+            <h1> Questions </h1>
+            <Survey2 />
+            <button>Click here</button>
+            <input value={name} onChange={e => setName(e.target.value)} />
+        </div>
     )
 }
 
