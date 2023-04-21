@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import logo from './SuperVegeta.gif';
 import Header from './pages/header';
 import Layout from './pages/layout';
 import Questions from './pages/questions';
@@ -28,7 +27,7 @@ function App() {
                 </header>
                 <Layout>
                     <Routes>
-                        <Route path='/' element={<Layout />} /> {/* Covers the entire website*/}
+                        <Route path='/' element={<Layout />} /> {/* Covers the entire website */}
                         <Route index element={<Home />} />
                         <Route path='/contact' element={<Contact />} />
                         <Route path='/about' element={<About />} />
