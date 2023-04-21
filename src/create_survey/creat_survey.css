@@ -7,4 +7,9 @@
 .create {
     display: flex;
     flex-direction: column;
+    background-color: lightsteelblue;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 10px;
+    margin: 10px;
 }

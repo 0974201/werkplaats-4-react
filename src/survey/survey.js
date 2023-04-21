@@ -5,7 +5,7 @@ function OpenQuestion({ question }) {
     return (
         <div key={question.id}>
             <h3>{question.question}</h3>
-            <textarea />
+            <textarea maxLength={250} />
         </div>
     )
 }
