@@ -25,7 +25,7 @@ function MultipleChoiceQuestion({ question }) {
     )
 }
 
-function Question({questions}) {
+function Question({ questions }) {
     const questionList = questions.map(question => {
         switch (question.type) {
             case 'MultipleChoice':
@@ -45,36 +45,37 @@ function Question({questions}) {
         <>
             {questionList}
         </>
-        )
+    )
 }
 
+export let questions = [
+    {
+        type: "MultipleChoice",
+        id: 1,
+        question: "Wat is de naam van je vis?",
+        options: ['Bubbles', 'John', 'Speedy', 'The drowned one']
+    },
+    {
+        type: "Open",
+        id: 2,
+        question: "Hoe heet je huis spin?",
+        options: null
+    },
+    {
+        type: "MultipleChoice",
+        id: 3,
+        question: "Wat is de naam van je kat?",
+        options: ['Scratch', 'Tiger', 'Spot', 'Nigel']
+    },
+    {
+        type: "Open",
+        id: 4,
+        question: "Van welke saus hou je?",
+        options: null
+    }
+]
+
 export default function Survey2() {
-    let questions = [
-        {
-            type: "MultipleChoice",
-            id: 1,
-            question: "Wat is de naam van je vis?",
-            options: ['Bubbles', 'John', 'Speedy', 'The drowned one']
-        },
-        {
-            type: "Open",
-            id: 2,
-            question: "Hoe heet je huis spin?",
-            options: null
-        },
-        {
-            type: "MultipleChoice",
-            id: 3,
-            question: "Wat is de naam van je kat?",
-            options: ['Scratch', 'Tiger', 'Spot', 'Nigel']
-        },
-        {
-            type: "Open",
-            id: 4,
-            question: "Van welke saus hou je?",
-            options: null
-        }
-    ]
 
     return (
         <div className={"survey"}>
