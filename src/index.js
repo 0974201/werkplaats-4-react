@@ -28,18 +28,18 @@ function App() {
                 </header>
                 <Layout>
                     <Routes>
-                        <Route path='/' element={<Layout />} />
+                        <Route path='/' element={<Layout />} /> {/* Covers the entire website*/}
                         <Route index element={<Home />} />
                         <Route path='/contact' element={<Contact />} />
                         <Route path='/about' element={<About />} />
                         <Route path='/login' element={<Login />} />
-                        <Route path='/survey' element={<SurveyList />} />
+                        <Route path='/*' element={<NotFound />} />
+                        <Route path='/survey' element={<SurveyList />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         <Route path='/survey/:id' element={<Survey />} />
                         <Route path={'/question'} element={<Survey2 />} />
                         <Route />
                         <Route />
-                        <Route path='/*' element={<NotFound />} />
                     </Routes>
                 </Layout>
             </div>
