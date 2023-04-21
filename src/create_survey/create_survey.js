@@ -1,48 +1,61 @@
 import React from "react";
 import { useState } from "react";
+import Survey2 from '../survey/survey'
 import './creat_survey.css'
 
 let nextOrder = 0
 
 export default function CreateSurvey() {
-    const [questionList, setQuestionList] = useState([])
     const [questionArray, setQuestionArray] = useState([])
-
-    function CreateOpen() {
-        const [question, setQuestion] = useState('')
-        const [questionArray2, setQuestionArray2] = useState([])
-
-        return (
-            <div key={nextOrder}>
-                <input
-                    value={question}
-                    onChange={e => setQuestion(e.target.value)}
-                />
-                <button onClick={() => {
-                    setQuestionArray2(
-                        [
-                            ...questionArray2,
-                            question
-                        ])
-                    console.log(questionArray2)
-                }
-                }>add</button>
-                {/*<button onClick={}>X</button>*/}
-
-            </div>
-        )
+    console.log(questionArray)
+    function ReplaceValue(index, value) {
+        const newArray = questionArray.map((question, i) => {
+            if (i === index) {
+                question.question = value
+                return question
+            } else {
+                return question
+            }
+        })
+        setQuestionArray(newArray)
     }
 
-    const onAddOpenQuestion = event => {
-        setQuestionList(questionList.concat(<CreateOpen />))
-        setQuestionArray([...questionArray, {question: '', order: nextOrder++}])
-        console.log(questionArray)
+    function onAddOpenQuestion() {
+        setQuestionArray([...questionArray, {type: "Open", id:nextOrder, question: "empty",options: null, order: nextOrder++}])
+    }
+
+    function Preview() {
+        if (questionArray.length > 0) {
+            return <Survey2 questionsArray={questionArray} />
+        }
     }
 
     return (
-        <div className={'container'}>
-            {questionList}
-            <button onClick={onAddOpenQuestion}>Maak open vraag</button>
-        </div>
+        <>
+            <div className={'container'}>
+                <div className={'create'}>
+                {questionArray.map((question, i) => (
+                        <div key={i}>
+                            <h3>Vraag {i + 1}</h3>
+                            <input
+                                onChange={e => ReplaceValue(i, e.target.value)}
+                            />
+
+                            {/*<button onClick={() => (*/}
+                            {/*    setQuestionArray(questionArray.filter(question =>*/}
+                            {/*    question.id !== questionArray.id))*/}
+                            {/*)*/}
+
+                            {/*}>X</button>*/}
+                        </div>
+                ))}
+
+                <button onClick={onAddOpenQuestion}>Maak open vraag</button>
+                </div>
+                <Preview />
+            </div>
+
+
+        </>
     )
 }
