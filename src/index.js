@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './pages/header';
 import Layout from './pages/layout';
-import Questions from './questions/questionlist';
+import ModifyQuestion from './questions/questionlist';
 import { Home } from './pages/home';
 import { Contact } from './pages/contact';
 import { About } from './pages/about';
@@ -19,7 +19,7 @@ import './css/App.css';
 The Header in line 23 is imported from header.js.
 The <Layout> is wrapped around the Routes so that they all have the same layout.*/
 
-let questions = [
+export let questions = [
     {
         type: "MultipleChoice",
         id: 1,
@@ -68,8 +68,10 @@ function App() {
                         <Route path='/survey' element={<SurveyList />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         <Route path='/survey/:id' element={<Survey />} />
-                        <Route path={'/question'} element={<Survey2 questionsArray={questions} />} />
                         <Route path={'/create'} element={<CreateSurvey />} />
+                        <Route index element={<ModifyQuestion />} />
+                        <Route path='/questionlist' element={<ModifyQuestion />} />
+                        <Route path={'/question'} element={<Survey2 questionsArray={questions} />} />
                         <Route />
                         <Route />
                         <Route path='/*' element={<NotFound />} />
