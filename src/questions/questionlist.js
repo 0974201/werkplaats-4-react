@@ -25,10 +25,12 @@ function ModifyQuestion() {
             <h1> Questions </h1>
 
             {question.map(item => (
-                <div key={item.id}>{item.id + '. ' + item.question}
-                    <input value={item.name} onChange={e => setName(e.target.value)} className='input' />
-                    <button onClick={() => handleModify(item.id, name)}>Modify</button>
-                    <button onClick={() => setQuestion(question.filter(q =>
+                <div key={item.id}> <td> {item.id + '. ' + item.question} </td>
+
+
+                    <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
+                    <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
+                    <button className='button' onClick={() => setQuestion(question.filter(q =>
                         q.id !== item.id))}>Delete</button>
                 </div>
             ))}
