@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './europe-circles-colorful.svg';
 import './App.css';
 
 function App() {
