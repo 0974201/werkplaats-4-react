@@ -132,6 +132,7 @@ export default function CreateSurvey() {
                 ))}
                 <button onClick={onAddOpenQuestion}>Maak open vraag</button>
                 <button onClick={onAddMultipleChoiceQuestion}>Maak multiple choice vraag</button>
+                <button>Selecteer een bestaande vraag</button>
             </div>
             <Preview />
         </div>
