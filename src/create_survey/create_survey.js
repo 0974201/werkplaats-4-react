@@ -63,25 +63,35 @@ export default function CreateSurvey() {
         }
     }
 
+    async function ShowOpenQuestion({question, i}) {
+        console.log(question)
+        console.log(i)
+        console.log(questionArray[i].question)
+        return (
+            <div key={i}>
+                <h3>Vraag {i + 1}</h3>
+                <button onClick={() => ChangeOrder(questionArray, i, i-1)}>Up</button>
+                <button onClick={() => ChangeOrder(questionArray, i, i+1)}>Down</button>
+                <input
+                    value={questionArray[i].question}
+                    onChange={e => ReplaceValue(i, e.target.value)}
+                />
+                <button onClick={() => (
+                    setQuestionArray(questionArray.filter(question =>
+                        question.id !== questionArray[i].id)
+                    )
+                )}>X</button>
+            </div>
+        )
+    }
+
     return (
         <>
             <div className={'container'}>
                 <div className={'create'}>
                 {questionArray.map((question, i) => (
-                        <div key={i}>
+                    <ShowOpenQuestion question={question} i={i} />
 
-                            <h3>Vraag {i + 1}</h3>
-                            <button onClick={() => ChangeOrder(questionArray, i, i-1)}>Up</button>
-                            <button onClick={() => ChangeOrder(questionArray, i, i+1)}>Down</button>
-                            <input
-                                value={questionArray[i].question}
-                                onChange={e => ReplaceValue(i, e.target.value)}
-                            />
-                            <button onClick={() => (
-                                setQuestionArray(questionArray.filter(question =>
-                                question.id !== questionArray[i].id))
-                            )}>X</button>
-                        </div>
                 ))}
 
                 <button onClick={onAddOpenQuestion}>Maak open vraag</button>
