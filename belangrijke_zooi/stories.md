@@ -96,7 +96,7 @@ Als een Admin,
 
 zou ik graag de optie hebben om eerder aangemaakte vragen uit een pool te kiezen.
 
-Zodat…
+Zodat ik vragen kan hergebruiken en niet opnieuw hoef in te typen.
 
 ### [7] Overzicht bekijken (hoeveel mensen)
 
@@ -258,3 +258,44 @@ zou ik graag hebben dat de vragen tussentijds opgeslagen wordt
 
 zodat ik niet elke keer opnieuw moet typen.
 
+## notities
+
+### [17] manier van enquete maken
+
+**Created:** 4/19/2023 2:19:31 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+- Je maakt een enquete door middel van het updaten/invullen van een Array en deze Array wordt dan vertaald naar UI elementen tijdens het maken van de enquete.
+- Als je dingen typt in de input fielden van de enquete, dan update de array met een OnChange JS.
+
+### [18] order vragen
+
+**Created:** 4/19/2023 5:23:41 PM
+
+**Created by:** Zasha Stigt
+
+
+
+**Description:**
+
+opties:
+
+- order toevoegen aan de chosen question tabel
+- tussen tabel tussen chosen question en de question en survey tabelen
+
+### [19] vragen mogen niet aangepast worden in de enquête na dat ze verstuurd zijn
+
+**Created:** 4/19/2023 5:27:40 PM
+
+**Created by:** Zasha Stigt
+
+
+
+**Description:**
+
+de mogelijkheid om de enquête te laten checken door iemand anders moet er zijn.
