@@ -24,18 +24,32 @@ export default function CreateSurvey() {
     function ChangeOrder(array, fromIndex, toIndex) {
         console.log(fromIndex)
         console.log(toIndex)
+        console.log(array.length)
         const questionToMove = array[fromIndex]
-        const newArray = [
-            ...array.slice(0, toIndex),
-            questionToMove,
-            ...array.slice(toIndex,fromIndex),
-            ...array.slice(fromIndex + 1)
-        ]
-        setQuestionArray(newArray)
+        const questionToShove = array[toIndex]
+
+        if (fromIndex > toIndex && fromIndex !== 0) {
+            const newArray = [
+                ...array.slice(0, toIndex),
+                questionToMove,
+                questionToShove,
+                ...array.slice(fromIndex + 1)
+            ]
+            setQuestionArray(newArray)
+        } else if (fromIndex < toIndex && toIndex < array.length) {
+            const newArray = [
+                ...array.slice(0, fromIndex),
+                questionToShove,
+                questionToMove,
+                ...array.slice(toIndex + 1)
+            ]
+            setQuestionArray(newArray)
+        }
+
     }
 
     function onAddOpenQuestion() {
-        setQuestionArray([...questionArray, {type: "Open", id:nextOrder++, question: "empty",options: null, order: null}])
+        setQuestionArray([...questionArray, {type: "Open", id:nextOrder++, question: nextOrder,options: null, order: null}])
     }
 
     function Preview() {
@@ -72,7 +86,6 @@ export default function CreateSurvey() {
 
                 <button onClick={onAddOpenQuestion}>Maak open vraag</button>
                 </div>
-
                 <Preview />
             </div>
 
