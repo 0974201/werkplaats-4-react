@@ -1,22 +1,11 @@
-// server shit
-const http = require('http');
+const Sequelize = require('sequelize'); //connectie met db
+const express = require('express'); // server shit
 
-const hostname = '127.0.0.1';
-const port = 81;
+const app = express();
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Het leeft!!!!');
+app.get("/", function(req, res){
+  res.send('ey het werkt');
 });
-
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
-
-
-//connectie met db
-const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize({ //kijken of ie mijn test db pakt
   dialect: 'sqlite',
@@ -29,3 +18,4 @@ sequelize.authenticate().then(()=> {
   console.log(error);
 });
 
+app.listen(81); // start server
