@@ -57,30 +57,26 @@ export default function CreateSurvey() {
             ]
             setQuestionArray(newArray)
         }
-
     }
 
     function onAddOpenQuestion() {
-        setQuestionArray([...questionArray, {type: "Open", id:nextOrder++, question: '',options: null, order: null}])
+        setQuestionArray([...questionArray, {type: "Open", id:nextOrder++, question: 'maak vraag',options: null, order: null}])
     }
 
     function onAddMultipleChoiceQuestion() {
-        setQuestionArray([...questionArray, {type: "MultipleChoice", id:nextOrder++, question: '',options: [''], order: null}])
+        setQuestionArray([...questionArray, {type: "MultipleChoice", id:nextOrder++, question: 'maak vraag',options: ['maak optie'], order: null}])
     }
 
     function onAddOption(questionIndex) {
         console.log(questionArray)
         console.log(questionIndex)
         const newArray = questionArray.map((question, i) => {
-            question.options.map((option) => {
-                if (i === questionIndex) {
-                    question.options = [...question.options, '']
-                    return option
-                } else {
-                    return option
-                }
-            })
-            return question
+            if (i === questionIndex) {
+                question.options = [...question.options, 'maak optie']
+                return question
+            } else {
+                return question
+            }
         })
         console.log(newArray)
         setQuestionArray(newArray)
@@ -98,8 +94,8 @@ export default function CreateSurvey() {
     }
 
     return (
-            <div className={'container'}>
-                <div className={'create'}>
+        <div className={'container'}>
+            <div className={'create'}>
                 {questionArray.map((question, questionIndex) => (
                     <div key={questionIndex}>
                         <h3>Vraag {questionIndex + 1}</h3>
@@ -129,16 +125,15 @@ export default function CreateSurvey() {
                                         </li>
                                     ))}
                                 </ul>
-                                <button onClick={() => onAddOption(questionIndex)}>Maak open optie</button>
+                                <button onClick={() => onAddOption(questionIndex)}>Maak multiple choice optie</button>
                             </>
                         }
                     </div>
-
                 ))}
-                    <button onClick={onAddOpenQuestion}>Maak open vraag</button>
-                    <button onClick={onAddMultipleChoiceQuestion}>Maak Multiple choice vraag</button>
-                </div>
-                <Preview />
+                <button onClick={onAddOpenQuestion}>Maak open vraag</button>
+                <button onClick={onAddMultipleChoiceQuestion}>Maak multiple choice vraag</button>
             </div>
+            <Preview />
+        </div>
     )
 }

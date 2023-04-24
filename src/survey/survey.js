@@ -12,15 +12,20 @@ function OpenQuestion({ question }) {
 
 function MultipleChoiceQuestion({ question }) {
     const optionsList = question.options.map(option =>
-        <label key={question.id}>
-            <input type={"radio"} value={option} name={"question" + question.id} />
-            {option}
-        </label>
+        <li>
+            <label key={question.id}>
+                <input type={"radio"} value={option} name={"question" + question.id} />
+                {option}
+            </label>
+        </li>
+
     )
     return (
         <div>
             <h3>{question.question}</h3>
-            {optionsList}
+            <ul>
+                {optionsList}
+            </ul>
         </div>
     )
 }
