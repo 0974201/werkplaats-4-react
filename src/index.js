@@ -23,28 +23,28 @@ The <Layout> is wrapped around the Routes so that they all have the same layout.
 export let questions = [
     {
         type: "MultipleChoice",
-        id: 1,
+        id: 0,
         question: "Wat is de naam van je vis?",
         options: ['Bubbles', 'John', 'Speedy', 'The drowned one'],
         order: 0
     },
     {
         type: "Open",
-        id: 2,
+        id: 1,
         question: "Hoe heet je huis spin?",
         options: null,
         order: 1
     },
     {
         type: "MultipleChoice",
-        id: 3,
+        id: 2,
         question: "Wat is de naam van je kat?",
         options: ['Scratch', 'Tiger', 'Spot', 'Nigel'],
         order: 2
     },
     {
         type: "Open",
-        id: 4,
+        id: 3,
         question: "Van welke saus hou je?",
         options: null,
         order: 3
@@ -72,11 +72,11 @@ function App() {
                         <Route path={'/create'} element={<CreateSurvey />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
-                        <Route path='/question' element={<ChangeQuestion />} />
+                        <Route path='/question' element={<ChangeQuestion question={questions} />} />
+                        <Route path='/question/:id' element={<ChangeQuestion question={questions} />} />
                         <Route path={'/survey'} element={<Survey2 questionsArray={questions} />} />
                         <Route />
                         <Route />
-                        <Route path='/*' element={<NotFound />} />
                     </Routes>
                 </Layout>
             </div>
