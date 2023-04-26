@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './questions.css';
 import { questions } from '../index.js'
 import { Question } from '../survey/survey'
-
+import { Link } from 'react-router-dom';
 
 function modifyQuestion() {
     const [name, setName] = useState('');
@@ -39,7 +39,7 @@ function modifyQuestion() {
                             </ul>
                         </>}
                     <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
-                    <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
+                    <Link to='/question' className='link'><button>Modify</button></Link>
                     <button className='button' onClick={() => setQuestion(question.filter(q =>
                         q.id !== item.id))}>Delete</button>
 
@@ -52,3 +52,6 @@ function modifyQuestion() {
 
 
 export default modifyQuestion
+
+/* I might still need this for question page 
+{/* <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button> */ 
