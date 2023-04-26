@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './pages/header';
 import Layout from './pages/layout';
 import ModifyQuestion from './questions/questionlist';
+import ChangeQuestion from './questions/changequestion';
 import { Home } from './pages/home';
 import { Contact } from './pages/contact';
 import { About } from './pages/about';
@@ -65,13 +66,14 @@ function App() {
                         <Route path='/about' element={<About />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/*' element={<NotFound />} />
-                        <Route path='/survey' element={<SurveyList />} /> {/* Covers the survey parts */}
+                        <Route path='/surveylist' element={<SurveyList />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         <Route path='/survey/:id' element={<Survey />} />
                         <Route path={'/create'} element={<CreateSurvey />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
-                        <Route path={'/question'} element={<Survey2 questionsArray={questions} />} />
+                        <Route path='/question' element={<ChangeQuestion />} />
+                        <Route path={'/survey'} element={<Survey2 questionsArray={questions} />} />
                         <Route />
                         <Route />
                         <Route path='/*' element={<NotFound />} />
