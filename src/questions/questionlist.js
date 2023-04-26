@@ -5,7 +5,7 @@ import { questions } from '../index.js'
 import { Question } from '../survey/survey'
 
 
-function ModifyQuestion() {
+function modifyQuestion() {
     const [name, setName] = useState('');
     const [question, setQuestion] = useState(questions);
     let nextId = 0
@@ -34,20 +34,16 @@ function ModifyQuestion() {
                                         <input type={"radio"} value={option} name={"question" + option.id} />
                                         {option}
                                     </label>
+
                                 ))}
                             </ul>
-                            <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
-                            <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
-                            <button className='button' onClick={() => setQuestion(question.filter(q =>
-                                q.id !== item.id))}>Delete</button>
                         </>}
-                    {item.type === 'Open' &&
-                        <>
-                            <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
-                            <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
-                            <button className='button' onClick={() => setQuestion(question.filter(q =>
-                                q.id !== item.id))}>Delete</button>
-                        </>}
+                    <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
+                    <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
+                    <button className='button' onClick={() => setQuestion(question.filter(q =>
+                        q.id !== item.id))}>Delete</button>
+
+
                 </div>
             ))}
         </div>
@@ -55,4 +51,4 @@ function ModifyQuestion() {
 }
 
 
-export default ModifyQuestion
+export default modifyQuestion
