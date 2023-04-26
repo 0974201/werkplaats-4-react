@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import './questions.css';
 import { questions } from '../index.js'
-import Survey2 from '../survey/survey'
+import { Question } from '../survey/survey'
 
 
 function ModifyQuestion() {
@@ -24,10 +24,9 @@ function ModifyQuestion() {
     return (
         <div>
             <h1> Questions </h1>
-
             {question.map(item => (
                 <div key={item.id}> {item.id + '. ' + item.question} <br></br>
-
+                    {item.type + item.choices}
 
                     <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
                     <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>

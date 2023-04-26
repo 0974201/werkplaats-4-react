@@ -1,7 +1,7 @@
 import './survey.css'
 import React from "react";
 
-function OpenQuestion({ question }) {
+export function OpenQuestion({ question }) {
     return (
         <div key={question.id}>
             <h3>{question.question}</h3>
@@ -10,7 +10,7 @@ function OpenQuestion({ question }) {
     )
 }
 
-function MultipleChoiceQuestion({ question }) {
+export function MultipleChoiceQuestion({ question }) {
     const optionsList = question.options.map(option =>
         <label key={question.id}>
             <input type={"radio"} value={option} name={"question" + question.id} />
@@ -25,7 +25,7 @@ function MultipleChoiceQuestion({ question }) {
     )
 }
 
-function Question({ questions }) {
+export function Question({ questions }) {
     console.log(questions)
     const questionList = questions.map(question => {
         switch (question.type) {
