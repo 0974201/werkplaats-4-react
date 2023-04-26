@@ -20,20 +20,36 @@ function ModifyQuestion() {
         });
         setQuestion(updatedQuestion);
     };
-
+    console.log('dit is' + question.type)
     return (
         <div>
             <h1> Questions </h1>
             {question.map(item => (
                 <div key={item.id}> {item.id + '. ' + item.question} <br></br>
-                    {item.type + item.choices}
-
-                    <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
-                    <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
-                    <button className='button' onClick={() => setQuestion(question.filter(q =>
-                        q.id !== item.id))}>Delete</button>
+                    {item.type === 'MultipleChoice' &&
+                        <>
+                            <ul>
+                                {item.choices}
+                            </ul>
+                            <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
+                            <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
+                            <button className='button' onClick={() => setQuestion(question.filter(q =>
+                                q.id !== item.id))}>Delete</button>
+                        </>}
+                    {item.type === 'Open' &&
+                        <>
+                            <ul>
+                                {item.choices}
+                            </ul>
+                            <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
+                            <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
+                            <button className='button' onClick={() => setQuestion(question.filter(q =>
+                                q.id !== item.id))}>Delete</button>
+                        </>}
                 </div>
             ))}
+
+
         </div>
     )
 }
