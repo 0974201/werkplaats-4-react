@@ -20,7 +20,7 @@ function ModifyQuestion() {
         });
         setQuestion(updatedQuestion);
     };
-    console.log('dit is' + question.type)
+    console.log('dit is' + question.options)
     return (
         <div>
             <h1> Questions </h1>
@@ -29,7 +29,12 @@ function ModifyQuestion() {
                     {item.type === 'MultipleChoice' &&
                         <>
                             <ul>
-                                {item.choices}
+                                {item.options.map(option => (
+                                    <label key={option.id}>
+                                        <input type={"radio"} value={option} name={"question" + option.id} />
+                                        {option}
+                                    </label>
+                                ))}
                             </ul>
                             <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
                             <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
@@ -38,9 +43,6 @@ function ModifyQuestion() {
                         </>}
                     {item.type === 'Open' &&
                         <>
-                            <ul>
-                                {item.choices}
-                            </ul>
                             <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
                             <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button>
                             <button className='button' onClick={() => setQuestion(question.filter(q =>
@@ -48,8 +50,6 @@ function ModifyQuestion() {
                         </>}
                 </div>
             ))}
-
-
         </div>
     )
 }
