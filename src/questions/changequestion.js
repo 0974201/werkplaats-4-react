@@ -11,9 +11,9 @@ export default function ChangeQuestion({ question }) {
     console.log(id)
 
     const handleModify = (id, newQuestion) => {
-        const [question, setQuestion] = useState(questions);
+        const [questionlist, setQuestion] = useState(questions);
 
-        let updatedQuestion = questions.map(question => {
+        let updatedQuestion = questionlist.map(question => {
             if (question.id === id) {
                 return { ...question, question: newQuestion };
             } else {
@@ -28,7 +28,7 @@ export default function ChangeQuestion({ question }) {
         <div>
             <h1> Change Question {id}</h1>
             <p>{question[id].question}</p>
-            <input className='input' value={question.name} onChange={e => setName(e.target.value)}></input>
+            <input className='input' value={name} onChange={e => setName(e.target.value)}></input>
             <button className='button' onClick={() => handleModify(id, name)}>Modify</button>
         </div>
     )

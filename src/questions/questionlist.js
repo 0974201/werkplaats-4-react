@@ -29,7 +29,7 @@ function modifyQuestion() {
                             </ul>
                         </>}
                     <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
-                    <Link to='/question' className='link'><button>Modify</button></Link>
+                    <Link to={`/question/${item.id}`} className='link'><button>Modify</button></Link>
                     <button className='button' onClick={() => setQuestion(question.filter(q =>
                         q.id !== item.id))}>Delete</button>
 
