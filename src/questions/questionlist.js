@@ -13,29 +13,26 @@ function modifyQuestion() {
     console.log('dit is' + question.options)
     return (
         <div>
-            <h1> Questions </h1>
-            {question.map(item => (
-                <div key={item.id}> {item.id + '. ' + item.question} <br></br>
-                    {item.type === 'MultipleChoice' &&
-                        <>
-                            <ul>
-                                {item.options.map(option => (
-                                    <label key={option.id}>
-                                        <input type={"radio"} value={option} name={"question" + option.id} />
-                                        {option}
-                                    </label>
+            <h1> Question List </h1>
+            <table width='100%'>
+                <tr>
+                    <th>Id</th>
+                    <th>Question</th>
+                    <th>Modify</th>
+                </tr>
+                {question.map(item => (
+                    <tr key={item.id}>
+                        <td>{item.id}</td>
+                        <td>{item.question}</td>
+                        <td>
+                            <Link to={`/question/${item.id}`} className='link'><button>Modify</button></Link>
+                            <button className='button' onClick={() => setQuestion(question.filter(q =>
+                                q.id !== item.id))}>Delete</button>
+                        </td>
+                    </tr>
+                ))}
 
-                                ))}
-                            </ul>
-                        </>}
-                    <textarea className='input' value={item.name} onChange={e => setName(e.target.value)} />
-                    <Link to={`/question/${item.id}`} className='link'><button>Modify</button></Link>
-                    <button className='button' onClick={() => setQuestion(question.filter(q =>
-                        q.id !== item.id))}>Delete</button>
-
-
-                </div>
-            ))}
+            </table>
         </div>
     )
 }
