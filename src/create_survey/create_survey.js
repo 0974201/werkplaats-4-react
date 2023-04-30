@@ -64,12 +64,10 @@ export default function CreateSurvey() {
     }
 
     function onAddMultipleChoiceQuestion() {
-        setQuestionArray([...questionArray, {type: "MultipleChoice", id:nextOrder++, question: 'maak vraag',options: ['maak optie'], order: null}])
+        setQuestionArray([...questionArray, {type: "MultipleChoice", id:nextOrder++, question: 'maak vraag',options: ['1', '2'], order: null}])
     }
 
     function onAddOption(questionIndex) {
-        console.log(questionArray)
-        console.log(questionIndex)
         const newArray = questionArray.map((question, i) => {
             if (i === questionIndex) {
                 question.options = [...question.options, 'maak optie']
@@ -78,7 +76,6 @@ export default function CreateSurvey() {
                 return question
             }
         })
-        console.log(newArray)
         setQuestionArray(newArray)
     }
 
@@ -122,6 +119,15 @@ export default function CreateSurvey() {
                                                 value={option}
                                                 onChange={e => ReplaceOption(questionIndex,optionIndex, e.target.value)}
                                             />
+                                            <button onClick={() => (
+                                                    setQuestionArray(questionArray.map((questionF, questionIndexF) =>
+                                                        questionF.options.filter((optionF, optionIndexF) =>
+                                                            // console.log(optionF)
+                                                            optionF !== '1'
+                                                        )
+                                                    )
+                                                )
+                                            )}>X</button>
                                         </li>
                                     ))}
                                 </ul>
