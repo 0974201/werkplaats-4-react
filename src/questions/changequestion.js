@@ -41,8 +41,13 @@ export default function ChangeQuestion({ question }) {
                 <>
                     <h1> Change Question {id}</h1>
                     <p>{questionlist[id].question}</p>
-                    <input type='text' className='input' value={value} onChange={e => setValue(e.target.value)}></input>
-                    <button className='button' onClick={() => handleModify(id, value)}>Modify</button>
+                    <div className='save_question_border'>
+                        <div className='save_question_box'>
+                            <textarea type='text' className='textarea' value={value} onChange={e => setValue(e.target.value)}></textarea>
+                            <button className='button' onClick={() => handleModify(id, value)}>Modify</button>
+                            <button className='button'>Save</button>
+                        </div>
+                    </div>
                 </>
             }
             {question[id].type === 'MultipleChoice' &&
@@ -72,7 +77,9 @@ export default function ChangeQuestion({ question }) {
                 </>
             }
             {console.log(question[id].id + 1)}
-            <Link to={`/question/${question[id].id - 1}`}><button className='button'>Previous</button></Link>
+            {console.log('id lengthh' + question[id].id.length)}
+
+            <Link to={id > 0 ? `/question/${question[id].id - 1}` : ''}><button disabled={id === '0'} className='button'>Previous</button></Link>
             <Link to={`/question/${question[id].id + 1}`}><button className='button'>Next</button></Link>
         </div >
     )
