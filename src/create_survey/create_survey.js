@@ -9,10 +9,22 @@ export default function CreateSurvey() {
     const [questionArray, setQuestionArray] = useState([])
     console.log(questionArray)
 
-    function ReplaceValue(index, value) {
+    function ReplaceQuestion(questionIndex, value) {
         const newArray = questionArray.map((question, i) => {
-            if (i === index) {
+            if (i === questionIndex) {
                 question.question = value
+                return question
+            } else {
+                return question
+            }
+        })
+        setQuestionArray(newArray)
+    }
+
+    function ReplaceOption(questionIndex, optionIndex, value) {
+        const newArray = questionArray.map((question, i) => {
+            if (i === questionIndex) {
+                question.options[optionIndex] = value
                 return question
             } else {
                 return question
@@ -24,18 +36,50 @@ export default function CreateSurvey() {
     function ChangeOrder(array, fromIndex, toIndex) {
         console.log(fromIndex)
         console.log(toIndex)
+        console.log(array.length)
         const questionToMove = array[fromIndex]
-        const newArray = [
-            ...array.slice(0, toIndex),
-            questionToMove,
-            ...array.slice(toIndex,fromIndex),
-            ...array.slice(fromIndex + 1)
-        ]
-        setQuestionArray(newArray)
+        const questionToShove = array[toIndex]
+
+        if (fromIndex > toIndex && fromIndex !== 0) {
+            const newArray = [
+                ...array.slice(0, toIndex),
+                questionToMove,
+                questionToShove,
+                ...array.slice(fromIndex + 1)
+            ]
+            setQuestionArray(newArray)
+        } else if (fromIndex < toIndex && toIndex < array.length) {
+            const newArray = [
+                ...array.slice(0, fromIndex),
+                questionToShove,
+                questionToMove,
+                ...array.slice(toIndex + 1)
+            ]
+            setQuestionArray(newArray)
+        }
     }
 
     function onAddOpenQuestion() {
-        setQuestionArray([...questionArray, {type: "Open", id:nextOrder++, question: "empty",options: null, order: null}])
+        setQuestionArray([...questionArray, {type: "Open", id:nextOrder++, question: 'maak vraag',options: null, order: null}])
+    }
+
+    function onAddMultipleChoiceQuestion() {
+        setQuestionArray([...questionArray, {type: "MultipleChoice", id:nextOrder++, question: 'maak vraag',options: ['maak optie'], order: null}])
+    }
+
+    function onAddOption(questionIndex) {
+        console.log(questionArray)
+        console.log(questionIndex)
+        const newArray = questionArray.map((question, i) => {
+            if (i === questionIndex) {
+                question.options = [...question.options, 'maak optie']
+                return question
+            } else {
+                return question
+            }
+        })
+        console.log(newArray)
+        setQuestionArray(newArray)
     }
 
     function Preview() {
@@ -50,33 +94,46 @@ export default function CreateSurvey() {
     }
 
     return (
-        <>
-            <div className={'container'}>
-                <div className={'create'}>
-                {questionArray.map((question, i) => (
-                        <div key={i}>
+        <div className={'container'}>
+            <div className={'create'}>
+                {questionArray.map((question, questionIndex) => (
+                    <div key={questionIndex}>
+                        <h3>Vraag {questionIndex + 1}</h3>
+                        <button onClick={() => ChangeOrder(questionArray, questionIndex, questionIndex-1)}>Up</button>
+                        <button onClick={() => ChangeOrder(questionArray, questionIndex, questionIndex+1)}>Down</button>
+                        <input
+                            placeholder={'maak vraag'}
+                            value={questionArray[questionIndex].question}
+                            onChange={e => ReplaceQuestion(questionIndex, e.target.value)}
+                        />
 
-                            <h3>Vraag {i + 1}</h3>
-                            <button onClick={() => ChangeOrder(questionArray, i, i-1)}>Up</button>
-                            <button onClick={() => ChangeOrder(questionArray, i, i+1)}>Down</button>
-                            <input
-                                value={questionArray[i].question}
-                                onChange={e => ReplaceValue(i, e.target.value)}
-                            />
-                            <button onClick={() => (
-                                setQuestionArray(questionArray.filter(question =>
-                                question.id !== questionArray[i].id))
-                            )}>X</button>
-                        </div>
+                        <button onClick={() => (
+                            setQuestionArray(questionArray.filter(question =>
+                                question.id !== questionArray[questionIndex].id)
+                            )
+                        )}>X</button>
+                        {question.type === 'MultipleChoice' &&
+                            <>
+                                <ul>
+                                    {question.options.map((option, optionIndex) => (
+                                        <li>
+                                            <input
+                                                placeholder={'maak optie'}
+                                                value={option}
+                                                onChange={e => ReplaceOption(questionIndex,optionIndex, e.target.value)}
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button onClick={() => onAddOption(questionIndex)}>Maak multiple choice optie</button>
+                            </>
+                        }
+                    </div>
                 ))}
-
                 <button onClick={onAddOpenQuestion}>Maak open vraag</button>
-                </div>
-
-                <Preview />
+                <button onClick={onAddMultipleChoiceQuestion}>Maak multiple choice vraag</button>
             </div>
-
-
-        </>
+            <Preview />
+        </div>
     )
 }

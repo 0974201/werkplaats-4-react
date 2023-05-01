@@ -1,7 +1,7 @@
 import './survey.css'
 import React from "react";
 
-export function OpenQuestion({ question }) {
+function OpenQuestion({ question }) {
     return (
         <div key={question.id}>
             <h3>{question.question}</h3>
@@ -10,23 +10,27 @@ export function OpenQuestion({ question }) {
     )
 }
 
-export function MultipleChoiceQuestion({ question }) {
+function MultipleChoiceQuestion({ question }) {
     const optionsList = question.options.map(option =>
-        <label key={question.id}>
-            <input type={"radio"} value={option} name={"question" + question.id} />
-            {option}
-        </label>
+        <li>
+            <label key={question.id}>
+                <input type={"radio"} value={option} name={"question" + question.id} />
+                {option}
+            </label>
+        </li>
+
     )
     return (
         <div>
             <h3>{question.question}</h3>
-            {optionsList}
+            <ul>
+                {optionsList}
+            </ul>
         </div>
     )
 }
 
-export function Question({ questions }) {
-    console.log(questions)
+function Question({ questions }) {
     const questionList = questions.map(question => {
         switch (question.type) {
             case 'MultipleChoice':
@@ -50,8 +54,6 @@ export function Question({ questions }) {
 }
 
 export default function Survey2({ questionsArray }) {
-    console.log(questionsArray)
-
     return (
         <div className={"survey"}>
             <Question questions={questionsArray} />
