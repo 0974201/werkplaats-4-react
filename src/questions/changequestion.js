@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './questions.css';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { questions } from '../index.js'
+
 
 
 export default function ChangeQuestion({ question }) {
     const [value, setValue] = useState('')
     const { id } = useParams();
+
     const [questionlist, setQuestion] = useState(questions);
     const [option, setSelectedOption] = useState(questions);
     console.log(question[id].question)
@@ -47,9 +49,9 @@ export default function ChangeQuestion({ question }) {
                 <>
                     <h1> Change Multiple Choice Question {id}</h1>
                     <p>{questionlist[id].question}</p>
-                    {questionlist[id].options.map((option, index) => {
+                    {questionlist[id].options.map((option) => {
                         return (
-                            <div key={index}>
+                            <div className='radio_div' key={option}>
                                 <input
                                     type='radio'
                                     name='options'
@@ -60,12 +62,18 @@ export default function ChangeQuestion({ question }) {
                             </div>
                         );
                     })}
-                    <input type='text' className='input' value={value} onChange={e => setValue(e.target.value)}></input>
-                    <button className='button' onClick={() => handleModify(id, value)}>Modify</button>
-                    <button className='button'>Save</button>
+                    <div className='save_question_border'>
+                        <div className='save_question_box'>
+                            <textarea type='text' className='textarea' value={value} onChange={e => setValue(e.target.value)}></textarea>
+                            <button className='button' onClick={() => handleModify(id, value)}>Modify</button>
+                            <button className='button'>Save</button>
+                        </div>
+                    </div>
                 </>
             }
-
-        </div>
+            {console.log(question[id].id + 1)}
+            <Link to={`/question/${question[id].id - 1}`}><button className='button'>Previous</button></Link>
+            <Link to={`/question/${question[id].id + 1}`}><button className='button'>Next</button></Link>
+        </div >
     )
 }

@@ -13,6 +13,31 @@
     display: flex;
 }
 
+.radio_div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.save_question_border {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.save_question_box {
+    padding: 10px;
+    border-style: ridge;
+    background-color: purple;
+    margin-bottom: 10px;
+}
+
+.textarea {
+    width: 200px;
+    height: 100px;
+}
+
 /* everything under this are table related */
 
 table {
