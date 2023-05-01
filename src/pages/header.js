@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../css/header.css'
 
 // The Header for the website. //
 
@@ -16,6 +17,7 @@ function Header() {
                         <Link to='./About' className='link' >About us</Link>
                         <Link to='./contact' className='link'>Contact Us</Link>
                         <Link to='./survey' className='link'>Survey</Link>
+                        <Link to='./questionlist' className='link'>Question List</Link>
                     </div>
                     <div className='nav_login'>
                         <div className='login_button'>

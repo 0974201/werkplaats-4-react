@@ -30,7 +30,7 @@ function MultipleChoiceQuestion({ question }) {
     )
 }
 
-function Question({questions}) {
+function Question({ questions }) {
     const questionList = questions.map(question => {
         switch (question.type) {
             case 'MultipleChoice':
@@ -50,10 +50,10 @@ function Question({questions}) {
         <>
             {questionList}
         </>
-        )
+    )
 }
 
-export default function Survey2({questionsArray}) {
+export default function Survey2({ questionsArray }) {
     return (
         <div className={"survey"}>
             <Question questions={questionsArray} />

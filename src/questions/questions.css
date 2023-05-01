@@ -1,0 +1,53 @@
+.button {
+    margin-left: 3px;
+}
+
+.input {
+    margin-left: 20px;
+    margin-right: 5px;
+    width: 100px;
+    height: 20px;
+}
+
+.modify_button {
+    display: flex;
+}
+
+/* everything under this are table related */
+
+table {
+    border-collapse: collapse;
+}
+
+tr:nth-child(1) {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+th {
+    font-size: 25px;
+}
+
+th,
+td {
+    padding: 5px;
+    font-weight: 600;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+    border: solid black;
+    border-width: 1px 1px 1px 1px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    border: solid black;
+    border-width: 1px 1px 1px 1px;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    border: solid black;
+    border-width: 1px 1px 1px 1px;
+}
