@@ -22,7 +22,8 @@ export default function ChangeQuestion({ question }) {
                 return question;
             }
         });
-
+        setQuestion(updatedQuestion)
+        question[id].question = newQuestion;
     };
 
 
