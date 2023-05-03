@@ -9,7 +9,7 @@ export default function CreateSurvey() {
     const [questionArray, setQuestionArray] = useState([])
     console.log(questionArray)
 
-    function ReplaceQuestion(questionIndex, value) {
+    function replaceQuestion(questionIndex, value) {
         const newArray = questionArray.map((question, i) => {
             if (i === questionIndex) {
                 question.question = value
@@ -21,7 +21,7 @@ export default function CreateSurvey() {
         setQuestionArray(newArray)
     }
 
-    function ReplaceOption(questionIndex, optionIndex, value) {
+    function replaceOption(questionIndex, optionIndex, value) {
         const newArray = questionArray.map((question, i) => {
             if (i === questionIndex) {
                 question.options[optionIndex] = value
@@ -33,38 +33,51 @@ export default function CreateSurvey() {
         setQuestionArray(newArray)
     }
 
-    function ChangeOrder(array, fromIndex, toIndex) {
-        console.log(fromIndex)
-        console.log(toIndex)
-        console.log(array.length)
+    function switchQuestions(array, fromIndex, toIndex) {
+            const newArray = switchAround(array, fromIndex, toIndex)
+            setQuestionArray(newArray)
+        }
+
+    function switchOptions(list, fromIndex, toIndex, questionId) {
+        const newArray = questionArray.map(question => {
+            if (question.id === questionId) {
+                return { ...question, options: switchAround(list, fromIndex, toIndex)}
+            } else {
+                return question
+            }
+        })
+        setQuestionArray(newArray)
+    }
+
+    function switchAround(array, fromIndex, toIndex) {
         const questionToMove = array[fromIndex]
         const questionToShove = array[toIndex]
 
         if (fromIndex > toIndex && fromIndex !== 0) {
-            const newArray = [
+            return [
                 ...array.slice(0, toIndex),
                 questionToMove,
                 questionToShove,
                 ...array.slice(fromIndex + 1)
             ]
-            setQuestionArray(newArray)
         } else if (fromIndex < toIndex && toIndex < array.length) {
-            const newArray = [
+            return [
                 ...array.slice(0, fromIndex),
                 questionToShove,
                 questionToMove,
                 ...array.slice(toIndex + 1)
             ]
-            setQuestionArray(newArray)
+        } else {
+            return array
         }
     }
 
     function onAddOpenQuestion() {
-        setQuestionArray([...questionArray, {type: "Open", id:nextOrder++, question: 'maak vraag',options: null, order: null}])
+        setQuestionArray([...questionArray, {type: "Open", id:nextOrder++, question: 'maak open vraag',options: null, order: null}])
     }
 
     function onAddMultipleChoiceQuestion() {
-        setQuestionArray([...questionArray, {type: "MultipleChoice", id:nextOrder++, question: 'maak vraag',options: ['1', '2'], order: null}])
+        setQuestionArray([...questionArray, {type: "MultipleChoice", id:nextOrder++, question: 'maak multiple choice vraag',options: ['1', '2'], order: null}])
     }
 
     function onAddOption(questionIndex) {
@@ -75,6 +88,19 @@ export default function CreateSurvey() {
             } else {
                 return question
             }
+        })
+        setQuestionArray(newArray)
+    }
+
+    function deleteOptionInQuestion(questionId, optionIndex) {
+        const newArray = questionArray.map(question => {
+            if (question.id === questionId && question.options.length > 2) {
+                const newOptions = question.options.filter((value, index) => index !== optionIndex)
+                return { ...question, options: newOptions}
+            } else {
+                return question
+            }
+
         })
         setQuestionArray(newArray)
     }
@@ -96,12 +122,12 @@ export default function CreateSurvey() {
                 {questionArray.map((question, questionIndex) => (
                     <div key={questionIndex}>
                         <h3>Vraag {questionIndex + 1}</h3>
-                        <button onClick={() => ChangeOrder(questionArray, questionIndex, questionIndex-1)}>Up</button>
-                        <button onClick={() => ChangeOrder(questionArray, questionIndex, questionIndex+1)}>Down</button>
+                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex-1, "question")}>Up</button>
+                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex+1, "question")}>Down</button>
                         <input
                             placeholder={'maak vraag'}
                             value={questionArray[questionIndex].question}
-                            onChange={e => ReplaceQuestion(questionIndex, e.target.value)}
+                            onChange={e => replaceQuestion(questionIndex, e.target.value)}
                         />
 
                         <button onClick={() => (
@@ -114,20 +140,16 @@ export default function CreateSurvey() {
                                 <ul>
                                     {question.options.map((option, optionIndex) => (
                                         <li>
+                                            <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex-1, question.id)}>Up</button>
+                                            <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex+1, question.id)}>Down</button>
                                             <input
                                                 placeholder={'maak optie'}
                                                 value={option}
-                                                onChange={e => ReplaceOption(questionIndex,optionIndex, e.target.value)}
+                                                onChange={e => replaceOption(questionIndex,optionIndex, e.target.value)}
                                             />
-                                            <button onClick={() => (
-                                                    setQuestionArray(questionArray.map((questionF, questionIndexF) =>
-                                                        questionF.options.filter((optionF, optionIndexF) =>
-                                                            // console.log(optionF)
-                                                            optionF !== '1'
-                                                        )
-                                                    )
-                                                )
-                                            )}>X</button>
+                                            <button onClick={() => (deleteOptionInQuestion(question.id, optionIndex))
+
+                                            }>X</button>
                                         </li>
                                     ))}
                                 </ul>
