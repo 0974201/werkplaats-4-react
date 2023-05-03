@@ -122,8 +122,8 @@ export default function CreateSurvey() {
                 {questionArray.map((question, questionIndex) => (
                     <div key={questionIndex}>
                         <h3>Vraag {questionIndex + 1}</h3>
-                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex-1, "question")}>Up</button>
-                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex+1, "question")}>Down</button>
+                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex-1)}>Up</button>
+                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex+1)}>Down</button>
                         <input
                             placeholder={'maak vraag'}
                             value={questionArray[questionIndex].question}
