@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Survey2 from '../survey/survey'
+import PopUp from "../pop_up/pop_up";
 import './creat_survey.css'
 
 let nextOrder = 0
@@ -160,7 +161,7 @@ export default function CreateSurvey() {
                 ))}
                 <button onClick={onAddOpenQuestion}>Maak open vraag</button>
                 <button onClick={onAddMultipleChoiceQuestion}>Maak multiple choice vraag</button>
-                <button>Selecteer een bestaande vraag</button>
+                <PopUp />
             </div>
             <Preview />
         </div>
