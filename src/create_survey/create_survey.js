@@ -8,6 +8,7 @@ let nextOrder = 0
 
 export default function CreateSurvey() {
     const [questionArray, setQuestionArray] = useState([])
+    const [buttonState, setButtonState] = useState(false)
     console.log(questionArray)
 
     function replaceQuestion(questionIndex, value) {
@@ -117,6 +118,8 @@ export default function CreateSurvey() {
         }
     }
 
+
+
     return (
         <div className={'container'}>
             <div className={'create'}>
@@ -140,7 +143,7 @@ export default function CreateSurvey() {
                             <>
                                 <ul>
                                     {question.options.map((option, optionIndex) => (
-                                        <li>
+                                        <li key={optionIndex}>
                                             <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex-1, question.id)}>Up</button>
                                             <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex+1, question.id)}>Down</button>
                                             <input
@@ -161,7 +164,7 @@ export default function CreateSurvey() {
                 ))}
                 <button onClick={onAddOpenQuestion}>Maak open vraag</button>
                 <button onClick={onAddMultipleChoiceQuestion}>Maak multiple choice vraag</button>
-                <PopUp />
+                <PopUp surveyArray={questionArray} buttonState={buttonState} />
             </div>
             <Preview />
         </div>
