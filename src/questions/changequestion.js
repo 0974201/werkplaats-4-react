@@ -60,7 +60,12 @@ export default function ChangeQuestion({ question }) {
                                         name='options'
                                         value={option}
                                     /> {isEditing ? (
-                                        <label onClick={handleClick}>{option}</label>
+                                        <input
+                                            type='text'
+                                            defaultvalue={option}
+                                            onChange=''>
+                                        </input>
+
                                     ) : (
                                         <label onClick={handleClick}>{option}</label>
                                     )}
