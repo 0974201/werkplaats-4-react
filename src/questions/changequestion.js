@@ -7,10 +7,14 @@ import { questions } from '../index.js'
 export default function ChangeQuestion({ question }) {
     const [value, setValue] = useState('')
     const { id } = useParams();
+    const [isEditing, setIsEditing] = useState(false);
 
     const [questionlist, setQuestion] = useState(questions);
     const [option, setSelectedOption] = useState(questions);
 
+    const handleClick = () => {
+        setIsEditing(true);
+    }
 
     const handleModify = (id, newQuestion) => {
         console.log('dit woss ' + id, newQuestion);
@@ -55,9 +59,11 @@ export default function ChangeQuestion({ question }) {
                                         type='radio'
                                         name='options'
                                         value={option}
-                                        onChange={(event) => setSelectedOption(event.target.value)}
-                                    />
-                                    <label>{option}</label>
+                                    /> {isEditing ? (
+                                        <label onClick={handleClick}>{option}</label>
+                                    ) : (
+                                        <label onClick={handleClick}>{option}</label>
+                                    )}
                                 </div>
                             </div>
                         );
