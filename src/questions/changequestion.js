@@ -4,13 +4,13 @@ import { useParams, Link } from 'react-router-dom';
 import { questions } from '../index.js'
 
 
-export default function ChangeQuestion({ question }) {
+export default function ChangeQuestion({ question, options }) {
     const [value, setValue] = useState('')
     const { id } = useParams();
     const [isEditing, setIsEditing] = useState(false);
 
     const [questionlist, setQuestion] = useState(questions);
-    const [option, setSelectedOption] = useState(questions);
+    const [selectedOption, setSelectedOption] = useState('');
 
     const handleClick = () => {
         setIsEditing(true);
@@ -60,10 +60,10 @@ export default function ChangeQuestion({ question }) {
                                         name='options'
                                         value={option}
                                     /> {isEditing ? (
-                                        <input
+                                        <input className='input'
                                             type='text'
-                                            defaultvalue={option}
-                                            onChange=''>
+                                            defaultValue={option}
+                                            onChange={event => setSelectedOption(event.target.value)}>
                                         </input>
 
                                     ) : (
