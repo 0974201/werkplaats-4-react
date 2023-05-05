@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import Survey2 from '../survey/survey'
-import PopUp from "../pop_up/pop_up";
 import './creat_survey.css'
+import {questions} from "../index";
 
 let nextOrder = 0
 
@@ -10,6 +10,13 @@ export default function CreateSurvey() {
     const [questionArray, setQuestionArray] = useState([])
     const [buttonState, setButtonState] = useState(false)
     console.log(questionArray)
+
+    function reIndex() {
+        const newArray = questionArray.map((question, questionIndex) => {
+            return {...question, id: questionIndex}
+        })
+        setQuestionArray(newArray)
+    }
 
     function replaceQuestion(questionIndex, value) {
         const newArray = questionArray.map((question, i) => {
@@ -118,10 +125,40 @@ export default function CreateSurvey() {
         }
     }
 
+    function PopUp() {
+        return (
+            <div className={'pop_up_container'}>
+                <div className={'pop_up'}>
+                    <div className={'pop_up_content'}>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Vraag</th>
+                                <th>Type</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {questions.map((question) => (
+                                <tr key={question.id}>
+                                    <td>{question.question}</td>
+                                    <td>{question.type}</td>
+                                    <td><button onClick={() => setQuestionArray([...questionArray, question])}>Selecteer</button></td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
 
+                    </div>
+                    <div className={'close'}>
+                        <button onClick={() => setButtonState(false)}>X</button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
-    return (
-        <div className={'container'}>
+    function Create() {
+        return (
             <div className={'create'}>
                 {questionArray.map((question, questionIndex) => (
                     <div key={questionIndex}>
@@ -164,9 +201,20 @@ export default function CreateSurvey() {
                 ))}
                 <button onClick={onAddOpenQuestion}>Maak open vraag</button>
                 <button onClick={onAddMultipleChoiceQuestion}>Maak multiple choice vraag</button>
-                <PopUp surveyArray={questionArray} buttonState={buttonState} />
+                <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
+                <button onClick={() => reIndex()}>reIndex</button>
             </div>
+        )
+    }
+
+    return (
+        <div className={'container'}>
+            <Create />
             <Preview />
+            {buttonState &&
+                <PopUp />
+            }
+
         </div>
     )
 }

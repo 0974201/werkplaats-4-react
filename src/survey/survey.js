@@ -29,15 +29,15 @@ function MultipleChoiceQuestion({ question }) {
 }
 
 function Question({ questions }) {
-    const questionList = questions.map(question => {
+    const questionList = questions.map((question, questionIndex) => {
         switch (question.type) {
             case 'MultipleChoice':
                 return (
-                    <MultipleChoiceQuestion key={question.id} question={question} />
+                    <MultipleChoiceQuestion key={questionIndex} question={question} />
                 )
             case 'Open':
                 return (
-                    <OpenQuestion key={question.id} question={question} />
+                    <OpenQuestion key={questionIndex} question={question} />
                 )
             default:
                 console.log("Wrong type")
