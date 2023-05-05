@@ -13,6 +13,10 @@
     display: flex;
 }
 
+.radio_box {
+    border-style: ridge;
+}
+
 .radio_div {
     display: flex;
     flex-direction: row;

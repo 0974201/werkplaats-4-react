@@ -33,7 +33,7 @@ export default function ChangeQuestion({ question }) {
             {question[id].type === 'Open' &&
                 <>
                     <h1> Change Question {id}</h1>
-                    <p>{questionlist[id].question}</p>
+                    <p><b>{questionlist[id].question}</b></p>
                     <div className='save_question_border'>
                         <div className='save_question_box'>
                             <textarea type='text' className='textarea' value={value} onChange={e => setValue(e.target.value)}></textarea>
@@ -46,17 +46,19 @@ export default function ChangeQuestion({ question }) {
             {question[id].type === 'MultipleChoice' &&
                 <>
                     <h1> Change Multiple Choice Question {id}</h1>
-                    <p>{questionlist[id].question}</p>
+                    <p><b>{questionlist[id].question}</b></p>
                     {questionlist[id].options.map((option) => {
                         return (
-                            <div className='radio_div' key={option}>
-                                <input
-                                    type='radio'
-                                    name='options'
-                                    value={option}
-                                    onChange={(event) => setSelectedOption(event.target.value)}
-                                />
-                                <label>{option}</label>
+                            <div className='radio_box'>
+                                <div className='radio_div' key={option}>
+                                    <input
+                                        type='radio'
+                                        name='options'
+                                        value={option}
+                                        onChange={(event) => setSelectedOption(event.target.value)}
+                                    />
+                                    <label>{option}</label>
+                                </div>
                             </div>
                         );
                     })}
