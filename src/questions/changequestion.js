@@ -11,6 +11,9 @@ export default function ChangeQuestion({ question, options }) {
 
     const [questionlist, setQuestion] = useState(questions);
     const [selectedOption, setSelectedOption] = useState('');
+    const [radioValue, setRadioValue] = useState('')
+    const [questionvalue, setQuestionValue] = useState(question[id].question);
+    console.log(questionvalue)
 
     const handleClick = () => {
         setIsEditing(true);
@@ -27,11 +30,23 @@ export default function ChangeQuestion({ question, options }) {
             }
         });
         setQuestion(updatedQuestion)
-        question[id].question = newQuestion;
+
     };
 
+    function ReplaceRadio(radioIndex, value) {
+        const newRadio = questionlist.map((question, i) => {
+            if (i === radioIndex) {
+                question.option = value
+                return question
+            } else {
+                return question
+            }
+        })
+        setRadioValue(newRadio)
+    }
 
     /* Checks for whether the question type is Open or Multiple Choice */
+
     return (
         <div>
             {question[id].type === 'Open' &&
@@ -40,8 +55,11 @@ export default function ChangeQuestion({ question, options }) {
                     <p><b>{questionlist[id].question}</b></p>
                     <div className='save_question_border'>
                         <div className='save_question_box'>
-                            <textarea type='text' className='textarea' value={value} onChange={e => setValue(e.target.value)}></textarea>
-                            <button className='button' onClick={() => handleModify(id, value)}>Modify</button>
+                            <textarea type='text' className='textarea' value={questionvalue} onChange={(e) => {
+                                console.log(value); setQuestionValue(e.target.value)
+                            }}></textarea>
+                            <button className='button' onClick={() => handleModify(question[id].id, questionvalue)}>Modify</button>
+
                             <button className='button'>Save</button>
                         </div>
                     </div>
@@ -51,7 +69,7 @@ export default function ChangeQuestion({ question, options }) {
                 <>
                     <h1> Change Multiple Choice Question {id}</h1>
                     <p><b>{questionlist[id].question}</b></p>
-                    {questionlist[id].options.map((option) => {
+                    {questionlist[id].options.map((option, optionIndex) => {
                         return (
                             <div className='radio_box'>
                                 <div className='radio_div' key={option}>
@@ -63,7 +81,7 @@ export default function ChangeQuestion({ question, options }) {
                                         <input className='input'
                                             type='text'
                                             defaultValue={option}
-                                            onChange={event => setSelectedOption(event.target.value)}>
+                                            onChange={event => ReplaceRadio(id, optionIndex, event.target.value)}>
                                         </input>
 
                                     ) : (
@@ -75,8 +93,8 @@ export default function ChangeQuestion({ question, options }) {
                     })}
                     <div className='save_question_border'>
                         <div className='save_question_box'>
-                            <textarea type='text' className='textarea' value={value} onChange={e => setValue(e.target.value)}></textarea>
-                            <button className='button' onClick={() => handleModify(id, value)}>Modify</button>
+                            <textarea type='text' className='textarea' defaultValue={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
+                            <button className='button' onClick={() => handleModify(question[id].id, questionvalue)}>Modify</button>
                             <button className='button'>Save</button>
                         </div>
                     </div>
