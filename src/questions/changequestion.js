@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { questions } from '../index.js'
 
 
-export default function ChangeQuestion({ question, options }) {
+export default function ChangeQuestion({ question }) {
     // const [value, setValue] = useState('')
     const { id } = useParams();
     const [isEditing, setIsEditing] = useState(false);
@@ -23,10 +23,11 @@ export default function ChangeQuestion({ question, options }) {
     /* changes the question to the value that is put in the textarea element */
     const handleModify = (id, newQuestion) => {
         let updatedQuestion = questionlist.map(question => {
-            if (question.id === id) {
+            if (question.id === id, newQuestion !== '') {
                 return { ...question, question: newQuestion };
             } else {
                 return question;
+
             }
         });
         setQuestion(updatedQuestion)
@@ -91,9 +92,13 @@ export default function ChangeQuestion({ question, options }) {
 
     /* The main template of changeQuestion(). 
     We put in renderQuestion() on top to combine it. */
+
     return (
         <div>
             {renderQuestion()}
+            {(questionvalue !== '')
+                ? ''
+                : <span style={{ color: 'red' }}>Vraag mag niet leeg zijn!</span>}
             <div className='save_question_border'>
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
