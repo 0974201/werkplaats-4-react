@@ -44,6 +44,15 @@ app.get("/test_gaem", function(req, res){
   });
 });
 
+app.get("/test_random", function(req, res){
+  db.all('SELECT * FROM random', (err, row) => {
+    if (err){
+      throw new Error(err.message);
+    }
+    res.json(row);
+    console.log(row);
+  });
+});
 
 app.get("/test_map", function(req, res){ //hmmm
   db.map('SELECT * FROM games', (err, row) => {

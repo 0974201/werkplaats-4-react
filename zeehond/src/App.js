@@ -1,23 +1,34 @@
-import logo from './europe-circles-colorful.svg';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Flatlist } from 'react-native';
+
 import './App.css';
 
 function App() {
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:81/test')
+    .then(response => response.json())
+    .then(data => setData(data))
+    .catch(error => console.error(error));
+  },[]);
+
+  const Item = ({title}) => (
+    <View>
+      <Text>{title}</Text>
+    </View>
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <View>
+        <Flatlist>
+          data={data}
+          renderItem={({item}) => <Item title={item.title} />} 
+          keyExtractor={item => item.id}
+        </Flatlist>
+      </View>
     </div>
   );
 }
