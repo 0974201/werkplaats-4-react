@@ -99,6 +99,9 @@ export default function ChangeQuestion({ question }) {
             {(questionvalue !== '')
                 ? ''
                 : <span style={{ color: 'red' }}>Vraag mag niet leeg zijn!</span>}
+            {(questionvalue.length !== 250)
+                ? ''
+                : <span style={{ color: 'red' }}>Vraag kan niet meer dan 250 karakters bevatten</span>}
             <div className='save_question_border'>
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
