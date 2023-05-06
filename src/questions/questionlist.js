@@ -25,7 +25,7 @@ function modifyQuestion() {
                         <td>{item.id}</td>
                         <td>{item.question}</td>
                         <td>
-                            <Link to={`/question/${item.id}`} className='link'><button>Modify</button></Link>
+                            <Link to={`/question/${item.id}`}><button className='button'>Modify</button></Link>
                             <button className='button' onClick={() => setQuestion(question.filter(q =>
                                 q.id !== item.id))}>Delete</button>
                         </td>
@@ -37,8 +37,4 @@ function modifyQuestion() {
     )
 }
 
-
 export default modifyQuestion
-
-/* I might still need this for question page 
-{/* <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button> */ 
