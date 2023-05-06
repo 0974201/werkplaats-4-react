@@ -29,7 +29,7 @@
 .save_question_border {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    margin-top: 15px;
 }
 
 .save_question_box {
