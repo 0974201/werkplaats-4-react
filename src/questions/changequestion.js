@@ -85,7 +85,7 @@ export default function ChangeQuestion({ question, options }) {
             )
         }
     }
-
+    console.log(question[id].question)
     /* re-renders the question in the textarea depending on the id parameter. */
     useEffect(() => {
         setQuestionValue(question[id].question);
@@ -98,7 +98,7 @@ export default function ChangeQuestion({ question, options }) {
             {renderQuestion()}
             <div className='save_question_border'>
                 <div className='save_question_box'>
-                    <textarea type='text' className='textarea' defaultValue={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
+                    <textarea type='text' className='textarea' value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
                     <button className='button' onClick={() => handleModify(question[id].id, questionvalue)}>Modify</button>
                     <button className='button'>Save</button>
                 </div>
