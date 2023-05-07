@@ -11,35 +11,33 @@ function OpenQuestion({ question }) {
 }
 
 function MultipleChoiceQuestion({ question }) {
-    const optionsList = question.options.map(option =>
-        <li>
-            <label key={question.id}>
-                <input type={"radio"} value={option} name={"question" + question.id} />
-                {option}
-            </label>
-        </li>
-
-    )
     return (
-        <div>
+        <div key={question.id}>
             <h3>{question.question}</h3>
             <ul>
-                {optionsList}
+                {question.options.map((option, optionIndex) =>
+                    <li key={optionIndex}>
+                        <label>
+                            <input type={"radio"} value={option} name={"question" + question.id} />
+                            {option}
+                        </label>
+                    </li>
+                )}
             </ul>
         </div>
     )
 }
 
 function Question({ questions }) {
-    const questionList = questions.map(question => {
+    const questionList = questions.map((question, questionIndex) => {
         switch (question.type) {
             case 'MultipleChoice':
                 return (
-                    <MultipleChoiceQuestion question={question} />
+                    <MultipleChoiceQuestion key={questionIndex} question={question} />
                 )
             case 'Open':
                 return (
-                    <OpenQuestion question={question} />
+                    <OpenQuestion key={questionIndex} question={question} />
                 )
             default:
                 console.log("Wrong type")
