@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Flatlist } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 
 import './App.css';
 
@@ -23,11 +23,11 @@ function App() {
   return (
     <div className="App">
       <View>
-        <Flatlist>
+        <FlatList>
           data={data}
           renderItem={({item}) => <Item title={item.title} />} 
           keyExtractor={item => item.id}
-        </Flatlist>
+        </FlatList>
       </View>
     </div>
   );
