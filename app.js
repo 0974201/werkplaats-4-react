@@ -1,30 +1,36 @@
 const express = require('express'); // server shit
+const bodyParser = require("body-parser");
 const db = require('./database/db.js') // connectie met db
 //const getBirb = require('./database/models/taebl.js');
 //const getGaem = require('./database/models/taebl.js');
 
 const app = express();
 
+app.use(bodyParser.json()); // parse json
+
 app.get("/", function(req, res){
   res.send('hœm');
 });
 
 app.get("/aaaa", function(req, res){
+  res.type('json');
   res.json('aaaaaaaa');
 });
 
 app.get("/test", function(req, res){
   //res.send('test'); < dit zorgde er voor dat het de hele tijd borkte. je kan maar 1x een send of json dingetje hebben.
+  res.type('json');
   db.all('SELECT name FROM sqlite_schema', (err, row) => {
     if (err){
       console.log(err.message);
     }
     console.log(row);
-    res.json(row);
+    res.send(JSON.stringify(row));
   });
 });
 
 app.get("/test_birb", function(req, res){
+  res.type('json');
   db.all('SELECT * FROM vogels', (err, row) => {
     if (err){
       throw new Error(err.message);
@@ -35,6 +41,7 @@ app.get("/test_birb", function(req, res){
 });
 
 app.get("/test_gaem", function(req, res){
+  res.type('json');
   db.all('SELECT * FROM games', (err, row) => {
     if (err){
       throw new Error(err.message);
@@ -45,6 +52,7 @@ app.get("/test_gaem", function(req, res){
 });
 
 app.get("/test_random", function(req, res){
+  res.type('json');
   db.all('SELECT * FROM random', (err, row) => {
     if (err){
       throw new Error(err.message);
