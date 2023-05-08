@@ -1,60 +1,89 @@
 import './survey.css'
-import React from "react";
+import React, {useState} from "react";
 
-function OpenQuestion({ question }) {
-    return (
-        <div key={question.id}>
-            <h3>{question.question}</h3>
-            <textarea maxLength={250} />
-        </div>
-    )
-}
+export default function Survey2({questionsArray}) {
+    const [answeredArray, setAnsweredArray] = useState(questionsArray.map(question => {return {...question, answer: 'hi'}}))
+    const [questionShown, setQuestionShow] = useState(0)
+    console.log(answeredArray)
 
-function MultipleChoiceQuestion({ question }) {
-    return (
-        <div key={question.id}>
-            <h3>{question.question}</h3>
-            <ul>
-                {question.options.map((option, optionIndex) =>
-                    <li key={optionIndex}>
-                        <label>
-                            <input type={"radio"} value={option} name={"question" + question.id} />
-                            {option}
-                        </label>
-                    </li>
-                )}
-            </ul>
-        </div>
-    )
-}
-
-function Question({ questions }) {
-    const questionList = questions.map((question, questionIndex) => {
-        switch (question.type) {
-            case 'MultipleChoice':
-                return (
-                    <MultipleChoiceQuestion key={questionIndex} question={question} />
-                )
-            case 'Open':
-                return (
-                    <OpenQuestion key={questionIndex} question={question} />
-                )
-            default:
-                console.log("Wrong type")
-        }
+    function replaceAnswer(questionIndex, value) {
+        const inBetweenArray = answeredArray.map((question, i) => {
+            if (i === questionIndex) {
+                question.answer = value
+                return question
+            } else {
+                return question
+            }
+        })
+        setAnsweredArray(inBetweenArray)
     }
-    )
-    return (
-        <>
-            {questionList}
-        </>
-    )
-}
 
-export default function Survey2({ questionsArray }) {
+    function OpenQuestion({question, questionIndex}) {
+        console.log(question)
+        return (
+            <div>
+                <h3>{question.question}</h3>
+                <textarea
+                    maxLength={250}
+                    value={answeredArray[questionIndex].answer}
+                    onChange={e => replaceAnswer(questionIndex, e.target.value)}
+                />
+                <button onClick={() => setQuestionShow(questionShown-1)}>Vorige vraag</button>
+                <button onClick={() => setQuestionShow(questionShown+1)}>Volgende vraag</button>
+            </div>
+        )
+    }
+
+    function MultipleChoiceQuestion({question}) {
+        return (
+            <div>
+                <h3>{question.question}</h3>
+                <ul>
+                    {question.options.map((option, optionIndex) =>
+                        <li key={optionIndex}>
+                            <label>
+                                <input type={"radio"} value={option} name={"question" + question.id} />
+                                {option}
+                            </label>
+                        </li>
+                    )}
+                </ul>
+                <button onClick={() => setQuestionShow(questionShown-1)}>Vorige vraag</button>
+                <button onClick={() => setQuestionShow(questionShown+1)}>Volgende vraag</button>
+            </div>
+        )
+    }
+
+    function Question() {
+
+        console.log(questionShown)
+        const questionList = answeredArray.map((question, questionIndex) => {
+                switch (question.type) {
+                    case 'MultipleChoice':
+                        return (
+                            <MultipleChoiceQuestion key={questionIndex} question={question} questionIndex={questionIndex} />
+                        )
+                    case 'Open':
+                        return (
+                            <OpenQuestion key={questionIndex} question={question} questionIndex={questionIndex} />
+                        )
+                    default:
+                        console.log("Wrong type")
+                }
+            }
+        )
+        return (
+            <>
+                <h3>Vraag {questionShown+1}/{questionList.length}</h3>
+                {questionList[questionShown]}
+
+            </>
+        )
+    }
+
     return (
         <div className={"survey"}>
-            <Question questions={questionsArray} />
+            <Question />
         </div>
     )
 }
