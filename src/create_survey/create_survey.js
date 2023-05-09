@@ -163,8 +163,8 @@ export default function CreateSurvey() {
         )
     }
 
-    function Create() {
-        return (
+    return (
+        <div className={'container'}>
             <div className={'create'}>
                 {questionArray.map((question, questionIndex) => (
                     <div key={questionIndex}>
@@ -209,12 +209,6 @@ export default function CreateSurvey() {
                 <button onClick={addMultipleChoiceQuestion}>Maak multiple choice vraag</button>
                 <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
             </div>
-        )
-    }
-
-    return (
-        <div className={'container'}>
-            <Create />
             <Preview />
             {buttonState &&
                 <PopUp />
