@@ -13,9 +13,9 @@ export default function Survey2({questionsArray}) {
                             <h3>{question.question}</h3>
                             <ul>
                                 {question.options.map((option, optionIndex) =>
-                                    <li key={optionIndex}>
+                                    <li key={optionIndex} onChange={e => replaceAnswer(questionIndex, e.target.value)}>
                                         <label>
-                                            <input type={"radio"} value={option} name={"question" + question.id} />
+                                            <input type={"radio"} value={option} name={"question" + question.id} checked={question.answer === option} />
                                             {option}
                                         </label>
                                     </li>
