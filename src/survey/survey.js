@@ -28,8 +28,6 @@ export default function Survey2({questionsArray}) {
                     value={answeredArray[questionIndex].answer}
                     onChange={e => replaceAnswer(questionIndex, e.target.value)}
                 />
-                <button onClick={() => setQuestionShow(questionShown-1)}>Vorige vraag</button>
-                <button onClick={() => setQuestionShow(questionShown+1)}>Volgende vraag</button>
             </div>
         )
     }
@@ -48,8 +46,6 @@ export default function Survey2({questionsArray}) {
                         </li>
                     )}
                 </ul>
-                <button onClick={() => setQuestionShow(questionShown-1)}>Vorige vraag</button>
-                <button onClick={() => setQuestionShow(questionShown+1)}>Volgende vraag</button>
             </div>
         )
     }
@@ -57,6 +53,7 @@ export default function Survey2({questionsArray}) {
     function Question() {
 
         console.log(questionShown)
+        console.log(answeredArray.length)
         const questionList = answeredArray.map((question, questionIndex) => {
                 switch (question.type) {
                     case 'MultipleChoice':
@@ -76,6 +73,15 @@ export default function Survey2({questionsArray}) {
             <>
                 <h3>Vraag {questionShown+1}/{questionList.length}</h3>
                 {questionList[questionShown]}
+                <div className={'navigation'}>
+                    {questionShown > 0 &&
+                        <button className={'prev'} onClick={() => setQuestionShow(questionShown-1)}>Vorige vraag</button>
+                    }
+                    {questionShown+1 < answeredArray.length &&
+                        <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende vraag</button>
+                    }
+                </div>
+
 
             </>
         )
