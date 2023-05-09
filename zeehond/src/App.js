@@ -8,7 +8,7 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:3000/test')
+    fetch('http://127.0.0.1:81/test_gaem')
     .then(response => response.json())
     .then(data => setData(data))
     .catch(error => console.error(error));
@@ -19,8 +19,8 @@ function App() {
       <View>
         <FlatList>
           data={data}
-          renderItem={({item}) => <Text>{item.name}</Text>} 
-          keyExtractor={item => item.id}
+          renderItem={({item}) => <Text>{item.release_year}</Text>} 
+          keyExtractor={item => item.release_name}
         </FlatList>
       </View>
     </div>
