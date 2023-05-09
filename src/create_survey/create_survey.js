@@ -209,7 +209,7 @@ export default function CreateSurvey() {
                 <button onClick={addMultipleChoiceQuestion}>Maak multiple choice vraag</button>
                 <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
             </div>
-            <Preview />
+            {/*<Preview />*/}
             {buttonState &&
                 <PopUp />
             }
