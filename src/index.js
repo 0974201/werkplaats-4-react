@@ -6,8 +6,6 @@ import Layout from './pages/layout';
 import ModifyQuestion from './questions/questionlist';
 import ChangeQuestion from './questions/changequestion';
 import { Home } from './pages/home';
-import { Contact } from './pages/contact';
-import { About } from './pages/about';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
 import { SurveyList } from './pages/surveylist';
@@ -61,8 +59,6 @@ function App() {
                     <Routes>
                         <Route path='/' element={<Layout />} /> {/* Covers the entire website */}
                         <Route index element={<Home />} />
-                        <Route path='/contact' element={<Contact />} />
-                        <Route path='/about' element={<About />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/*' element={<NotFound />} />
                         <Route path='/surveylist' element={<SurveyList />} /> {/* Covers the survey parts */}
