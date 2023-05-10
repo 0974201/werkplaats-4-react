@@ -37,8 +37,4 @@ function modifyQuestion() {
     )
 }
 
-
 export default modifyQuestion
-
-/* I might still need this for question page 
-{/* <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button> */ 
