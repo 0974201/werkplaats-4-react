@@ -1,5 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
-const db_file = "./database/db/test_data.db";
+const db_file = "./database/db/test.db";
 
 function db(){
   const db = new sqlite3.Database(db_file, sqlite3.OPEN_READWRITE, (error) => {

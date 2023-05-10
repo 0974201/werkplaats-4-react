@@ -1,13 +1,12 @@
 const express = require('express'); // server shit
 const bodyParser = require("body-parser");
-const cors = require('cors');
+//const cors = require('cors');
 const db = require('./database/db.js') // connectie met db
-//const getBirb = require('./database/models/taebl.js');
-//const getGaem = require('./database/models/taebl.js');
 
 const app = express();
 
-app.use(bodyParser.json(), cors()); // parse json
+//app.use(bodyParser.json(), cors()); // parse json
+app.use(bodyParser.json());
 
 app.get("/", function(req, res){
   res.send('hœm');
