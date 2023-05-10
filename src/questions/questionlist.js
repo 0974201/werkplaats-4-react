@@ -17,17 +17,17 @@ function modifyQuestion() {
             <table width='100%'>
                 <tr>
                     <th>Id</th>
-                    <th>Question</th>
-                    <th>Modify</th>
+                    <th>Vraag</th>
+                    <th>Aanpassen</th>
                 </tr>
                 {question.map(item => (
                     <tr key={item.id}>
                         <td>{item.id}</td>
                         <td>{item.question}</td>
                         <td>
-                            <Link to={`/question/${item.id}`} className='link'><button>Modify</button></Link>
+                            <Link to={`/question/${item.id}`} className='link'><button>Aanpassen</button></Link>
                             <button className='button' onClick={() => setQuestion(question.filter(q =>
-                                q.id !== item.id))}>Delete</button>
+                                q.id !== item.id))}>Verwijder</button>
                         </td>
                     </tr>
                 ))}

@@ -99,8 +99,8 @@ export default function ChangeQuestion({ question, options }) {
             <div className='save_question_border'>
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
-                    <button className='button' onClick={() => handleModify(question[id].id, questionvalue)}>Modify</button>
-                    <button className='button'>Save</button>
+                    <button className='button' onClick={() => handleModify(question[id].id, questionvalue)}>Aanpassen</button>
+                    <button className='button'>Opslaan</button>
                 </div>
             </div>
 
@@ -111,9 +111,9 @@ export default function ChangeQuestion({ question, options }) {
             <Link to={id > 0 ? `/question/${question[id].id - 1}` : ''}><button disabled={id === '0'} className='button'>Previous</button></Link>
             {
                 id < (questionlist.length - 1) ? /* if current id is lower than the questionlist array (-1  due to index!) */
-                    <Link to={`/question/${question[id].id + 1}`}><button className='button'>Next</button></Link>
+                    <Link to={`/question/${question[id].id + 1}`}><button className='button'>Volgende</button></Link>
                     : /* button is disabled if there is no more questions with a higher id in the array.*/
-                    <button disabled className='button'>Next</button>
+                    <button disabled className='button'>Vorige</button>
             }
         </div>
     )

@@ -15,7 +15,7 @@ function Header() {
                     <div className='header_links'>
                         <Link to='/' className='link'>Home</Link>
                         <Link to='./About' className='link' >About us</Link>
-                        <Link to='./contact' className='link'>Contact Us</Link>
+                        <Link to='./create' className='link'>Create Survey</Link>
                         <Link to='./survey' className='link'>Survey</Link>
                         <Link to='./questionlist' className='link'>Question List</Link>
                     </div>
