@@ -9,3 +9,16 @@
 .survey ul {
     list-style: none;
 }
+
+.survey textarea {
+    height: 200px;
+    width: 400px;
+}
+
+.navigation .prev {
+    float: left;
+}
+
+.navigation .next {
+    float: right;
+}
