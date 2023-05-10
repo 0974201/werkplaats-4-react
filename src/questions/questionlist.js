@@ -13,7 +13,7 @@ function modifyQuestion() {
     console.log('dit is' + question.options)
     return (
         <div>
-            <h1> Question List </h1>
+            <h1> Vragenlijst </h1>
             <table width='100%'>
                 <tr>
                     <th>Id</th>

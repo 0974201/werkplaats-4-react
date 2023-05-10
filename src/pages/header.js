@@ -14,10 +14,9 @@ function Header() {
                     </Link>
                     <div className='header_links'>
                         <Link to='/' className='link'>Home</Link>
-                        <Link to='./About' className='link' >About us</Link>
-                        <Link to='./create' className='link'>Create Survey</Link>
-                        <Link to='./survey' className='link'>Survey</Link>
-                        <Link to='./questionlist' className='link'>Question List</Link>
+                        <Link to='./create' className='link'>Maak Enquête</Link>
+                        <Link to='./survey' className='link'>Enquête</Link>
+                        <Link to='./questionlist' className='link'>Vragenlijst</Link>
                     </div>
                     <div className='nav_login'>
                         <div className='login_button'>
