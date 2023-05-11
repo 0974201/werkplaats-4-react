@@ -3,6 +3,16 @@
     cursor: pointer;
 }
 
+.close_button {
+    background: transparent;
+    border-style: none;
+    cursor: pointer;
+}
+
+.close_button:hover {
+    transform: scale(1.5)
+}
+
 .button:disabled {
     cursor: not-allowed;
     pointer-events: all !important;
@@ -50,6 +60,10 @@
     height: 100px;
 }
 
+.question__grey:hover {
+    background-color: rgba(0, 0, 0, .3);
+}
+
 /* everything under this are table related */
 
 table {
@@ -59,7 +73,9 @@ table {
 tr:nth-child(1) {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
+    border-right: 1px solid black;
 }
+
 
 th {
     font-size: 25px;
@@ -77,7 +93,7 @@ td:nth-child(1) {
     border-width: 1px 1px 1px 1px;
 }
 
-th:nth-child(2),
+
 td:nth-child(2) {
     border: solid black;
     border-width: 1px 1px 1px 1px;

@@ -18,16 +18,14 @@ function modifyQuestion() {
                 <tr>
                     <th>Id</th>
                     <th>Vraag</th>
-                    <th>Aanpassen</th>
                 </tr>
                 {question.map(item => (
                     <tr key={item.id}>
                         <td>{item.id}</td>
-                        <td>{item.question}</td>
+                        <td className='question__grey'><Link to={`/question/${item.id}`} className='link'>{item.question}</Link></td>
                         <td>
-                            <Link to={`/question/${item.id}`} className='link'><button>Aanpassen</button></Link>
-                            <button className='button' onClick={() => setQuestion(question.filter(q =>
-                                q.id !== item.id))}>Verwijder</button>
+                            <button className='close_button' onClick={() => setQuestion(question.filter(q =>
+                                q.id !== item.id))}><img src="https://i.imgur.com/AhBVm9H.png" height="20px" alt="Red X Button Png, Transparent Png@kindpng.com"></img></button>
                         </td>
                     </tr>
                 ))}
