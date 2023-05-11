@@ -2,20 +2,26 @@ import React from "react";
 import { useState } from "react";
 import Survey2 from '../survey/survey'
 import './creat_survey.css'
-import { questions } from "../index";
+import {questions} from "../index";
 
 let nextOrder = 0
 
 export default function CreateSurvey() {
     const [questionArray, setQuestionArray] = useState([])
+    const [surveyArray, setSurveyArray] = useState({
+        title: "",
+        description: "",
+        questions: questionArray,
+        anonymity: true
+    })
     const [buttonState, setButtonState] = useState(false)
-    console.log(questionArray)
 
     function addToArray(inBetweenArray) {
         const newArray = inBetweenArray.map((question, questionIndex) => {
             return { ...question, id: questionIndex }
         })
         setQuestionArray(newArray)
+        setSurveyArray({...surveyArray, questions: newArray})
     }
 
     function replaceQuestion(questionIndex, value) {
@@ -40,6 +46,28 @@ export default function CreateSurvey() {
             }
         })
         addToArray(inBetweenArray)
+    }
+
+    function replaceTitle(value) {
+        const inBetweenArray = {...surveyArray, title: value}
+        setSurveyArray(inBetweenArray)
+    }
+
+    function replaceDescription(value) {
+        const inBetweenArray = {...surveyArray, description: value}
+        setSurveyArray(inBetweenArray)
+    }
+
+    function replaceAnonymity(value) {
+        console.log(value)
+        if (value === true){
+            const inBetweenArray = {...surveyArray, anonymity: false}
+            setSurveyArray(inBetweenArray)
+        } else {
+            const inBetweenArray = {...surveyArray, anonymity: true}
+            setSurveyArray(inBetweenArray)
+        }
+
     }
 
     function switchQuestions(array, fromIndex, toIndex) {
@@ -121,14 +149,14 @@ export default function CreateSurvey() {
     }
 
     function Preview() {
-        if (questionArray.length > 0) {
-            return (
-                <div>
-                    <h2>Preview</h2>
-                    <Survey2 questionsArray={questionArray} />
-                </div>
-            )
-        }
+        return (
+            <div className={'create'}>
+                <h2>Preview</h2>
+                {questionArray.length > 0 &&
+                    <Survey2 surveyArray={surveyArray} />
+                }
+            </div>
+        )
     }
 
     function PopUp() {
@@ -165,9 +193,42 @@ export default function CreateSurvey() {
 
     return (
         <div className={'container'}>
+            <div>
+                <div className={'create'}>
+                    <h2>Geef extra informatie</h2>
+                    <label> Titel
+                        <input
+                            placeholder={'Titel'}
+                            value={surveyArray.title}
+                            onChange={e => replaceTitle(e.target.value)}
+                        />
+                    </label>
+                    <label>Beschrijving
+                        <textarea
+                            placeholder={'Beschrijving'}
+                            value={surveyArray.description}
+                            onChange={e => replaceDescription(e.target.value)}
+                        ></textarea>
+                    </label>
+                    <label>Deze enquête kan anoniem beantwoord worden
+                        <input
+                            type={'checkbox'}
+                            onChange={e => replaceAnonymity(e.target.checked)}
+                        />
+                    </label>
+                </div>
+
+                <div className={'create'}>
+                    <h2>Selecteer vraag type</h2>
+                    <button onClick={addOpenQuestion}>Maak open vraag</button>
+                    <button onClick={addMultipleChoiceQuestion}>Maak multiple choice vraag</button>
+                    <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
+                </div>
+            </div>
+
             <div className={'create'}>
                 {questionArray.map((question, questionIndex) => (
-                    <div key={questionIndex}>
+                    <div key={questionIndex} className={'question'}>
                         <h3>Vraag {questionIndex + 1}</h3>
                         <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex - 1)}>Up</button>
                         <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex + 1)}>Down</button>
@@ -206,11 +267,9 @@ export default function CreateSurvey() {
                         }
                     </div>
                 ))}
-                <button onClick={addOpenQuestion}>Maak open vraag</button>
-                <button onClick={addMultipleChoiceQuestion}>Maak multiple choice vraag</button>
-                <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
+
             </div>
-            {/*<Preview />*/}
+            <Preview />
             {buttonState &&
                 <PopUp />
             }

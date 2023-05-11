@@ -4,6 +4,10 @@
     justify-content: end;
 }
 
+.info {
+    background-color: lightsteelblue;
+}
+
 .create {
     display: flex;
     flex-direction: column;
@@ -16,6 +20,12 @@
 
 .create ul {
     list-style: none;
+}
+
+.question {
+    background-color: #8dafe2;
+    margin-bottom: 10px;
+    padding: 10px;
 }
 
 .pop_up_container {
