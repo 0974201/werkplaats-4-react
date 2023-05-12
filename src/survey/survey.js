@@ -36,6 +36,9 @@ export default function Survey2({surveyArray}) {
                     )
                 default:
                     console.log("Wrong type")
+                    return (
+                        <div><h3>Wrong type</h3></div>
+                    )
             }
         }
     )
@@ -52,27 +55,26 @@ export default function Survey2({surveyArray}) {
         setAnsweredArray(inBetweenArray)
     }
     return (
-        <div className={"survey"}>
-            <h1>{surveyArray.title}</h1>
-            {questionShown <= 0 &&
-                <p>{surveyArray.description}</p>
-            }
-            {questionShown > 0 &&
-                <>
-                    <h3>Vraag {questionShown}/{questionList.length}</h3>
-                    {questionList[questionShown-1]}
-                </>
-
-            }
-
-            <div className={'navigation'}>
+            <div className={"survey"}>
+                <h1>{surveyArray.title}</h1>
+                {questionShown <= 0 &&
+                    <p>{surveyArray.description}</p>
+                }
                 {questionShown > 0 &&
-                    <button className={'prev'} onClick={() => setQuestionShow(questionShown-1)}>Vorige</button>
+                    <>
+                        <h3>Vraag {questionShown}/{questionList.length}</h3>
+                        {questionList[questionShown-1]}
+                    </>
                 }
-                {questionShown < answeredArray.length &&
-                    <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende</button>
-                }
+
+                <div className={'navigation'}>
+                    {questionShown > 0 &&
+                        <button className={'prev'} onClick={() => setQuestionShow(questionShown-1)}>Vorige</button>
+                    }
+                    {questionShown < answeredArray.length &&
+                        <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende</button>
+                    }
+                </div>
             </div>
-        </div>
     )
 }

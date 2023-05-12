@@ -52,7 +52,7 @@ export let survey = {
         title: "Waar hou je van?",
         description: "Dit is een vragen lijst waar in we je vragen gaan stellen over dingen waar je van houd.",
         questions: questions,
-        anonymity: 1
+        anonymity: true
     }
 
 

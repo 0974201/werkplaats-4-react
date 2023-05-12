@@ -1,20 +1,49 @@
 import React from "react";
 import { useState } from "react";
 import Survey2 from '../survey/survey'
+import {SaveToSession, GetFromSession, RemoveFromSession} from "../universal/session_storage";
 import './creat_survey.css'
 import {questions} from "../index";
 
 let nextOrder = 0
 
 export default function CreateSurvey() {
-    const [questionArray, setQuestionArray] = useState([])
-    const [surveyArray, setSurveyArray] = useState({
-        title: "",
-        description: "",
-        questions: questionArray,
-        anonymity: true
-    })
+    const [questionArray, setQuestionArray] = useState(onLoadArray())
+    const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
+    console.log(questionArray)
+    console.log(surveyArray)
+
+    SaveToSession("survey", JSON.stringify(surveyArray))
+    function onLoadSurvey() {
+        if (JSON.parse(GetFromSession("survey")) === null) {
+            const arrayToSurvey = {
+                title: "",
+                description: "",
+                openDate: "",
+                closedDate: "",
+                questions: questionArray,
+                anonymity: true
+            }
+            return(arrayToSurvey)
+        } else {
+
+            const arrayToSurvey = JSON.parse(GetFromSession("survey"))
+            console.log(arrayToSurvey)
+            return(arrayToSurvey)
+        }
+    }
+
+    function onLoadArray() {
+        if (JSON.parse(GetFromSession("survey")) === null) {
+            const arrayToSurvey = [{ type: "Open", id: nextOrder++, question: 'maak open vraag', options: null, order: null }]
+            return(arrayToSurvey)
+        } else {
+            const arrayToSurvey = JSON.parse(GetFromSession("survey"))
+
+            return(arrayToSurvey.questions)
+        }
+    }
 
     function addToArray(inBetweenArray) {
         const newArray = inBetweenArray.map((question, questionIndex) => {
@@ -192,8 +221,8 @@ export default function CreateSurvey() {
     }
 
     return (
-        <div className={'container'}>
-            <div>
+        <div className={'container__create_survey'}>
+            <div className={'box'}>
                 <div className={'create'}>
                     <h2>Geef extra informatie</h2>
                     <label> Titel
@@ -216,6 +245,7 @@ export default function CreateSurvey() {
                             onChange={e => replaceAnonymity(e.target.checked)}
                         />
                     </label>
+                    <button onClick={() => RemoveFromSession("survey")}>reset</button>
                 </div>
 
                 <div className={'create'}>
@@ -226,53 +256,60 @@ export default function CreateSurvey() {
                 </div>
             </div>
 
-            <div className={'create'}>
-                {questionArray.map((question, questionIndex) => (
-                    <div key={questionIndex} className={'question'}>
-                        <h3>Vraag {questionIndex + 1}</h3>
-                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex - 1)}>Up</button>
-                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex + 1)}>Down</button>
-                        <input
-                            placeholder={'maak vraag'}
-                            value={questionArray[questionIndex].question}
-                            onChange={e => replaceQuestion(questionIndex, e.target.value)}
-                        />
+            <div className={'box'}>
+                <div className={'create'}>
+                    {questionArray.map((question, questionIndex) => (
+                        <div key={questionIndex} className={'question'}>
+                            <h3>Vraag {questionIndex + 1}</h3>
+                            <div className={'question_input'}>
+                                <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex - 1)}>Up</button>
+                                <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex + 1)}>Down</button>
+                                <input
+                                    placeholder={'maak vraag'}
+                                    value={questionArray[questionIndex].question}
+                                    onChange={e => replaceQuestion(questionIndex, e.target.value)}
+                                />
 
-                        <button onClick={() => (
-                            setQuestionArray(questionArray.filter(question =>
-                                question.id !== questionArray[questionIndex].id)
-                            )
-                        )}>X</button>
-                        {question.type === 'MultipleChoice' &&
-                            <>
-                                <ul>
-                                    {question.options.map((option, optionIndex) => (
-                                        <li key={optionIndex}>
-                                            <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex - 1, question.id)}>Up</button>
-                                            <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex + 1, question.id)}>Down</button>
-                                            <input
-                                                placeholder={'maak optie'}
-                                                maxLength={250}
-                                                value={option}
-                                                onChange={e => replaceOption(questionIndex, optionIndex, e.target.value)}
-                                            />
-                                            <button onClick={() => (deleteOptionInQuestion(question.id, optionIndex))
+                                <button onClick={() => (
+                                    setQuestionArray(questionArray.filter(question =>
+                                        question.id !== questionArray[questionIndex].id)
+                                    )
+                                )}>X</button>
+                            </div>
 
-                                            }>X</button>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <button onClick={() => addOption(questionIndex)}>Maak multiple choice optie</button>
-                            </>
-                        }
-                    </div>
-                ))}
+                            {question.type === 'MultipleChoice' &&
+                                <>
+                                    <ul>
+                                        {question.options.map((option, optionIndex) => (
+                                            <li key={optionIndex}>
+                                                <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex - 1, question.id)}>Up</button>
+                                                <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex + 1, question.id)}>Down</button>
+                                                <input
+                                                    placeholder={'maak optie'}
+                                                    maxLength={250}
+                                                    value={option}
+                                                    onChange={e => replaceOption(questionIndex, optionIndex, e.target.value)}
+                                                />
+                                                <button onClick={() => (deleteOptionInQuestion(question.id, optionIndex))
 
+                                                }>X</button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <button onClick={() => addOption(questionIndex)}>Maak multiple choice optie</button>
+                                </>
+                            }
+                        </div>
+                    ))}
+                </div>
             </div>
-            <Preview />
-            {buttonState &&
-                <PopUp />
-            }
+
+            <div className={'box'}>
+                <Preview />
+                {buttonState &&
+                    <PopUp />
+                }
+            </div>
         </div>
     )
 }
