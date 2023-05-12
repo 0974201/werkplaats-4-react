@@ -53,11 +53,19 @@ export let surveys = [
         status: "Open",
         id: 0,
         title: "Huisdiernamen",
+        participants: "5"
     },
     {
         status: "Closed",
         id: 1,
-        title: "Telefoongebruik"
+        title: "Telefoongebruik",
+        participants: "27"
+    },
+    {
+        status: "Being reviewed",
+        id: 2,
+        title: "Eet jij genoeg cornflakes?",
+        participants: "0"
     }
 
 ]

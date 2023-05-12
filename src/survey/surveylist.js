@@ -69,15 +69,18 @@ export function SurveyList() {
                                     {item.title}
                                 </Link>
                             </td>
-
                             <td>
-                                <p>Open</p>
+                                <p>{item.status}</p>
                             </td>
                             <td>
-                                0
+                                <p>{item.participants}</p>
                             </td>
                             <td>
-                                <button className="edit_button">Edit</button>
+                                {item.status === "Being reviewed" ? (
+                                    <button className="edit_button">Aanpassen</button>
+                                ) :
+                                    <p>Gesloten</p>
+                                }
                             </td>
                         </tr>
                     ))}

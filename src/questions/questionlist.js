@@ -29,7 +29,6 @@ function modifyQuestion() {
                                 {item.question}
                             </Link>
                         </td>
-
                         <td>
                             <button className='close_button' onClick={() => setQuestion(question.filter(q =>
                                 q.id !== item.id))}>
