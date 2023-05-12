@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Survey2 from '../survey/survey'
 import {SaveToSession, GetFromSession, RemoveFromSession} from "../universal/session_storage";
+import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
 import {questions} from "../index";
 
@@ -11,17 +12,16 @@ export default function CreateSurvey() {
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
-    console.log(questionArray)
     console.log(surveyArray)
 
     SaveToSession("survey", JSON.stringify(surveyArray))
     function onLoadSurvey() {
         if (JSON.parse(GetFromSession("survey")) === null) {
             const arrayToSurvey = {
-                title: "",
-                description: "",
+                title: "Titel",
+                description: "Beschrijving",
                 openDate: "",
-                closedDate: "",
+                closeDate: "",
                 questions: questionArray,
                 anonymity: true
             }
@@ -29,7 +29,6 @@ export default function CreateSurvey() {
         } else {
 
             const arrayToSurvey = JSON.parse(GetFromSession("survey"))
-            console.log(arrayToSurvey)
             return(arrayToSurvey)
         }
     }
@@ -77,37 +76,43 @@ export default function CreateSurvey() {
         addToArray(inBetweenArray)
     }
 
-    function replaceTitle(value) {
-        const inBetweenArray = {...surveyArray, title: value}
-        setSurveyArray(inBetweenArray)
-    }
-
-    function replaceDescription(value) {
-        const inBetweenArray = {...surveyArray, description: value}
-        setSurveyArray(inBetweenArray)
-    }
-
-    function replaceAnonymity(value) {
-        console.log(value)
-        if (value === true){
-            const inBetweenArray = {...surveyArray, anonymity: false}
-            setSurveyArray(inBetweenArray)
-        } else {
-            const inBetweenArray = {...surveyArray, anonymity: true}
-            setSurveyArray(inBetweenArray)
+    function replaceSurveyItem(item, value) {
+        switch (item) {
+            case 'title':
+                setSurveyArray({...surveyArray, title: value})
+                break
+            case 'description':
+                setSurveyArray({...surveyArray, description: value})
+                break
+            case 'openDate':
+                setSurveyArray({...surveyArray, openDate: value})
+                break
+            case 'closeDate':
+                setSurveyArray({...surveyArray, closeDate: value})
+                break
+            case 'anonymity':
+                if (value === true){
+                    const inBetweenArray = {...surveyArray, anonymity: false}
+                    setSurveyArray(inBetweenArray)
+                } else {
+                    const inBetweenArray = {...surveyArray, anonymity: true}
+                    setSurveyArray(inBetweenArray)
+                }
+                break
+            default:
+                console.log(item + "is not a valid input")
         }
-
     }
 
     function switchQuestions(array, fromIndex, toIndex) {
-        const inBetweenArray = switchAround(array, fromIndex, toIndex)
+        const inBetweenArray = SwitchAround(array, fromIndex, toIndex)
         addToArray(inBetweenArray)
     }
 
     function switchOptions(list, fromIndex, toIndex, questionId) {
         const inBetweenArray = questionArray.map(question => {
             if (question.id === questionId) {
-                return { ...question, options: switchAround(list, fromIndex, toIndex) }
+                return { ...question, options: SwitchAround(list, fromIndex, toIndex) }
             } else {
                 return question
             }
@@ -115,40 +120,7 @@ export default function CreateSurvey() {
         addToArray(inBetweenArray)
     }
 
-    function switchAround(array, fromIndex, toIndex) {
-        const questionToMove = array[fromIndex]
-        const questionToShove = array[toIndex]
-
-        if (fromIndex > toIndex && fromIndex !== 0) {
-            return [
-                ...array.slice(0, toIndex),
-                questionToMove,
-                questionToShove,
-                ...array.slice(fromIndex + 1)
-            ]
-        } else if (fromIndex < toIndex && toIndex < array.length) {
-            return [
-                ...array.slice(0, fromIndex),
-                questionToShove,
-                questionToMove,
-                ...array.slice(toIndex + 1)
-            ]
-        } else {
-            return array
-        }
-    }
-
-    function addOpenQuestion() {
-        const inBetweenArray = [...questionArray, { type: "Open", id: nextOrder++, question: 'maak open vraag', options: null, order: null }]
-        addToArray(inBetweenArray)
-    }
-
-    function addMultipleChoiceQuestion() {
-        const inBetweenArray = [...questionArray, { type: "MultipleChoice", id: nextOrder++, question: 'maak multiple choice vraag', options: ['1', '2'], order: null }]
-        addToArray(inBetweenArray)
-    }
-
-    function addExistingQuestion(question) {
+    function addQuestion(question) {
         const inBetweenArray = [...questionArray, question]
         addToArray(inBetweenArray)
     }
@@ -175,6 +147,17 @@ export default function CreateSurvey() {
             }
         })
         addToArray(inBetweenArray)
+    }
+
+    function AddButtons() {
+        return (
+            <div className={'create'}>
+                <h2>Selecteer vraag type</h2>
+                <button onClick={() => addQuestion({ type: "Open", id: nextOrder++, question: 'maak open vraag', options: null, order: null })}>Maak open vraag</button>
+                <button onClick={() => addQuestion({ type: "MultipleChoice", id: nextOrder++, question: 'maak multiple choice vraag', options: ['1', '2'], order: null })}>Maak multiple choice vraag</button>
+                <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
+            </div>
+        )
     }
 
     function Preview() {
@@ -205,12 +188,11 @@ export default function CreateSurvey() {
                                     <tr key={question.id}>
                                         <td>{question.question}</td>
                                         <td>{question.type}</td>
-                                        <td><button onClick={() => addExistingQuestion(question)}>Selecteer</button></td>
+                                        <td><button onClick={() => addQuestion(question)}>Selecteer</button></td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-
                     </div>
                     <div className={'close'}>
                         <button onClick={() => setButtonState(false)}>X</button>
@@ -229,31 +211,40 @@ export default function CreateSurvey() {
                         <input
                             placeholder={'Titel'}
                             value={surveyArray.title}
-                            onChange={e => replaceTitle(e.target.value)}
+                            onChange={e => replaceSurveyItem('title', e.target.value)}
+                        />
+                    </label>
+                    <label>Begin tijd
+                        <input
+                            type={'date'}
+                            value={surveyArray.openDate}
+                            onChange={e => replaceSurveyItem('openDate', e.target.value)}
+                        />
+                    </label>
+                    <label>Eind tijd (optioneel)
+                        <input
+                            type={'date'}
+                            value={surveyArray.closeDate}
+                            onChange={e => replaceSurveyItem('closeDate', e.target.value)}
                         />
                     </label>
                     <label>Beschrijving
                         <textarea
                             placeholder={'Beschrijving'}
                             value={surveyArray.description}
-                            onChange={e => replaceDescription(e.target.value)}
+                            onChange={e => replaceSurveyItem('description', e.target.value)}
                         ></textarea>
                     </label>
+
                     <label>Deze enquête kan anoniem beantwoord worden
                         <input
                             type={'checkbox'}
-                            onChange={e => replaceAnonymity(e.target.checked)}
+                            onChange={e => replaceSurveyItem('anonymity', e.target.checked)}
                         />
                     </label>
                     <button onClick={() => RemoveFromSession("survey")}>reset</button>
                 </div>
-
-                <div className={'create'}>
-                    <h2>Selecteer vraag type</h2>
-                    <button onClick={addOpenQuestion}>Maak open vraag</button>
-                    <button onClick={addMultipleChoiceQuestion}>Maak multiple choice vraag</button>
-                    <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
-                </div>
+                <AddButtons />
             </div>
 
             <div className={'box'}>
@@ -306,10 +297,10 @@ export default function CreateSurvey() {
 
             <div className={'box'}>
                 <Preview />
-                {buttonState &&
-                    <PopUp />
-                }
             </div>
+            {buttonState &&
+                <PopUp />
+            }
         </div>
     )
 }
