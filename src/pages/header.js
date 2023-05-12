@@ -16,6 +16,7 @@ function Header() {
                         <Link to='/' className='link'>Home</Link>
                         <Link to='./create' className='link'>Maak Enquête</Link>
                         <Link to='./survey' className='link'>Enquête</Link>
+                        <Link to='./surveylist' className='link'>Enquêtelijst</Link>
                         <Link to='./questionlist' className='link'>Vragenlijst</Link>
                     </div>
                     <div className='nav_login'>

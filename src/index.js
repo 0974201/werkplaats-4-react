@@ -8,7 +8,7 @@ import ChangeQuestion from './questions/changequestion';
 import { Home } from './pages/home';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
-import { SurveyList } from './pages/surveylist';
+import { SurveyList } from './survey/surveylist';
 import Survey2 from './survey/survey';
 import CreateSurvey from "./create_survey/create_survey";
 import './css/App.css';
@@ -61,7 +61,7 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/*' element={<NotFound />} />
-                        <Route path='/surveylist' element={<SurveyList />} /> {/* Covers the survey parts */}
+                        <Route path='/surveylist' element={<SurveyList question={questions} />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         {/* <Route path='/survey/:id' element={<Survey />} /> */}
                         <Route path={'/create'} element={<CreateSurvey />} />

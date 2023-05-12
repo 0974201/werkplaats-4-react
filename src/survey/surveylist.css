@@ -1,0 +1,28 @@
+.edit_button {
+    background: transparent;
+    border-style: none;
+    font-size: 20px;
+    color: red;
+    cursor: pointer;
+}
+
+.edit_button:hover {
+    transform: scale(1.50)
+}
+
+.outside {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    margin-top: -25px;
+    width: 200px;
+    z-index: 1;
+    border-style: ridge;
+}
+
+.survey_box {
+    display: flex;
+    justify-content: center;
+    align-items: row;
+    flex-direction: column
+}

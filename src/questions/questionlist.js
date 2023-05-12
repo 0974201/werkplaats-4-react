@@ -22,10 +22,15 @@ function modifyQuestion() {
                 {question.map(item => (
                     <tr key={item.id}>
                         <td>{item.id}</td>
-                        <td className='question__grey'><Link to={`/question/${item.id}`} className='link'>{item.question}</Link></td>
+                        <td className='question__grey'>
+                            <Link to={`/question/${item.id}`} className='link'>{item.question}</Link>
+                        </td>
                         <td>
                             <button className='close_button' onClick={() => setQuestion(question.filter(q =>
-                                q.id !== item.id))}><img src="https://i.imgur.com/AhBVm9H.png" height="20px" alt="Red X Button Png, Transparent Png@kindpng.com"></img></button>
+                                q.id !== item.id))}>
+                                <img src="https://i.imgur.com/AhBVm9H.png" height="20px" alt="Red X Button">
+                                </img>
+                            </button>
                         </td>
                     </tr>
                 ))}
