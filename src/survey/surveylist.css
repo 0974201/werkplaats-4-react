@@ -13,7 +13,7 @@
 /* Allows us to smack this outside the main body container */
 .outside {
     position: absolute;
-    top: 23%;
+    top: 24%;
     left: 14%;
     margin-top: -25px;
     width: 200px;

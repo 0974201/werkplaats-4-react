@@ -8,6 +8,7 @@ export function SurveyList() {
 
     const [survey] = useState(surveys);
 
+
     /* This controls the left side of surveylist and is outside the container
        things like Creating surveys or showing open/closed surveys..etc */
     function surveyBox() {
@@ -70,7 +71,14 @@ export function SurveyList() {
                                 </Link>
                             </td>
                             <td>
-                                <p>{item.status}</p>
+                                {item.status === "Open" ? (
+                                    <p style={{ color: "red" }}>{item.status}</p>
+                                ) : item.status === "Closed" ? (
+                                    <p style={{ color: "green" }}>{item.status}</p>
+                                ) : (
+                                    <p style={{ color: "orange" }}>{item.status}</p>
+                                )
+                                }
                             </td>
                             <td>
                                 <p>{item.participants}</p>
