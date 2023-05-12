@@ -64,11 +64,12 @@ export function SurveyList() {
                             <td>
                                 {item.id}
                             </td>
-                            <Link to={`/survey/${item.id}`} className='link'>
-                                <td className='question__grey'>
+                            <td className='question__grey'>
+                                <Link to={`/survey/${item.id}`} className='link'>
                                     {item.title}
-                                </td>
-                            </Link>
+                                </Link>
+                            </td>
+
                             <td>
                                 <p>Open</p>
                             </td>
