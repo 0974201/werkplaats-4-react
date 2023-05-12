@@ -13,8 +13,8 @@
 /* Allows us to smack this outside the main body container */
 .outside {
     position: absolute;
-    top: 20%;
-    left: 20%;
+    top: 23%;
+    left: 14%;
     margin-top: -25px;
     width: 200px;
     z-index: 1;
@@ -62,67 +62,84 @@
 }
 
 /* Everything for Table */
-.question__grey {
-    background: none;
-    border-style: none;
-}
-
 .question__grey:hover {
     background-color: rgba(0, 0, 0, .1);
 }
-
 
 table {
     border-collapse: collapse;
 }
 
-tr:nth-child(1) {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-}
-
-
 th {
     font-size: 25px;
-}
-
-th,
-td {
-    padding: 0;
+    padding: 0 10px;
     font-weight: 600;
 }
 
-th:nth-child(1),
-td:nth-child(1) {
+td {
+    font-weight: 600;
+    padding: 0 3px;
+}
+
+/* Table header for 'Id' */
+th:nth-child(1) {
     border: solid black;
-    border-width: 1px 0px 1px 1px !important;
+    border-width: 0px 0px 1px 0px !important;
     text-align: center;
 }
 
-
-td:nth-child(2) {
+/* Table data for 'Id' */
+td:nth-child(1) {
     border: solid black;
-    border-width: 1px 0px 1px 0px !important;
+    border-width: 0px 0px 1px 1px !important;
+    text-align: center;
 }
 
+/* table header for 'Titel' */
+th:nth-child(2) {
+    border: solid black;
+    border-width: 0px 0px 1px 0px !important;
+    text-align: center;
+}
+
+/* Table data for 'Titel' */
+td:nth-child(2) {
+    border: solid black;
+    border-width: 0px 0px 1px 0px !important;
+    text-align: center;
+    padding: 0 10px;
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Both header and table data for 'Status'*/
 th:nth-child(3),
 td:nth-child(3) {
     border: solid black;
-    border-width: 1px 0px 1px 0px !important;
+    border-width: 0px 0px 1px 0px !important;
     text-align: center;
 }
 
+/* Both header and data for 'Deelnemers' */
 th:nth-child(4),
 td:nth-child(4) {
     border: solid black;
-    border-width: 1px 0px 1px 0px !important;
+    border-width: 0px 0px 1px 0px !important;
     text-align: center;
 }
 
-th:nth-child(5),
+/* Header for 'Aanpassen' */
+th:nth-child(5) {
+    border: solid black;
+    border-width: 0px 0px 1px 0px !important;
+    text-align: center;
+}
+
+/* Table data for 'Aanpassen' */
 td:nth-child(5) {
     border: solid black;
-    border-width: 1px 1px 1px 0px !important;
+    border-width: 0px 1px 1px 0px !important;
     text-align: center;
 }

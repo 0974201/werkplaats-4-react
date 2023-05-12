@@ -66,8 +66,13 @@ export let surveys = [
         id: 2,
         title: "Eet jij genoeg cornflakes?",
         participants: "0"
+    },
+    {
+        status: "Open",
+        id: 3,
+        title: "Zijn eekhoorns gevaarlijk voor de omgeving? 10 redenen waarom wel en niet",
+        participants: "322"
     }
-
 ]
 function App() {
     return (
