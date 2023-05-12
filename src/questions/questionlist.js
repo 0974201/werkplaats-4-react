@@ -12,7 +12,7 @@ function modifyQuestion() {
 
     console.log('dit is' + question.options)
     return (
-        <div>
+        <div className="questionlist_table">
             <h1> Vragenlijst </h1>
             <table width='100%'>
                 <tr>
@@ -21,11 +21,20 @@ function modifyQuestion() {
                 </tr>
                 {question.map(item => (
                     <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td className='question__grey'><Link to={`/question/${item.id}`} className='link'>{item.question}</Link></td>
+                        <td>
+                            {item.id}
+                        </td>
+                        <td className='question__grey'>
+                            <Link to={`/question/${item.id}`} className='link'>
+                                {item.question}
+                            </Link>
+                        </td>
                         <td>
                             <button className='close_button' onClick={() => setQuestion(question.filter(q =>
-                                q.id !== item.id))}><img src="https://i.imgur.com/AhBVm9H.png" height="20px" alt="Red X Button Png, Transparent Png@kindpng.com"></img></button>
+                                q.id !== item.id))}>
+                                <img src="https://i.imgur.com/AhBVm9H.png" height="20px" alt="Red X Button">
+                                </img>
+                            </button>
                         </td>
                     </tr>
                 ))}

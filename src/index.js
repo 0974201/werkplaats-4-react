@@ -8,7 +8,7 @@ import ChangeQuestion from './questions/changequestion';
 import { Home } from './pages/home';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
-import { SurveyList } from './pages/surveylist';
+import { SurveyList } from './survey/surveylist';
 import Survey2 from './survey/survey';
 import CreateSurvey from "./create_survey/create_survey";
 import './css/App.css';
@@ -47,7 +47,33 @@ export let questions = [
         order: 3
     }
 ]
-
+/* Just testing.. */
+export let surveys = [
+    {
+        status: "Open",
+        id: 0,
+        title: "Huisdiernamen",
+        participants: "5"
+    },
+    {
+        status: "Closed",
+        id: 1,
+        title: "Telefoongebruik",
+        participants: "27"
+    },
+    {
+        status: "Being reviewed",
+        id: 2,
+        title: "Eet jij genoeg cornflakes?",
+        participants: "0"
+    },
+    {
+        status: "Open",
+        id: 3,
+        title: "Zijn eekhoorns gevaarlijk voor de omgeving? 10 redenen waarom wel en niet",
+        participants: "322"
+    }
+]
 function App() {
     return (
         <>
@@ -61,7 +87,7 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/*' element={<NotFound />} />
-                        <Route path='/surveylist' element={<SurveyList />} /> {/* Covers the survey parts */}
+                        <Route path='/surveylist' element={<SurveyList survey={surveys} />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         {/* <Route path='/survey/:id' element={<Survey />} /> */}
                         <Route path={'/create'} element={<CreateSurvey />} />

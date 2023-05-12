@@ -1,0 +1,145 @@
+.edit_button {
+    background: transparent;
+    border-style: none;
+    font-size: 20px;
+    color: red;
+    cursor: pointer;
+}
+
+.edit_button:hover {
+    transform: scale(1.50)
+}
+
+/* Allows us to smack this outside the main body container */
+.outside {
+    position: absolute;
+    top: 24%;
+    left: 14%;
+    margin-top: -25px;
+    width: 200px;
+    z-index: 1;
+    border-style: ridge;
+    background-color: #fff;
+}
+
+/* Everything related to the surveybox */
+
+/* No overflow of elements when we hover over the p text*/
+.survey_box {
+    overflow: hidden;
+}
+
+/* Flexbox the p elements with some padding so we can click on the link outside just the text */
+.survey_box p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 10px 20px;
+}
+
+/* Hover to increase p element by 10% and change colour to grey to indicate user pointing at it. */
+.survey_box p:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.survey_box p img {
+    height: 30px;
+    margin-right: 150px;
+    position: absolute;
+}
+
+.survey_box p:nth-child(1) img,
+.survey_box p:nth-child(2) img {
+    height: 25px;
+}
+
+/* Had to use !important because the survey_icon kept ignoring this in favour of the first child element css. */
+.survey_box .Survey_icon {
+    height: 30px !important;
+}
+
+/* Everything for Table */
+.question__grey:hover {
+    background-color: rgba(0, 0, 0, .1);
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    font-size: 25px;
+    padding: 0 10px;
+    font-weight: 600;
+}
+
+td {
+    font-weight: 600;
+    padding: 0 3px;
+}
+
+/* Table header for 'Id' */
+th:nth-child(1) {
+    border: solid black;
+    border-width: 0px 0px 1px 0px !important;
+    text-align: center;
+}
+
+/* Table data for 'Id' */
+td:nth-child(1) {
+    border: solid black;
+    border-width: 0px 0px 1px 1px !important;
+    text-align: center;
+}
+
+/* table header for 'Titel' */
+th:nth-child(2) {
+    border: solid black;
+    border-width: 0px 0px 1px 0px !important;
+    text-align: center;
+}
+
+/* Table data for 'Titel' */
+td:nth-child(2) {
+    border: solid black;
+    border-width: 0px 0px 1px 0px !important;
+    text-align: center;
+    padding: 0 10px;
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Both header and table data for 'Status'*/
+th:nth-child(3),
+td:nth-child(3) {
+    border: solid black;
+    border-width: 0px 0px 1px 0px !important;
+    text-align: center;
+}
+
+/* Both header and data for 'Deelnemers' */
+th:nth-child(4),
+td:nth-child(4) {
+    border: solid black;
+    border-width: 0px 0px 1px 0px !important;
+    text-align: center;
+}
+
+/* Header for 'Aanpassen' */
+th:nth-child(5) {
+    border: solid black;
+    border-width: 0px 0px 1px 0px !important;
+    text-align: center;
+}
+
+/* Table data for 'Aanpassen' */
+td:nth-child(5) {
+    border: solid black;
+    border-width: 0px 1px 1px 0px !important;
+    text-align: center;
+}
