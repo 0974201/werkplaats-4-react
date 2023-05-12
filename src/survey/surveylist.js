@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { questions } from '../index.js'
-import { Question } from './survey.js'
+import { surveys } from '../index.js'
 import './surveylist.css'
 
 
 export function SurveyList() {
 
-    const [question] = useState(questions);
+    const [survey] = useState(surveys);
 
     /* This controls the left side of surveylist and is outside the container
        things like Creating surveys or showing open/closed surveys..etc */
@@ -36,7 +35,7 @@ export function SurveyList() {
                         </p>
                         <Link to='/surveylist' className='link'>
                             <p>
-                                <img src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
+                                <img className='Survey_icon' src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
                                 Show All
                             </p>
                         </Link>
@@ -55,19 +54,21 @@ export function SurveyList() {
                 <table width='100%'>
                     <tr>
                         <th>Id</th>
-                        <th>Enquête</th>
+                        <th>Titel</th>
                         <th>Status</th>
                         <th>Deelnemers</th>
                         <th>Aanpassen</th>
                     </tr>
-                    {question.map(item => (
+                    {survey.map(item => (
                         <tr key={item.id}>
                             <td>
                                 {item.id}
                             </td>
-                            <td className='question__grey'>
-                                <Link to={`/survey/${item.id}`} className='link'>{item.question}</Link>
-                            </td>
+                            <Link to={`/survey/${item.id}`} className='link'>
+                                <td className='question__grey'>
+                                    {item.title}
+                                </td>
+                            </Link>
                             <td>
                                 <p>Open</p>
                             </td>

@@ -47,7 +47,20 @@ export let questions = [
         order: 3
     }
 ]
+/* Just testing.. */
+export let surveys = [
+    {
+        status: "Open",
+        id: 0,
+        title: "Huisdiernamen",
+    },
+    {
+        status: "Closed",
+        id: 1,
+        title: "Telefoongebruik"
+    }
 
+]
 function App() {
     return (
         <>
@@ -61,7 +74,7 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/*' element={<NotFound />} />
-                        <Route path='/surveylist' element={<SurveyList question={questions} />} /> {/* Covers the survey parts */}
+                        <Route path='/surveylist' element={<SurveyList survey={surveys} />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         {/* <Route path='/survey/:id' element={<Survey />} /> */}
                         <Route path={'/create'} element={<CreateSurvey />} />

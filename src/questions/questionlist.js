@@ -22,9 +22,11 @@ function modifyQuestion() {
                 {question.map(item => (
                     <tr key={item.id}>
                         <td>{item.id}</td>
-                        <td className='question__grey'>
-                            <Link to={`/question/${item.id}`} className='link'>{item.question}</Link>
-                        </td>
+                        <Link to={`/question/${item.id}`} className='link'>
+                            <td className='question__grey'>
+                                {item.question}
+                            </td>
+                        </Link>
                         <td>
                             <button className='close_button' onClick={() => setQuestion(question.filter(q =>
                                 q.id !== item.id))}>

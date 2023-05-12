@@ -69,14 +69,8 @@
 
 table {
     border-collapse: collapse;
-}
 
-tr:nth-child(1) {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
 }
-
 
 th {
     font-size: 25px;
@@ -84,7 +78,7 @@ th {
 
 th,
 td {
-    padding: 5px;
+    padding: 0;
     font-weight: 600;
 }
 
@@ -92,12 +86,13 @@ th:nth-child(1),
 td:nth-child(1) {
     border: solid black;
     border-width: 1px 1px 1px 1px;
+    padding: 0;
 }
 
 
 td:nth-child(2) {
-    border: solid black;
     border-width: 1px 1px 1px 1px;
+    padding: 10px 10px;
 }
 
 th:nth-child(3),
