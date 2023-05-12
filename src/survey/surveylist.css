@@ -23,6 +23,18 @@
 .survey_box {
     display: flex;
     justify-content: center;
-    align-items: row;
+    align-items: center;
     flex-direction: column
+}
+
+.survey_box p {
+    cursor: pointer;
+}
+
+.survey_box p:hover {
+    transform: scale(1.5)
+}
+
+.survey_box img {
+    height: 20px;
 }
