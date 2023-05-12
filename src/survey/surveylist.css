@@ -96,33 +96,33 @@ td {
 th:nth-child(1),
 td:nth-child(1) {
     border: solid black;
-    border-width: 1px 0px 1px 1px;
+    border-width: 1px 0px 1px 1px !important;
     text-align: center;
 }
 
 
 td:nth-child(2) {
     border: solid black;
-    border-width: 1px 0px 1px 0px;
+    border-width: 1px 0px 1px 0px !important;
 }
 
 th:nth-child(3),
 td:nth-child(3) {
     border: solid black;
-    border-width: 1px 0px 1px 0px;
+    border-width: 1px 0px 1px 0px !important;
     text-align: center;
 }
 
 th:nth-child(4),
 td:nth-child(4) {
     border: solid black;
-    border-width: 1px 0px 1px 0px;
+    border-width: 1px 0px 1px 0px !important;
     text-align: center;
 }
 
 th:nth-child(5),
 td:nth-child(5) {
     border: solid black;
-    border-width: 1px 1px 1px 0px;
+    border-width: 1px 1px 1px 0px !important;
     text-align: center;
 }

@@ -67,36 +67,36 @@
 
 /* everything under this are table related */
 
-table {
+.questionlist_table table {
     border-collapse: collapse;
 }
 
-th {
+.questionlist_table th {
     font-size: 25px;
 }
 
-th,
-td {
+.questionlist_table th,
+.questionlist_table td {
     padding: 0;
     font-weight: 600;
 }
 
-th:nth-child(1),
-td:nth-child(1) {
+.questionlist_table th:nth-child(1),
+.questionlist_table td:nth-child(1) {
     border: solid black;
     border-width: 1px 1px 1px 1px;
     padding: 0;
 }
 
 
-td:nth-child(2) {
+.questionlist_table td:nth-child(2) {
     border: solid black;
     border-width: 1px 1px 1px 1px;
     padding: 10px 10px;
 }
 
-th:nth-child(3),
-td:nth-child(3) {
+.questionlist_table th:nth-child(3),
+.questionlist_table td:nth-child(3) {
     border: solid black;
     border-width: 1px 1px 1px 0px !important;
 }

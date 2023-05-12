@@ -12,7 +12,7 @@ function modifyQuestion() {
 
     console.log('dit is' + question.options)
     return (
-        <div>
+        <div className="questionlist_table">
             <h1> Vragenlijst </h1>
             <table width='100%'>
                 <tr>
