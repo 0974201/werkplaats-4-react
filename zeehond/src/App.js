@@ -4,13 +4,13 @@ import { View, Text, FlatList } from 'react-native';
 import './App.css';
 
 function App() {
-
+  const [release_year, setYear] = useState('');
+  const [release_name, setName] = useState('');
   const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch('http://127.0.0.1:81/test_gaem')
-    .then(response => response.json())
-    .then(data => setData(data))
+    .then(response => setData(response.data))
     .catch(error => console.error(error));
   },[]);
 

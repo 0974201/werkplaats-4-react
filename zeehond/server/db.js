@@ -18,7 +18,8 @@ function db(){
 }
 
 function createDB(){
-  let new_db = new sqlite3.Database("./database/test_date.db", (error) => {
+  const new_file = path.resolve(__dirname, "./database/test_date.db");
+  let new_db = new sqlite3.Database(new_file, (error) => {
     if(error) {
       return console.error(error);
     }

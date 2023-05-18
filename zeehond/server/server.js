@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const db = require('./db.js') // connectie met db
+const routes = require('./routes/route.js'); //routes
 
 const app = express();
 
@@ -16,6 +17,9 @@ app.use(compression()); // dit doet iets
 app.get("/", function(req, res){
   res.send('hœm');
 });
+
+app.use('/tezt', routes);
+
 
 app.get("/aaaa", function(req, res){
   res.type('json');
