@@ -1,12 +1,17 @@
 const express = require('express'); // server shit
 const bodyParser = require("body-parser");
-//const cors = require('cors');
-const db = require('./database/db.js') // connectie met db
+const cors = require('cors');
+const helmet = require('helmet');
+const compression = require('compression');
+const db = require('./db.js') // connectie met db
 
 const app = express();
 
-//app.use(bodyParser.json(), cors()); // parse json
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // parse json
+app.use(bodyParser.urlencoded({ extended: false })); // kijkt naar content-type en of t matcht
+app.use(helmet()); // html headers
+app.use(cors()); 
+app.use(compression()); // dit doet iets
 
 app.get("/", function(req, res){
   res.send('hœm');

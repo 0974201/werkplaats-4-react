@@ -1,5 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
-const db_file = "./database/db/test.db";
+const path = require('node:path');
+const db_file = path.resolve(__dirname, "./database/test.db");
 
 function db(){
   const db = new sqlite3.Database(db_file, sqlite3.OPEN_READWRITE, (error) => {
@@ -13,13 +14,13 @@ function db(){
       console.info("yo");
     }
   });
-  return db
+  return db;
 }
 
 function createDB(){
-  let new_db = new sqlite3.Database("./database/db/test_data.db", (error) => {
+  let new_db = new sqlite3.Database("./database/test_date.db", (error) => {
     if(error) {
-      return console.error("shit borked");
+      return console.error(error);
     }
     createTables(new_db);
   });
