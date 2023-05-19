@@ -22,7 +22,5 @@ exports.getGames = async (req, res) => {
   });
 }
 
-//exports.getBirb = getBirb();
-//exports. = getGaem();
 //module.exports = {getBirb(), getGaem()};
 module.exports.getGaem = getGaem;

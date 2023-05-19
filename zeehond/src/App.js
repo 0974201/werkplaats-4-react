@@ -2,19 +2,39 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 
 import './App.css';
+import { response } from 'express';
 
 function App() {
-  const [release_year, setYear] = useState('');
-  const [release_name, setName] = useState('');
+  //const [release_year, setYear] = useState('');
+  //const [release_name, setName] = useState('');
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:81/test_gaem')
-    .then(response => setData(response.data))
+    fetch('http://127.0.0.1:81/test_gaem',{
+      'methods':'GET',
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(response => setData(response))
     .catch(error => console.error(error));
   },[]);
 
-  return (
+  const Lijst = (props) => {
+    return (
+      <div>
+        { props.data && props.data.map(data => {
+          <ul>
+            <li>{ data.release_year }</li>
+            <li>{ data.release_name}</li>
+          </ul>
+        })}
+      </div>
+    )
+  }
+
+  /*return (
     <div className="App">
       <View>
         <FlatList>
@@ -24,7 +44,7 @@ function App() {
         </FlatList>
       </View>
     </div>
-  );
+  );*/
 }
 
 export default App;
