@@ -1,8 +1,8 @@
 import './survey.css'
 import React, {useState} from "react";
 
-export default function Survey2({questionsArray}) {
-    const [answeredArray, setAnsweredArray] = useState(questionsArray.map(question => {return {...question, answer: 'hi'}}))
+export default function Survey2({surveyArray}) {
+    const [answeredArray, setAnsweredArray] = useState(surveyArray.questions.map(question => {return {...question, answer: 'hi'}}))
     const [questionShown, setQuestionShow] = useState(0)
 
     const questionList = answeredArray.map((question, questionIndex) => {
@@ -36,6 +36,9 @@ export default function Survey2({questionsArray}) {
                     )
                 default:
                     console.log("Wrong type")
+                    return (
+                        <div><h3>Wrong type</h3></div>
+                    )
             }
         }
     )
@@ -52,21 +55,26 @@ export default function Survey2({questionsArray}) {
         setAnsweredArray(inBetweenArray)
     }
     return (
-        <div className={"survey"}>
-            <>
-                <h3>Vraag {questionShown+1}/{questionList.length}</h3>
-                {questionList[questionShown]}
+            <div className={"survey"}>
+                <h1>{surveyArray.title}</h1>
+                {questionShown <= 0 &&
+                    <p>{surveyArray.description}</p>
+                }
+                {questionShown > 0 &&
+                    <>
+                        <h3>Vraag {questionShown}/{questionList.length}</h3>
+                        {questionList[questionShown-1]}
+                    </>
+                }
+
                 <div className={'navigation'}>
                     {questionShown > 0 &&
-                        <button className={'prev'} onClick={() => setQuestionShow(questionShown-1)}>Vorige vraag</button>
+                        <button className={'prev'} onClick={() => setQuestionShow(questionShown-1)}>Vorige</button>
                     }
-                    {questionShown+1 < answeredArray.length &&
-                        <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende vraag</button>
+                    {questionShown < answeredArray.length &&
+                        <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende</button>
                     }
                 </div>
-
-
-            </>
-        </div>
+            </div>
     )
 }

@@ -47,6 +47,16 @@ export let questions = [
         order: 3
     }
 ]
+
+export let survey = {
+        title: "Waar hou je van?",
+        description: "Dit is een vragen lijst waar in we je vragen gaan stellen over dingen waar je van houd.",
+        questions: questions,
+        anonymity: true
+    }
+
+
+
 /* Just testing.. */
 export let surveys = [
     {
@@ -93,9 +103,9 @@ function App() {
                         <Route path={'/create'} element={<CreateSurvey />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
-                        <Route path='/question' element={<ChangeQuestion question={questions} />} />
+                        <Route path='/question' element={<ChangeQuestion question={survey} />} />
                         <Route path='/question/:id' element={<ChangeQuestion question={questions} />} />
-                        <Route path={'/survey'} element={<Survey2 questionsArray={questions} />} />
+                        <Route path={'/survey'} element={<Survey2 surveyArray={survey} />} />
                         <Route />
                         <Route />
                     </Routes>
