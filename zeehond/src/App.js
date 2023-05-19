@@ -24,12 +24,13 @@ function App() {
   const Lijst = (props) => {
     return (
       <div>
-        { props.data && props.data.map(data => {
-          <ul>
-            <li>{ data.release_year }</li>
-            <li>{ data.release_name}</li>
-          </ul>
-        })}
+        <p>hi</p>
+        {/*{ props.data && props.data.map(data => {*/}
+        {/*  <ul>*/}
+        {/*    <li>{ data.release_year }</li>*/}
+        {/*    <li>{ data.release_name}</li>*/}
+        {/*  </ul>*/}
+        {/*})}*/}
       </div>
     )
   }

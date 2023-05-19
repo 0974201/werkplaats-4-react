@@ -1,0 +1,25 @@
+.survey {
+    background-color: #8dafe2;
+    border-radius: 5px;
+    width: available;
+    height: fit-content;
+    padding: 10px;
+    margin: 10px;
+}
+
+.survey ul {
+    list-style: none;
+}
+
+.survey textarea {
+    height: 200px;
+    width: 400px;
+}
+
+.navigation .prev {
+    float: left;
+}
+
+.navigation .next {
+    float: right;
+}
