@@ -25,7 +25,7 @@ export default function CreateSurvey() {
             .then(response => setData(response))
             .catch(error => console.error(error));
     },[]);
-    console.log(data)
+    console.log(data[0].release_name)
 
     SaveToSession("survey", JSON.stringify(surveyArray))
     function onLoadSurvey() {
@@ -217,7 +217,9 @@ export default function CreateSurvey() {
 
     return (
         <div className={'container__create_survey'}>
-            <div>{data.length}hi</div>
+            <div>{data.map(info => (
+                <p>{info.release_name}</p>
+            ))}</div>
             <div className={'box'}>
                 <div className={'create'}>
                     <h2>Geef extra informatie</h2>
