@@ -5,7 +5,7 @@ export default function DbTest() {
   const [dbdata, setData] = useState([]);
   
   useEffect(() => {
-    fetch('http://127.0.0.1:81/test_games',{
+    fetch('http://127.0.0.1:81/test_birb',{
       'methods':'GET',
       headers: {
         'Content-Type':'application/json'
@@ -19,8 +19,8 @@ export default function DbTest() {
   console.log(dbdata[2]);
   const lijst = dbdata.map(data => 
         <p key={data.id}>
-          <i>{data.release_year}</i> &nbsp;
-          <b>{data.release_name}</b>
+          <i>{data.latijnse_naam}</i> &nbsp;
+          <b>{data.naam}</b>
         </p>);
 
   return(
