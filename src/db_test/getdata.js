@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-export default function DbTest() {
+export default function GetData() {
   const [dbdata, setData] = useState([]);
   
   useEffect(() => {
