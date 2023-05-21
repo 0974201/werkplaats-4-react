@@ -1,7 +1,6 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import Survey2 from '../survey/survey'
-import {SaveToSession, GetFromSession, RemoveFromSession} from "../universal/session_storage";
+import { useState } from "react";
+import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
 import {questions} from "../index";
@@ -13,23 +12,11 @@ export default function CreateSurvey() {
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
     console.log(surveyArray)
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        fetch('http://127.0.0.1:81/test_gaem',{
-            'methods':'GET',
-            headers: {
-                'Content-Type':'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then(response => setData(response))
-            .catch(error => console.error(error));
-    },[]);
-    console.log(data[0].release_name)
 
-    SaveToSession("survey", JSON.stringify(surveyArray))
+    sessionStorage.setItem("createSurvey", JSON.stringify(surveyArray))
+
     function onLoadSurvey() {
-        if (JSON.parse(GetFromSession("survey")) === null) {
+        if (JSON.parse(sessionStorage.getItem("createSurvey")) === null) {
             const arrayToSurvey = {
                 title: "Titel",
                 description: "Beschrijving",
@@ -40,19 +27,17 @@ export default function CreateSurvey() {
             }
             return(arrayToSurvey)
         } else {
-
-            const arrayToSurvey = JSON.parse(GetFromSession("survey"))
+            const arrayToSurvey = JSON.parse(sessionStorage.getItem("createSurvey"))
             return(arrayToSurvey)
         }
     }
 
     function onLoadArray() {
-        if (JSON.parse(GetFromSession("survey")) === null) {
+        if (JSON.parse(sessionStorage.getItem("createSurvey")) === null) {
             const arrayToSurvey = [{ type: "Open", id: nextOrder++, question: 'maak open vraag', options: null, order: null }]
             return(arrayToSurvey)
         } else {
-            const arrayToSurvey = JSON.parse(GetFromSession("survey"))
-
+            const arrayToSurvey = JSON.parse(sessionStorage.getItem("createSurvey"))
             return(arrayToSurvey.questions)
         }
     }
@@ -178,7 +163,7 @@ export default function CreateSurvey() {
             <div className={'create'}>
                 <h2>Preview</h2>
                 {questionArray.length > 0 &&
-                    <Survey2 surveyArray={surveyArray} />
+                    <Survey surveyArray={surveyArray} />
                 }
             </div>
         )
@@ -217,9 +202,6 @@ export default function CreateSurvey() {
 
     return (
         <div className={'container__create_survey'}>
-            <div>{data.map(info => (
-                <p>{info.release_name}</p>
-            ))}</div>
             <div className={'box'}>
                 <div className={'create'}>
                     <h2>Geef extra informatie</h2>
@@ -258,7 +240,7 @@ export default function CreateSurvey() {
                             onChange={e => replaceSurveyItem('anonymity', e.target.checked)}
                         />
                     </label>
-                    <button onClick={() => RemoveFromSession("survey")}>reset</button>
+                    <button onClick={() => sessionStorage.removeItem("createSurvey")}>reset</button>
                 </div>
                 <AddButtons />
             </div>

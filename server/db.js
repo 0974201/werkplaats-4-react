@@ -11,14 +11,14 @@ function db(){
     } else if(error) {
       return console.error(error.message);  
     } else {
-      console.info("yo");
+      console.info("database zegt hoi :)");
     }
   });
   return db;
 }
 
 function createDB(){
-  const new_file = path.resolve(__dirname, "./database/test_date.db");
+  const new_file = path.resolve(__dirname, "./database/test_data.db");
   let new_db = new sqlite3.Database(new_file, (error) => {
     if(error) {
       return console.error(error);

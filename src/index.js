@@ -9,8 +9,9 @@ import { Home } from './pages/home';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
 import { SurveyList } from './survey/surveylist';
-import Survey2 from './survey/survey';
+import Survey from './survey/survey';
 import CreateSurvey from "./create_survey/create_survey";
+import DbTest from './db_test/dbtest';
 import './css/App.css';
 
 /* The App is what we throw everything inside. 
@@ -97,15 +98,16 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/*' element={<NotFound />} />
-                        <Route path='/surveylist' element={<SurveyList survey={surveys} />} /> {/* Covers the survey parts */}
+                        <Route path='/surveylist' element={<SurveyList CreateSurvey={surveys} />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         {/* <Route path='/survey/:id' element={<Survey />} /> */}
                         <Route path={'/create'} element={<CreateSurvey />} />
-                        <Route index element={<ModifyQuestion />} />
+                        <Route index element={<ModifyQuestion />} /> 
                         <Route path='/questionlist' element={<ModifyQuestion />} />
                         <Route path='/question' element={<ChangeQuestion question={survey} />} />
                         <Route path='/question/:id' element={<ChangeQuestion question={questions} />} />
-                        <Route path={'/survey'} element={<Survey2 surveyArray={survey} />} />
+                        <Route path={'/survey'} element={<Survey surveyArray={survey} />} />
+                        <Route path='/dbtest' element={<DbTest />} />
                         <Route />
                         <Route />
                     </Routes>
