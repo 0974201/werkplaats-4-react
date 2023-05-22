@@ -1,14 +1,23 @@
 const express = require('express'); // server shit
 const cors = require('cors');
+const bodyParser = require('body-parser')
 const db = require('./db.js') // connectie met db
 
 const app = express();
 
 app.use(cors()); // allow cross orgin req
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.get("/", function(req, res){
   res.send('nothing to see here');
 });
+
+app.post('/api/saveNewSurvey', bodyParser.json(), function (req, res) {
+  console.log(req.body)
+  db.all('INSERT INTO survey (description, open_date, close_date) VALUES (?, ?, ?)', (req.body.description, req.body.openDate, req.body.closeDate))
+  res.send('saved')
+})
 
 app.get("/test", function(req, res){
   //res.send('test'); < dit zorgde er voor dat het de hele tijd borkte. je kan maar 1x een send of json dingetje hebben.

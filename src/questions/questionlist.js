@@ -5,7 +5,7 @@ import { questions } from '../index.js'
 import { Question } from '../survey/survey'
 import { Link } from 'react-router-dom';
 
-function modifyQuestion() {
+function ModifyQuestion() {
     const [name, setName] = useState('');
     const [question, setQuestion] = useState(questions);
     let nextId = 0
@@ -44,4 +44,4 @@ function modifyQuestion() {
     )
 }
 
-export default modifyQuestion
+export default ModifyQuestion

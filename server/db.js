@@ -4,7 +4,7 @@ const db_file = path.resolve(__dirname, "./database/test.db");
 
 function db(){
   const db = new sqlite3.Database(db_file, sqlite3.OPEN_READWRITE, (error) => {
-    if(error && error.code == "SQLITE_CANTOPEN") {
+    if(error && error.code === "SQLITE_CANTOPEN") {
       console.info("creating new database");
       createDB();
       return;
