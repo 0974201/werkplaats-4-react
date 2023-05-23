@@ -15,7 +15,28 @@ app.get("/", function(req, res){
 
 app.post('/api/saveNewSurvey', bodyParser.json(), function (req, res) {
   console.log(req.body)
-  db.all('INSERT INTO survey (description, open_date, close_date) VALUES (?, ?, ?)', (req.body.description, req.body.openDate, req.body.closeDate))
+
+  db.run(
+      "INSERT INTO survey (description, open_date, close_date) VALUES (?, ?, ?)",
+      [req.body.description, req.body.openDate, req.body.closeDate],
+      function(err){
+        if (err) {
+          console.log(err.message)
+        } else {
+          console.log(this)
+        }
+
+      })
+  db.close()
+  // req.body.questions.forEach(function(question){
+  //   if (question.type === 'Open'){
+  //
+  //   }else if (question.type === 'MultipleChoice') {
+  //
+  //   }else{
+  //     console.log('wrong type of question')
+  //   }
+  // })
   res.send('saved')
 })
 
