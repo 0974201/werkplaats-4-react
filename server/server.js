@@ -26,8 +26,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), function (req, res) {
           console.log(this)
         }
 
-      })
-  db.close()
+      }) //db.close() weggehaald omdat het anders de db afsluit voor andere bewerkingen.
   // req.body.questions.forEach(function(question){
   //   if (question.type === 'Open'){
   //
