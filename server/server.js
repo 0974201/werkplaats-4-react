@@ -60,4 +60,9 @@ app.get("/test_random", function(req, res){
   });
 });
 
+app.post("test_birb/post", function(req,res){
+  db.prepare('INSERT INTO vogels naam, latijnse_naam VALUES ?,?', [naam, latnaam]);
+});
+
+
 app.listen(81); // start server
