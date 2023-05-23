@@ -52,7 +52,7 @@ app.get("/test", function(req, res){
   });
 });
 
-app.get("/test_birb", function(req, res){
+/*app.get("/test_birb", function(req, res){
   res.type('json');
   db.all('SELECT * FROM vogels', (err, row) => {
     if (err){
@@ -83,6 +83,6 @@ app.get("/test_random", function(req, res){
     res.json(row);
     console.log(row);
   });
-});
+});*/
 
 app.listen(81); // start server
