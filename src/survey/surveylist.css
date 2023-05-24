@@ -16,7 +16,6 @@
     align-content: row;
     margin-top: -25px;
     z-index: 1;
-    border-style: ridge;
     background-color: #fff;
 }
 
@@ -25,28 +24,31 @@
 /* No overflow of elements when we hover over the p text*/
 .survey_box {
     overflow: hidden;
+    margin-right: 20px;
 }
 
 /* Flexbox the p elements with some padding so we can click on the link outside just the text */
-.survey_box p {
+.survey_item {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    cursor: pointer;
+    align-items: flex-end;
     margin: 0;
-    padding: 10px 20px;
+    padding: 0px 10px;
+}
+
+.survey_item link {
+    cursor: pointer;
 }
 
 /* Hover to increase p element by 10% and change colour to grey to indicate user pointing at it. */
+
 .survey_box p:hover {
     transform: scale(1.1);
     background-color: rgba(0, 0, 0, .1);
 }
 
-.survey_box p img {
+.survey_item img {
     height: 30px;
-    margin-right: 150px;
-
 }
 
 .survey_box p:nth-child(1) img,

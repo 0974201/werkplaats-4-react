@@ -293,7 +293,7 @@ export default function CreateSurvey() {
                     ))}
                 </div>
                 <div className={'create'}>
-                    <button onClick={() => saveToDB(surveyArray, 'api/saveNewSurvey')}>Opslaan</button>
+                    <button onClick={() => saveToDB(surveyArray, 'saveNewSurvey')}>Opslaan</button>
                 </div>
             </div>
 

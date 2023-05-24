@@ -15,30 +15,39 @@ export function SurveyList() {
         return (
             <div className="box1">
                 <div className="survey_box">
-                    <Link to='/create' className='link'>
+                    <div className="survey_item">
+                        <Link to='/create' className='link'>
+                            <p>
+                                <img src="https://i.imgur.com/5jk9Agu.png" alt='Red plus sign' ></img>
+                                Create Survey</p>
+                        </Link>
+                    </div>
+                    <div className="survey_item">
                         <p>
-                            <img src="https://i.imgur.com/5jk9Agu.png" alt='Red plus sign' ></img>
-                            Create Survey
+                            <img src="https://i.imgur.com/5JQGokB.png" alt='Stickman inspecting'></img>
+                            Under Review
                         </p>
-                    </Link>
-                    <p>
-                        <img src="https://i.imgur.com/5JQGokB.png" alt='Stickman inspecting'></img>
-                        Under Review
-                    </p>
-                    <p>
-                        <img src="https://i.imgur.com/4hJ5Kcn.png" alt='Red lightning strike icon'></img>
-                        Open
-                    </p>
-                    <p>
-                        <img src="https://i.imgur.com/JdLjn2N.png" alt='Green check mark'></img>
-                        Closed
-                    </p>
-                    <Link to='/surveylist' className='link'>
+                    </div>
+                    <div className="survey_item">
                         <p>
-                            <img className='Survey_icon' src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
-                            Show All
+                            <img src="https://i.imgur.com/4hJ5Kcn.png" alt='Red lightning strike icon'></img>
+                            Open
                         </p>
-                    </Link>
+                    </div>
+                    <div className="survey_item">
+                        <p>
+                            <img src="https://i.imgur.com/JdLjn2N.png" alt='Green check mark'></img>
+                            Closed
+                        </p>
+                    </div>
+                    <div className="survey_item">
+                        <Link to='/surveylist' className='link'>
+                            <p>
+                                <img className='Survey_icon' src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
+                                Show All
+                            </p>
+                        </Link>
+                    </div>
                 </div>
             </div>
         )
@@ -94,7 +103,6 @@ export function SurveyList() {
                     </table>
                 </div>
                 <div className="box3">
-                    hallo
                 </div>
             </div>
         </div>

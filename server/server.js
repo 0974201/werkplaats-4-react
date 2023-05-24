@@ -102,6 +102,20 @@ app.get("/test_question", function (req, res) {
     res.send(JSON.stringify(row));
   });
 });
+
+app.post('/api/questions', bodyParser.json(), function (req, res) {
+  console.log(req.body)
+
+  res.type('json');
+  db.run('UPDATE questions SET question = ? where id = ?', [question, questionId],
+    function (err) {
+      console.log(err.message);
+    },
+    console.log('hey')
+
+  )
+});
+
 /*app.get("/test_birb", function(req, res){
   res.type('json');
   db.all('SELECT * FROM vogels', (err, row) => {

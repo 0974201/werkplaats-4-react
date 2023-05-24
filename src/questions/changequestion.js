@@ -3,6 +3,7 @@ import './questions.css';
 import { useParams, Link } from 'react-router-dom';
 import { questions } from '../index.js'
 import SwitchAround from '../universal/switch_around.js'
+import { saveToDB } from '../universal/manipulateDB';
 
 
 export default function ChangeQuestion({ question }) {
@@ -18,13 +19,13 @@ export default function ChangeQuestion({ question }) {
 
     console.log(options)
     console.log(id)
-    // function SaveQuestion() {
-    //     const saveArray = {
-    //         question: questionvalue,
-    //         options: 
-
-    //     }
-    // }
+    function SaveQuestion() {
+        const saveArray = {
+            question: questionvalue,
+            options: options
+        }
+        saveToDB(saveArray, 'questions');
+    }
     /* changes the state of div radio_box from false to true to allow input */
     const handleClick = () => {
         setIsEditing(true);
@@ -80,15 +81,11 @@ export default function ChangeQuestion({ question }) {
                             <div onClick={handleClick} className='radio_box'>
                                 <div className='radio_div' key={option}>
 
-                                    {isEditing ? (
-                                        <input className='input'
-                                            type='text'
-                                            defaultValue={option}
-                                            onChange={event => replaceOptions(optionIndex, event.target.value)}>
-                                        </input>
-                                    ) : (
-                                        <label>{option}</label>
-                                    )}
+                                    <input className='input'
+                                        type='text'
+                                        defaultValue={option}
+                                        onChange={event => replaceOptions(optionIndex, event.target.value)}>
+                                    </input>
                                     <button onClick={() => switchOptions(options, optionIndex, optionIndex - 1)}>Up</button>
                                     <button onClick={() => switchOptions(options, optionIndex, optionIndex + 1)}>Down</button>
                                 </div>
@@ -120,7 +117,7 @@ export default function ChangeQuestion({ question }) {
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
                     <button className='button' onClick={() => handleModify(question[id].id, questionvalue)}>Aanpassen</button>
-                    <button className='button'>Opslaan</button>
+                    <button className='button' onClick={() => SaveQuestion()}>Opslaan</button>
                 </div>
             </div>
 
