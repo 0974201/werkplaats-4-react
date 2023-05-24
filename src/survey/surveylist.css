@@ -25,6 +25,7 @@
 .survey_box {
     overflow: hidden;
     margin-right: 20px;
+    margin-top: 20px;
 }
 
 /* Flexbox the p elements with some padding so we can click on the link outside just the text */
@@ -42,17 +43,18 @@
 
 /* Hover to increase p element by 10% and change colour to grey to indicate user pointing at it. */
 
-.survey_box p:hover {
+.survey_item span:hover {
     transform: scale(1.1);
     background-color: rgba(0, 0, 0, .1);
 }
 
 .survey_item img {
     height: 30px;
+    margin-right: 5px;
 }
 
-.survey_box p:nth-child(1) img,
-.survey_box p:nth-child(2) img {
+.survey_box span:nth-child(1) img,
+.survey_box span:nth-child(2) img {
     height: 25px;
 }
 

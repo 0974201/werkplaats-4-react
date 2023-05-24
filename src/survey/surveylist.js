@@ -17,35 +17,36 @@ export function SurveyList() {
                 <div className="survey_box">
                     <div className="survey_item">
                         <Link to='/create' className='link'>
-                            <p>
+                            <span>
                                 <img src="https://i.imgur.com/5jk9Agu.png" alt='Red plus sign' ></img>
-                                Create Survey</p>
+                                <span >Create Survey</span>
+                            </span>
                         </Link>
                     </div>
                     <div className="survey_item">
-                        <p>
-                            <img src="https://i.imgur.com/5JQGokB.png" alt='Stickman inspecting'></img>
-                            Under Review
-                        </p>
+                        <span>
+                            <img className="survey_img" src="https://i.imgur.com/5JQGokB.png" alt='Stickman inspecting'></img>
+                            <span>Under Review</span>
+                        </span>
                     </div>
                     <div className="survey_item">
-                        <p>
-                            <img src="https://i.imgur.com/4hJ5Kcn.png" alt='Red lightning strike icon'></img>
-                            Open
-                        </p>
+                        <span className="surveybox_content">
+                            <img className="survey_img" src="https://i.imgur.com/4hJ5Kcn.png" alt='Red lightning strike icon'></img>
+                            <span>Open Surveys</span>
+                        </span>
                     </div>
                     <div className="survey_item">
-                        <p>
-                            <img src="https://i.imgur.com/JdLjn2N.png" alt='Green check mark'></img>
-                            Closed
-                        </p>
+                        <span className="surveybox_content">
+                            <img className="survey_img" src="https://i.imgur.com/JdLjn2N.png" alt='Green check mark'></img>
+                            <span>Closed Surveys</span>
+                        </span>
                     </div>
                     <div className="survey_item">
                         <Link to='/surveylist' className='link'>
-                            <p>
+                            <span>
                                 <img className='Survey_icon' src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
-                                Show All
-                            </p>
+                                <span>Show All</span>
+                            </span>
                         </Link>
                     </div>
                 </div>
