@@ -7,17 +7,16 @@ import '../css/header.css'
 function Header() {
     return (
         <nav>
-            <div classname='header'>
+            <div className='header'>
                 <div className='header_information'>
                     <Link to='/'>
                         <img className="SVG" alt={"Logo"} width="208" height="50" src="https://www.dyflexis.com/wp-content/uploads/2019/04/logo-dyflexis-2.svg"></img>
                     </Link>
                     <div className='header_links'>
                         <Link to='/' className='link'>Home</Link>
-                        <Link to='./About' className='link' >About us</Link>
-                        <Link to='./contact' className='link'>Contact Us</Link>
-                        <Link to='./survey' className='link'>Survey</Link>
-                        <Link to='./questionlist' className='link'>Question List</Link>
+                        <Link to='./survey' className='link'>Enquête</Link>
+                        <Link to='./surveylist' className='link'>Enquêtelijst</Link>
+                        <Link to='./questionlist' className='link'>Vragenlijst</Link>
                     </div>
                     <div className='nav_login'>
                         <div className='login_button'>

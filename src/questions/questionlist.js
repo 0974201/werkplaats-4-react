@@ -12,22 +12,29 @@ function modifyQuestion() {
 
     console.log('dit is' + question.options)
     return (
-        <div>
-            <h1> Question List </h1>
+        <div className="questionlist_table">
+            <h1> Vragenlijst </h1>
             <table width='100%'>
                 <tr>
                     <th>Id</th>
-                    <th>Question</th>
-                    <th>Modify</th>
+                    <th>Vraag</th>
                 </tr>
                 {question.map(item => (
                     <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td>{item.question}</td>
                         <td>
-                            <Link to={`/question/${item.id}`} className='link'><button>Modify</button></Link>
-                            <button className='button' onClick={() => setQuestion(question.filter(q =>
-                                q.id !== item.id))}>Delete</button>
+                            {item.id}
+                        </td>
+                        <td className='question__grey'>
+                            <Link to={`/question/${item.id}`} className='link'>
+                                {item.question}
+                            </Link>
+                        </td>
+                        <td>
+                            <button className='close_button' onClick={() => setQuestion(question.filter(q =>
+                                q.id !== item.id))}>
+                                <img src="https://i.imgur.com/AhBVm9H.png" height="20px" alt="Red X Button">
+                                </img>
+                            </button>
                         </td>
                     </tr>
                 ))}
@@ -37,8 +44,4 @@ function modifyQuestion() {
     )
 }
 
-
 export default modifyQuestion
-
-/* I might still need this for question page 
-{/* <button className='button' onClick={() => handleModify(item.id, name)}>Modify</button> */ 

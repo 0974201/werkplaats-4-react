@@ -1,7 +1,18 @@
-.container {
+.container__create_survey {
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: space-evenly;
+    width: 80vw;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.info {
+    background-color: lightsteelblue;
 }
 
 .create {
@@ -9,13 +20,45 @@
     flex-direction: column;
     background-color: lightsteelblue;
     border-radius: 5px;
-    width: fit-content;
+    width: 100%;
+    max-height: 85vh;
     padding: 10px;
     margin: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: unset;
+    -ms-overflow-style: none;  /* hide scrollbar for IE and Edge */
+    scrollbar-width: none;  /* hide scrollbar for Firefox */
+}
+
+.create::-webkit-scrollbar {
+    width: 10px;
+
+}
+
+.create::-webkit-scrollbar-track {
+    background: lightsteelblue;
+    border-radius: 5px;
+}
+
+.create::-webkit-scrollbar-thumb {
+    background: #8dafe2;
+    border-radius: 5px;
 }
 
 .create ul {
     list-style: none;
+}
+
+.question {
+    background-color: #8dafe2;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.question_input {
+    width: fit-content;
 }
 
 .pop_up_container {

@@ -1,21 +1,53 @@
 import React from "react";
 import { useState } from "react";
-import Survey2 from '../survey/survey'
+import Survey from '../survey/survey'
+import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
 import {questions} from "../index";
 
 let nextOrder = 0
 
 export default function CreateSurvey() {
-    const [questionArray, setQuestionArray] = useState([])
+    const [questionArray, setQuestionArray] = useState(onLoadArray())
+    const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
-    console.log(questionArray)
+    console.log(surveyArray)
+
+    sessionStorage.setItem("createSurvey", JSON.stringify(surveyArray))
+
+    function onLoadSurvey() {
+        if (JSON.parse(sessionStorage.getItem("createSurvey")) === null) {
+            const arrayToSurvey = {
+                title: "Titel",
+                description: "Beschrijving",
+                openDate: "",
+                closeDate: "",
+                questions: questionArray,
+                anonymity: true
+            }
+            return(arrayToSurvey)
+        } else {
+            const arrayToSurvey = JSON.parse(sessionStorage.getItem("createSurvey"))
+            return(arrayToSurvey)
+        }
+    }
+
+    function onLoadArray() {
+        if (JSON.parse(sessionStorage.getItem("createSurvey")) === null) {
+            const arrayToSurvey = [{ type: "Open", id: nextOrder++, question: 'maak open vraag', options: null, order: null }]
+            return(arrayToSurvey)
+        } else {
+            const arrayToSurvey = JSON.parse(sessionStorage.getItem("createSurvey"))
+            return(arrayToSurvey.questions)
+        }
+    }
 
     function addToArray(inBetweenArray) {
         const newArray = inBetweenArray.map((question, questionIndex) => {
-            return {...question, id: questionIndex}
+            return { ...question, id: questionIndex }
         })
         setQuestionArray(newArray)
+        setSurveyArray({...surveyArray, questions: newArray})
     }
 
     function replaceQuestion(questionIndex, value) {
@@ -42,15 +74,43 @@ export default function CreateSurvey() {
         addToArray(inBetweenArray)
     }
 
-    function switchQuestions(array, fromIndex, toIndex) {
-            const inBetweenArray = switchAround(array, fromIndex, toIndex)
-            addToArray(inBetweenArray)
+    function replaceSurveyItem(item, value) {
+        switch (item) {
+            case 'title':
+                setSurveyArray({...surveyArray, title: value})
+                break
+            case 'description':
+                setSurveyArray({...surveyArray, description: value})
+                break
+            case 'openDate':
+                setSurveyArray({...surveyArray, openDate: value})
+                break
+            case 'closeDate':
+                setSurveyArray({...surveyArray, closeDate: value})
+                break
+            case 'anonymity':
+                if (value === true){
+                    const inBetweenArray = {...surveyArray, anonymity: false}
+                    setSurveyArray(inBetweenArray)
+                } else {
+                    const inBetweenArray = {...surveyArray, anonymity: true}
+                    setSurveyArray(inBetweenArray)
+                }
+                break
+            default:
+                console.log(item + "is not a valid input")
         }
+    }
+
+    function switchQuestions(array, fromIndex, toIndex) {
+        const inBetweenArray = SwitchAround(array, fromIndex, toIndex)
+        addToArray(inBetweenArray)
+    }
 
     function switchOptions(list, fromIndex, toIndex, questionId) {
         const inBetweenArray = questionArray.map(question => {
             if (question.id === questionId) {
-                return { ...question, options: switchAround(list, fromIndex, toIndex)}
+                return { ...question, options: SwitchAround(list, fromIndex, toIndex) }
             } else {
                 return question
             }
@@ -58,40 +118,7 @@ export default function CreateSurvey() {
         addToArray(inBetweenArray)
     }
 
-    function switchAround(array, fromIndex, toIndex) {
-        const questionToMove = array[fromIndex]
-        const questionToShove = array[toIndex]
-
-        if (fromIndex > toIndex && fromIndex !== 0) {
-            return [
-                ...array.slice(0, toIndex),
-                questionToMove,
-                questionToShove,
-                ...array.slice(fromIndex + 1)
-            ]
-        } else if (fromIndex < toIndex && toIndex < array.length) {
-            return [
-                ...array.slice(0, fromIndex),
-                questionToShove,
-                questionToMove,
-                ...array.slice(toIndex + 1)
-            ]
-        } else {
-            return array
-        }
-    }
-
-    function addOpenQuestion() {
-        const inBetweenArray = [...questionArray, {type: "Open", id:nextOrder++, question: 'maak open vraag',options: null, order: null}]
-        addToArray(inBetweenArray)
-    }
-
-    function addMultipleChoiceQuestion() {
-        const inBetweenArray = [...questionArray, {type: "MultipleChoice", id:nextOrder++, question: 'maak multiple choice vraag',options: ['1', '2'], order: null}]
-        addToArray(inBetweenArray)
-    }
-
-    function addExistingQuestion(question) {
+    function addQuestion(question) {
         const inBetweenArray = [...questionArray, question]
         addToArray(inBetweenArray)
     }
@@ -112,7 +139,7 @@ export default function CreateSurvey() {
         const inBetweenArray = questionArray.map(question => {
             if (question.id === questionId && question.options.length > 2) {
                 const newOptions = question.options.filter((value, index) => index !== optionIndex)
-                return { ...question, options: newOptions}
+                return { ...question, options: newOptions }
             } else {
                 return question
             }
@@ -120,15 +147,26 @@ export default function CreateSurvey() {
         addToArray(inBetweenArray)
     }
 
+    function AddButtons() {
+        return (
+            <div className={'create'}>
+                <h2>Selecteer vraag type</h2>
+                <button onClick={() => addQuestion({ type: "Open", id: nextOrder++, question: 'maak open vraag', options: null, order: null })}>Maak open vraag</button>
+                <button onClick={() => addQuestion({ type: "MultipleChoice", id: nextOrder++, question: 'maak multiple choice vraag', options: ['1', '2'], order: null })}>Maak multiple choice vraag</button>
+                <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
+            </div>
+        )
+    }
+
     function Preview() {
-        if (questionArray.length > 0) {
-            return (
-                <div>
-                    <h2>Preview</h2>
-                    <Survey2 questionsArray={questionArray} />
-                </div>
-            )
-        }
+        return (
+            <div className={'create'}>
+                <h2>Preview</h2>
+                {questionArray.length > 0 &&
+                    <Survey surveyArray={surveyArray} />
+                }
+            </div>
+        )
     }
 
     function PopUp() {
@@ -138,22 +176,21 @@ export default function CreateSurvey() {
                     <div className={'pop_up_content'}>
                         <table>
                             <thead>
-                            <tr>
-                                <th>Vraag</th>
-                                <th>Type</th>
-                            </tr>
+                                <tr>
+                                    <th>Vraag</th>
+                                    <th>Type</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {questions.map((question) => (
-                                <tr key={question.id}>
-                                    <td>{question.question}</td>
-                                    <td>{question.type}</td>
-                                    <td><button onClick={() => addExistingQuestion(question)}>Selecteer</button></td>
-                                </tr>
-                            ))}
+                                {questions.map((question) => (
+                                    <tr key={question.id}>
+                                        <td>{question.question}</td>
+                                        <td>{question.type}</td>
+                                        <td><button onClick={() => addQuestion(question)}>Selecteer</button></td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
-
                     </div>
                     <div className={'close'}>
                         <button onClick={() => setButtonState(false)}>X</button>
@@ -164,52 +201,101 @@ export default function CreateSurvey() {
     }
 
     return (
-        <div className={'container'}>
-            <div className={'create'}>
-                {questionArray.map((question, questionIndex) => (
-                    <div key={questionIndex}>
-                        <h3>Vraag {questionIndex + 1}</h3>
-                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex-1)}>Up</button>
-                        <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex+1)}>Down</button>
+        <div className={'container__create_survey'}>
+            <div className={'box'}>
+                <div className={'create'}>
+                    <h2>Geef extra informatie</h2>
+                    <label> Titel
                         <input
-                            placeholder={'maak vraag'}
-                            value={questionArray[questionIndex].question}
-                            onChange={e => replaceQuestion(questionIndex, e.target.value)}
+                            placeholder={'Titel'}
+                            value={surveyArray.title}
+                            onChange={e => replaceSurveyItem('title', e.target.value)}
                         />
+                    </label>
+                    <label>Begin tijd
+                        <input
+                            type={'date'}
+                            value={surveyArray.openDate}
+                            onChange={e => replaceSurveyItem('openDate', e.target.value)}
+                        />
+                    </label>
+                    <label>Eind tijd (optioneel)
+                        <input
+                            type={'date'}
+                            value={surveyArray.closeDate}
+                            onChange={e => replaceSurveyItem('closeDate', e.target.value)}
+                        />
+                    </label>
+                    <label>Beschrijving
+                        <textarea
+                            placeholder={'Beschrijving'}
+                            value={surveyArray.description}
+                            onChange={e => replaceSurveyItem('description', e.target.value)}
+                        ></textarea>
+                    </label>
 
-                        <button onClick={() => (
-                            setQuestionArray(questionArray.filter(question =>
-                                question.id !== questionArray[questionIndex].id)
-                            )
-                        )}>X</button>
-                        {question.type === 'MultipleChoice' &&
-                            <>
-                                <ul>
-                                    {question.options.map((option, optionIndex) => (
-                                        <li key={optionIndex}>
-                                            <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex-1, question.id)}>Up</button>
-                                            <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex+1, question.id)}>Down</button>
-                                            <input
-                                                placeholder={'maak optie'}
-                                                value={option}
-                                                onChange={e => replaceOption(questionIndex,optionIndex, e.target.value)}
-                                            />
-                                            <button onClick={() => (deleteOptionInQuestion(question.id, optionIndex))
-
-                                            }>X</button>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <button onClick={() => addOption(questionIndex)}>Maak multiple choice optie</button>
-                            </>
-                        }
-                    </div>
-                ))}
-                <button onClick={addOpenQuestion}>Maak open vraag</button>
-                <button onClick={addMultipleChoiceQuestion}>Maak multiple choice vraag</button>
-                <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
+                    <label>Deze enquête kan anoniem beantwoord worden
+                        <input
+                            type={'checkbox'}
+                            onChange={e => replaceSurveyItem('anonymity', e.target.checked)}
+                        />
+                    </label>
+                    <button onClick={() => sessionStorage.removeItem("createSurvey")}>reset</button>
+                </div>
+                <AddButtons />
             </div>
-            {/*<Preview />*/}
+
+            <div className={'box'}>
+                <div className={'create'}>
+                    {questionArray.map((question, questionIndex) => (
+                        <div key={questionIndex} className={'question'}>
+                            <h3>Vraag {questionIndex + 1}</h3>
+                            <div className={'question_input'}>
+                                <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex - 1)}>Up</button>
+                                <button onClick={() => switchQuestions(questionArray, questionIndex, questionIndex + 1)}>Down</button>
+                                <input
+                                    placeholder={'maak vraag'}
+                                    value={questionArray[questionIndex].question}
+                                    onChange={e => replaceQuestion(questionIndex, e.target.value)}
+                                />
+
+                                <button onClick={() => (
+                                    setQuestionArray(questionArray.filter(question =>
+                                        question.id !== questionArray[questionIndex].id)
+                                    )
+                                )}>X</button>
+                            </div>
+
+                            {question.type === 'MultipleChoice' &&
+                                <>
+                                    <ul>
+                                        {question.options.map((option, optionIndex) => (
+                                            <li key={optionIndex}>
+                                                <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex - 1, question.id)}>Up</button>
+                                                <button onClick={() => switchOptions(questionArray[questionIndex].options, optionIndex, optionIndex + 1, question.id)}>Down</button>
+                                                <input
+                                                    placeholder={'maak optie'}
+                                                    maxLength={250}
+                                                    value={option}
+                                                    onChange={e => replaceOption(questionIndex, optionIndex, e.target.value)}
+                                                />
+                                                <button onClick={() => (deleteOptionInQuestion(question.id, optionIndex))
+
+                                                }>X</button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <button onClick={() => addOption(questionIndex)}>Maak multiple choice optie</button>
+                                </>
+                            }
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className={'box'}>
+                <Preview />
+            </div>
             {buttonState &&
                 <PopUp />
             }

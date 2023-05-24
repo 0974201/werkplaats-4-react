@@ -1,7 +1,8 @@
 .survey {
-    background-color: lightsteelblue;
+    background-color: #8dafe2;
     border-radius: 5px;
-    width: fit-content;
+    width: available;
+    height: fit-content;
     padding: 10px;
     margin: 10px;
 }
