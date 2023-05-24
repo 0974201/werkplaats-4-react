@@ -4,6 +4,7 @@ import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
 import {questions} from "../index";
+import {saveToDB} from "../universal/manipulateDB";
 
 let nextOrder = 0
 
@@ -290,6 +291,9 @@ export default function CreateSurvey() {
                             }
                         </div>
                     ))}
+                </div>
+                <div className={'create'}>
+                    <button onClick={() => saveToDB(surveyArray, 'api/saveNewSurvey')}>Opslaan</button>
                 </div>
             </div>
 

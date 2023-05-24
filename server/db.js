@@ -1,10 +1,11 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require('node:path');
-const db_file = path.resolve(__dirname, "./database/test.db");
+//const db_file = path.resolve(__dirname, "./database/dummy.db"); // dit is mijn eigen db (suman)
+const db_file = path.resolve(__dirname, "./database/test_data.db"); // dit is voor de vragen
 
 function db(){
   const db = new sqlite3.Database(db_file, sqlite3.OPEN_READWRITE, (error) => {
-    if(error && error.code == "SQLITE_CANTOPEN") {
+    if(error && error.code === "SQLITE_CANTOPEN") {
       console.info("creating new database");
       createDB();
       return;
