@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './questions.css';
 import { useParams, Link } from 'react-router-dom';
 import { questions } from '../index.js'
+import SwitchAround from '../universal/switch_around.js'
 
 
 export default function ChangeQuestion({ question }) {
@@ -12,12 +13,26 @@ export default function ChangeQuestion({ question }) {
     // const [selectedOption, setSelectedOption] = useState('');
     const [radioValue, setRadioValue] = useState('')
     const [questionvalue, setQuestionValue] = useState(question[id].question);
-    console.log(questionvalue)
+    const [options, setOptions] = useState(question[id].options)
 
 
+    console.log(options)
+    console.log(id)
+    // function SaveQuestion() {
+    //     const saveArray = {
+    //         question: questionvalue,
+    //         options: 
+
+    //     }
+    // }
     /* changes the state of div radio_box from false to true to allow input */
     const handleClick = () => {
         setIsEditing(true);
+    }
+
+    function switchOptions(list, fromIndex, toIndex) {
+        const newList = SwitchAround(list, fromIndex, toIndex)
+        setOptions(newList)
     }
 
     /* changes the question to the value that is put in the textarea element */
@@ -34,16 +49,16 @@ export default function ChangeQuestion({ question }) {
     };
 
     /* does nothing right now */
-    function ReplaceRadio(radioIndex, value) {
-        const newRadio = questionlist.map((question, i) => {
+    function replaceOptions(radioIndex, value) {
+        const newOption = options.map((option, i) => {
             if (i === radioIndex) {
-                question.option = value
-                return question
+                option = value
+                return option
             } else {
-                return question
+                return option
             }
         })
-        setRadioValue(newRadio)
+        setOptions(newOption)
     }
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
@@ -60,23 +75,22 @@ export default function ChangeQuestion({ question }) {
                 <div>
                     <h1>Change Multiple Choice Question {id}</h1>
                     <p><b>{questionlist[id].question}</b></p>
-                    {questionlist[id].options.map((option, optionIndex) => {
+                    {options.map((option, optionIndex) => {
                         return (
                             <div onClick={handleClick} className='radio_box'>
                                 <div className='radio_div' key={option}>
-                                    <input
-                                        type='radio'
-                                        name='options'
-                                        value={option}
-                                    /> {isEditing ? (
+
+                                    {isEditing ? (
                                         <input className='input'
                                             type='text'
                                             defaultValue={option}
-                                            onChange={event => ReplaceRadio(id, optionIndex, event.target.value)}>
+                                            onChange={event => replaceOptions(optionIndex, event.target.value)}>
                                         </input>
                                     ) : (
                                         <label>{option}</label>
                                     )}
+                                    <button onClick={() => switchOptions(options, optionIndex, optionIndex - 1)}>Up</button>
+                                    <button onClick={() => switchOptions(options, optionIndex, optionIndex + 1)}>Down</button>
                                 </div>
                             </div>
                         )
