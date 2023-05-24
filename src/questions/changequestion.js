@@ -12,13 +12,12 @@ export default function ChangeQuestion({ question }) {
     const [isEditing, setIsEditing] = useState(false);
     const [questionlist, setQuestion] = useState(questions);
     // const [selectedOption, setSelectedOption] = useState('');
-    const [radioValue, setRadioValue] = useState('')
     const [questionvalue, setQuestionValue] = useState(question[id].question);
     const [options, setOptions] = useState(question[id].options)
 
 
     console.log(options)
-    console.log(id)
+    console.log((id))
     function SaveQuestion() {
         const saveArray = {
             question: questionvalue,
