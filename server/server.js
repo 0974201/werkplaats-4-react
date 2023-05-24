@@ -10,33 +10,74 @@ app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.get("/", function(req, res){
-  res.send('nothing to see here');
+    res.send('nothing to see here');
 });
 
 app.post('/api/saveNewSurvey', bodyParser.json(), function (req, res) {
-  console.log(req.body)
+    console.log(req.body)
 
-  db.run(
-      "INSERT INTO survey (description, open_date, close_date) VALUES (?, ?, ?)",
-      [req.body.description, req.body.openDate, req.body.closeDate],
-      function(err){
-        if (err) {
-          console.log(err.message)
-        } else {
-          console.log(this)
+    let surveyId = ''
+    let questionOrder = 0
+
+    db.run(
+        "INSERT INTO survey (description, open_date, close_date) VALUES (?, ?, ?)",
+        [req.body.description, req.body.openDate, req.body.closeDate],
+        function(err) {
+            if (err) {
+                console.log(err.message)
+            } else {
+                console.log('survey id:' + this.lastID)
+                surveyId = this.lastID
+            }
         }
+    )
+    req.body.questions.forEach(function(question){
+        if (question.type === 'Open'){
+            let openQuestionId = ''
+            let questionId = ''
+            db.run(
+                "INSERT INTO open_question (question) VALUES (?)",
+                [req.body.question],
+                function (err) {
+                    if (err) {
+                        console.log(err.message)
+                    } else {
+                        console.log('open question id:' + this.lastID)
+                        openQuestionId = this.lastID
+                    }
+                }
+            )
+            db.run(
+                "INSERT INTO questions (Open_Question_ID, is_deleted) VALUES (?, ?)",
+                [openQuestionId, false],
+                function (err) {
+                    if (err) {
+                        console.log(err.message)
+                    } else {
+                        console.log('question id:' + this.lastID)
+                        questionId = this.lastID
+                    }
+                }
+            )
+            db.run(
+                "INSERT INTO filled_in (Survey_ID, Question_ID, question_order, is_reviewed) VALUES (?, ?, ?, ?)",
+                [surveyId, questionId, questionOrder, false],
+                function (err) {
+                    if (err) {
+                        console.log(err.message)
+                    } else {
+                        console.log('filled_in id:' + this.lastID)
+                        questionOrder++
+                    }
+                }
+            )
+        }else if (question.type === 'MultipleChoice') {
 
-      }) //db.close() weggehaald omdat het anders de db afsluit voor andere bewerkingen.
-  // req.body.questions.forEach(function(question){
-  //   if (question.type === 'Open'){
-  //
-  //   }else if (question.type === 'MultipleChoice') {
-  //
-  //   }else{
-  //     console.log('wrong type of question')
-  //   }
-  // })
-  res.send('saved')
+        }else{
+            console.log('wrong type of question')
+        }
+    })
+    res.send('saved')
 })
 
 app.get("/test", function(req, res){
