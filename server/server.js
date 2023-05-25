@@ -105,9 +105,8 @@ app.get("/test_question", function (req, res) {
 
 app.post('/api/questions', bodyParser.json(), function (req, res) {
   console.log(req.body)
-
   res.type('json');
-  db.run('UPDATE questions SET question = ? where id = ?', [question, questionId],
+  db.run('UPDATE questions SET question = ? where id = ?', [req.body.question, req.body.questionId],
     function (err) {
       console.log(err.message);
     },
