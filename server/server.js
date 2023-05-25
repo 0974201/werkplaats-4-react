@@ -92,6 +92,7 @@ app.get("/test", function (req, res) {
   });
 });
 
+/* dummy test api endpoint */
 app.get("/test_question", function (req, res) {
   res.type('json');
   db.all('Select * FROM questions', (err, row) => {
@@ -103,24 +104,37 @@ app.get("/test_question", function (req, res) {
   });
 });
 
+/* this endpoint is for changing questions.
+We first check if it's an open or multiple choice and then update the columns around it.
+for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
   console.log(req.body)
   res.type('json');
-  db.run('UPDATE questions SET question = ? WHERE id = ?', [req.body.question, req.body.questionId],
-    function (err) {
-      console.log(err.message);
-    },
-    console.log('hey')
-  )
-},
-  db.run('UPDATE option SET option = ? WHERE option_id = ?', [req.body.options, req.body.questionId],
-    function (err) {
-      console.log(err.message);
-    },
-    console.log('hey')
-
-  )
-);
+  if (question.type === 'Open') {
+    db.run('UPDATE open_question SET question = ? WHERE open_question_id = ?', [req.body.question, req.body.questionId],
+      function (err) {
+        console.log(err.message);
+      },
+      console.log('question_id:', req.body.questionId),
+      console.log('question', req.body.question)
+    )
+  }
+  else if (question.type === 'MultipleChoice') {
+    db.run('UPDATE multiple_choice SET question = ? WHERE multiple_choice_id = ?', [req.body.question, req.body.questionId],
+      function (err) {
+        console.log(err.message);
+      },
+      console.log('question_id:', req.body.questionId),
+      console.log('question', req.body.question)
+    )
+    db.run('UPDATE option SET option = ? WHERE option_id = ?', [req.body.options, req.body.questionId],
+      function (err) {
+        console.log(err.message);
+      },
+      console.log('')
+    )
+  }
+});
 
 /*app.get("/test_birb", function(req, res){
   res.type('json');
