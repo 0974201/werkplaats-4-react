@@ -106,14 +106,21 @@ app.get("/test_question", function (req, res) {
 app.post('/api/questions', bodyParser.json(), function (req, res) {
   console.log(req.body)
   res.type('json');
-  db.run('UPDATE questions SET question = ? where id = ?', [req.body.question, req.body.questionId],
+  db.run('UPDATE questions SET question = ? WHERE id = ?', [req.body.question, req.body.questionId],
+    function (err) {
+      console.log(err.message);
+    },
+    console.log('hey')
+  )
+},
+  db.run('UPDATE option SET option = ? WHERE option_id = ?', [req.body.options, req.body.questionId],
     function (err) {
       console.log(err.message);
     },
     console.log('hey')
 
   )
-});
+);
 
 /*app.get("/test_birb", function(req, res){
   res.type('json');
