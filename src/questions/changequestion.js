@@ -21,10 +21,12 @@ export default function ChangeQuestion({ question }) {
     function SaveQuestion() {
         const saveArray = {
             question: questionvalue,
+            questionId: id,
             options: options
         }
         saveToDB(saveArray, 'questions');
     }
+    console.log(SaveQuestion)
     /* changes the state of div radio_box from false to true to allow input */
     const handleClick = () => {
         setIsEditing(true);
@@ -48,7 +50,7 @@ export default function ChangeQuestion({ question }) {
         setQuestion(updatedQuestion)
     };
 
-    /* does nothing right now */
+    /* changes the option values of multiple choice questions */
     function replaceOptions(radioIndex, value) {
         const newOption = options.map((option, i) => {
             if (i === radioIndex) {
