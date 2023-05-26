@@ -30,6 +30,7 @@ function ModifyQuestion() {
                 <tr>
                     <th>Id</th>
                     <th>Vraag</th>
+                    <th></th>
                 </tr>
                 {question.map(item => (
                     <tr key={item.id}>
