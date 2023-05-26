@@ -10,21 +10,17 @@ import { GetDB } from '../universal/manipulateDB.js'
 function ModifyQuestion() {
     // const [name, setName] = useState('');
     const [question, setQuestion] = useState(questions);
-    const [fetchedData, setFetchedData] = useState([]);
     let nextId = 0
 
+    /* This should fetch the data asynchronously if you import GetDB*/
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/test_question')
-            result.json().then(json => {
-                console.log(json)
-            })
-
-        }
+            await GetDB('test_question');
+        };
         fetchData();
     }, []);
 
-    console.log("data: ", fetchedData)
+
 
     console.log('dit is' + question.options)
     return (
