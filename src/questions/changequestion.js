@@ -15,6 +15,7 @@ export default function ChangeQuestion({ question }) {
     const [questionvalue, setQuestionValue] = useState(question[id].question);
     const [options, setOptions] = useState(question[id].options)
     const [message, setMessage] = useState('')
+    const [showmessage, setShowMessage] = useState(false)
 
     console.log(question)
     console.log(options)
@@ -28,6 +29,7 @@ export default function ChangeQuestion({ question }) {
         }
         saveToDB(saveArray, 'questions');
         setMessage('Vraag is succesvol opgeslagen!')
+        setShowMessage(true);
     }
     console.log(SaveQuestion)
 
@@ -40,15 +42,15 @@ export default function ChangeQuestion({ question }) {
     /* Changes the question to the value that is put in the textarea element */
     const handleModify = (id, newQuestion) => {
         let updatedQuestion = questionlist.map(question => {
-            if (question.id === id, newQuestion !== '') {
+            if (question.id === id && newQuestion !== '') {
                 return { ...question, question: newQuestion };
             } else {
                 return question;
-
             }
         });
         setQuestion(updatedQuestion)
         setMessage('Vraag is aangepast!')
+        setShowMessage(true);
     };
 
     /* Changes the option values of multiple choice questions */
@@ -71,14 +73,14 @@ export default function ChangeQuestion({ question }) {
         if (question.type === 'Open') {
             return (
                 <>
-                    <h1> Change Question {id}</h1>
+                    <h1> Open Vraag {id}</h1>
                     <p><b>{questionvalue}</b></p>
                 </>
             )
         } else if (question.type === 'MultipleChoice') {
             return (
                 <div>
-                    <h1>Change Multiple Choice Question {id}</h1>
+                    <h1>Multiple Choice Vraag {id}</h1>
                     <p><b>{questionvalue}</b></p>
                     {options.map((option, optionIndex) => {
                         console.log('dit is option' + option)
@@ -116,7 +118,7 @@ export default function ChangeQuestion({ question }) {
             {(questionvalue.length !== 250)
                 ? ''
                 : <span style={{ color: 'red' }}>Vraag kan niet meer dan 250 karakters bevatten</span>}
-            <p>{message}</p>
+            {showmessage && <p>{message}</p>}
             <div className='save_question_border'>
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>

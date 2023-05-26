@@ -8,19 +8,15 @@ import { GetDB } from '../universal/manipulateDB.js'
 
 
 function ModifyQuestion() {
-    // const [name, setName] = useState('');
     const [question, setQuestion] = useState(questions);
-    let nextId = 0
 
-    /* This should fetch the data asynchronously if you import GetDB*/
+    /* This should fetch the data asynchronously if you import GetDB */
     useEffect(() => {
         const fetchData = async () => {
             await GetDB('test_question');
         };
         fetchData();
     }, []);
-
-
 
     console.log('dit is' + question.options)
     return (
@@ -43,15 +39,19 @@ function ModifyQuestion() {
                             </Link>
                         </td>
                         <td>
-                            <button className='close_button' onClick={() => setQuestion(question.filter(q =>
-                                q.id !== item.id))}>
+                            <button className='close_button' onClick={() => {
+                                if (window.confirm('Weet je zeker?')) {
+                                    setQuestion(question.filter(q =>
+                                        q.id !== item.id))
+                                }
+                            }}
+                            >
                                 <img src="https://i.imgur.com/AhBVm9H.png" height="20px" alt="Red X Button">
                                 </img>
                             </button>
                         </td>
                     </tr>
                 ))}
-
             </table>
         </div>
     )
