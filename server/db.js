@@ -1,6 +1,6 @@
+require('dotenv').config();
 const sqlite3 = require("sqlite3").verbose();
-const path = require('node:path');
-const db_file = path.resolve(__dirname, "./database/test.db");
+const db_file = process.env.DB_PATH;
 
 function db(){
   const db = new sqlite3.Database(db_file, sqlite3.OPEN_READWRITE, (error) => {
@@ -18,7 +18,7 @@ function db(){
 }
 
 function createDB(){
-  const new_file = path.resolve(__dirname, "./database/test_data.db");
+  const new_file = "./server/database/test_data.db";
   let new_db = new sqlite3.Database(new_file, (error) => {
     if(error) {
       return console.error(error);
