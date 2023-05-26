@@ -18,7 +18,7 @@ function db(){
 }
 
 function createDB(){
-  const new_file = "./server/database/test_data.db";
+  const new_file = process.env.NEW_DB;
   let new_db = new sqlite3.Database(new_file, (error) => {
     if(error) {
       return console.error(error);
