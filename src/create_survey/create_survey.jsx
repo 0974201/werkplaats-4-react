@@ -3,8 +3,8 @@ import { useState } from "react";
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
-import {questions} from "../index";
-import {saveToDB} from "../universal/manipulateDB";
+import { questions } from "../index";
+import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
 
@@ -26,20 +26,20 @@ export default function CreateSurvey() {
                 questions: questionArray,
                 anonymity: true
             }
-            return(arrayToSurvey)
+            return (arrayToSurvey)
         } else {
             const arrayToSurvey = JSON.parse(sessionStorage.getItem("createSurvey"))
-            return(arrayToSurvey)
+            return (arrayToSurvey)
         }
     }
 
     function onLoadArray() {
         if (JSON.parse(sessionStorage.getItem("createSurvey")) === null) {
             const arrayToSurvey = [{ type: "Open", id: nextOrder++, question: 'maak open vraag', options: null, order: null }]
-            return(arrayToSurvey)
+            return (arrayToSurvey)
         } else {
             const arrayToSurvey = JSON.parse(sessionStorage.getItem("createSurvey"))
-            return(arrayToSurvey.questions)
+            return (arrayToSurvey.questions)
         }
     }
 
@@ -48,7 +48,7 @@ export default function CreateSurvey() {
             return { ...question, id: questionIndex }
         })
         setQuestionArray(newArray)
-        setSurveyArray({...surveyArray, questions: newArray})
+        setSurveyArray({ ...surveyArray, questions: newArray })
     }
 
     function replaceQuestion(questionIndex, value) {
@@ -78,23 +78,23 @@ export default function CreateSurvey() {
     function replaceSurveyItem(item, value) {
         switch (item) {
             case 'title':
-                setSurveyArray({...surveyArray, title: value})
+                setSurveyArray({ ...surveyArray, title: value })
                 break
             case 'description':
-                setSurveyArray({...surveyArray, description: value})
+                setSurveyArray({ ...surveyArray, description: value })
                 break
             case 'openDate':
-                setSurveyArray({...surveyArray, openDate: value})
+                setSurveyArray({ ...surveyArray, openDate: value })
                 break
             case 'closeDate':
-                setSurveyArray({...surveyArray, closeDate: value})
+                setSurveyArray({ ...surveyArray, closeDate: value })
                 break
             case 'anonymity':
-                if (value === true){
-                    const inBetweenArray = {...surveyArray, anonymity: false}
+                if (value === true) {
+                    const inBetweenArray = { ...surveyArray, anonymity: false }
                     setSurveyArray(inBetweenArray)
                 } else {
-                    const inBetweenArray = {...surveyArray, anonymity: true}
+                    const inBetweenArray = { ...surveyArray, anonymity: true }
                     setSurveyArray(inBetweenArray)
                 }
                 break
@@ -293,7 +293,7 @@ export default function CreateSurvey() {
                     ))}
                 </div>
                 <div className={'create'}>
-                    <button onClick={() => saveToDB(surveyArray, 'api/saveNewSurvey')}>Opslaan</button>
+                    <button onClick={() => saveToDB(surveyArray, 'saveNewSurvey')}>Opslaan</button>
                 </div>
             </div>
 

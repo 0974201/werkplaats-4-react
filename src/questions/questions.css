@@ -84,19 +84,19 @@
 .questionlist_table th:nth-child(1),
 .questionlist_table td:nth-child(1) {
     border: solid black;
-    border-width: 1px 1px 1px 1px;
+    border-width: 1px 0px 1px 1px;
     padding: 0;
 }
 
-
+.questionlist_table th:nth-child(2),
 .questionlist_table td:nth-child(2) {
     border: solid black;
-    border-width: 1px 1px 1px 1px;
+    border-width: 1px 0px 1px 0px;
     padding: 10px 10px;
 }
 
 .questionlist_table th:nth-child(3),
 .questionlist_table td:nth-child(3) {
     border: solid black;
-    border-width: 1px 1px 1px 0px !important;
+    border-width: 1px 1px 1px 0px
 }
