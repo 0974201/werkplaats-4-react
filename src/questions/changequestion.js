@@ -14,6 +14,7 @@ export default function ChangeQuestion({ question }) {
     // const [selectedOption, setSelectedOption] = useState('');
     const [questionvalue, setQuestionValue] = useState(question[id].question);
     const [options, setOptions] = useState(question[id].options)
+    const [message, setMessage] = useState('')
 
     console.log(question)
     console.log(options)
@@ -26,19 +27,17 @@ export default function ChangeQuestion({ question }) {
             type: question[id].type,
         }
         saveToDB(saveArray, 'questions');
+        setMessage('Vraag is succesvol opgeslagen!')
     }
     console.log(SaveQuestion)
-    /* changes the state of div radio_box from false to true to allow input */
-    // const handleClick = () => {
-    //     setIsEditing(true);
-    // }
 
+    /* This is the Up and Down buttons that allow us to change the order of options.*/
     function switchOptions(list, fromIndex, toIndex) {
         const newList = SwitchAround(list, fromIndex, toIndex)
         setOptions(newList)
     }
 
-    /* changes the question to the value that is put in the textarea element */
+    /* Changes the question to the value that is put in the textarea element */
     const handleModify = (id, newQuestion) => {
         let updatedQuestion = questionlist.map(question => {
             if (question.id === id, newQuestion !== '') {
@@ -49,9 +48,10 @@ export default function ChangeQuestion({ question }) {
             }
         });
         setQuestion(updatedQuestion)
+        setMessage('Vraag is aangepast!')
     };
 
-    /* changes the option values of multiple choice questions */
+    /* Changes the option values of multiple choice questions */
     function replaceOptions(radioIndex, value) {
         const newOption = options.map((option, i) => {
             if (i === radioIndex) {
@@ -105,10 +105,8 @@ export default function ChangeQuestion({ question }) {
         setQuestionValue(question[id].question);
     }, [id]);
 
-
     /* The main template of changeQuestion(). 
     We put in renderQuestion() on top to combine it. */
-
     return (
         <div>
             {renderQuestion()}
@@ -118,6 +116,7 @@ export default function ChangeQuestion({ question }) {
             {(questionvalue.length !== 250)
                 ? ''
                 : <span style={{ color: 'red' }}>Vraag kan niet meer dan 250 karakters bevatten</span>}
+            <p>{message}</p>
             <div className='save_question_border'>
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
@@ -125,16 +124,9 @@ export default function ChangeQuestion({ question }) {
                     <button className='button' onClick={() => SaveQuestion()}>Opslaan</button>
                 </div>
             </div>
-
-            {/* buttons for Previous and Next Id's in the Array. */}
-            <Link to={id > 0 ? `/question/${question[id].id - 1}` : ''}><button disabled={id === '0'} className='button'>Previous</button></Link>
-            {
-                id < (questionlist.length - 1) ? /* if current id is lower than the questionlist array (-1  due to index!) */
-                    <Link to={`/question/${question[id].id + 1}`}><button className='button' >Volgende</button></Link >
-                    : /* button is disabled if there is no more questions with a higher id in the array.*/
-                    <button disabled className='button'>Vorige</button>
-            }
-        </div >
+            {/* Links back to Questionlist. */}
+            <Link to='/questionlist'><button>Terug naar Vragenlijst</button></Link>
+        </div>
     )
 }
 
