@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser')
 const db = require('./db.js') // connectie met db
 
+
 const app = express();
 
 app.use(cors()); // allow cross orgin req
@@ -13,132 +14,85 @@ app.get("/", function(req, res){
     res.send('nothing to see here');
 });
 
-app.post('/api/saveNewSurvey', bodyParser.json(), function (req, res) {
-    console.log(req.body)
+app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
 
-    // a promise chain to be able to use all the lastID's of all the queries
-    const surveyPromise = new Promise(resolve => {
-        // query for inserting into the survey table
-        db.run(
-            "INSERT INTO survey (description, open_date, close_date) VALUES (?, ?, ?)",
-            [req.body.description, req.body.openDate, req.body.closeDate],
-            function(err) {
-                if (err) {
-                    console.log(err.message)
+    try {
+        // starting a SQL transaction
+        await runQuery('BEGIN')
+
+        try {
+            // inserting a survey and getting the inserted id back
+            const surveyId = await insertAndGetLastId("INSERT INTO survey (description, open_date, close_date) VALUES (?, ?, ?)",
+                [req.body.description, req.body.openDate, req.body.closeDate])
+
+            // starting a loop to insert every question in the database
+            await Promise.all(req.body.questions.map(async function(question, index){
+
+                //check in the question is a open or a multiple choice question
+                if (question.type === 'Open') {
+
+                    // inserting a open question and getting the inserted id back so you can use it in the question query
+                    const openQuestionId = await insertAndGetLastId("INSERT INTO open_question (question) VALUES (?)",
+                        [question.question])
+
+                    // inserting the qusetion with the open question id and getting the question id back
+                    const questionId = await insertAndGetLastId("INSERT INTO questions (Open_Question_ID, is_deleted) VALUES (?, ?)",
+                        [openQuestionId, false])
+
+                    // insert everythin in the filled_in table to combine everything
+                    await runQuery("INSERT INTO filled_in (Survey_ID, Question_ID, question_order, is_reviewed) VALUES (?, ?, ?, ?)",
+                        [surveyId, questionId, index, false],)
+
+                } else if (question.type === 'MultipleChoice') {
+
                 } else {
-                    console.log('survey id:' + this.lastID)
-                    resolve(this.lastID)
+                    console.log('wrong type of question')
                 }
-            })
-    })
+            }))
+            // commit the started SQL transaction
+            await runQuery('COMMIT');
 
-    const questionsPromise = (question) => {
-        return new Promise(resolve => {
-            if (question.type === 'Open') {
-                db.run(
-                    "INSERT INTO open_question (question) VALUES (?)",
-                    [req.body.question],
-                    function () {
-                        console.log('open question id:' + this.lastID)
-                        resolve(this.lastID)
-                    }
-                ).then((id) =>
-                    db.run(
-                        "INSERT INTO questions (Open_Question_ID, is_deleted) VALUES (?, ?)",
-                        [id, false],
-                        function (err) {
-                            if (err) {
-                                console.log(err.message)
-                            } else {
-                                console.log('question id:' + this.lastID)
-                            }
-                        }
-                    )
-                )
-            }
-        })
+        } catch (error) {
+            // incase of a erron rollback the SQL transaction
+            await runQuery('ROLLBACK');
+            console.log(error)
+        }
+    } catch (error) {
+
     }
-    req.body.questions.forEach(function (question, questionIndex) {
-        Promise.all([
-            surveyPromise,
-            questionsPromise(question)
-        ]).then((value) => {
-            console.log(value)
-        })
-    })
+    // Helper function to put a insert and a last id together
+    async function insertAndGetLastId(query, param) {
+        await runQuery(query, param)
+        return  await getLastInsertedId()
+    }
 
 
+    // Helper function to get the ID of the last inserted row
+    function getLastInsertedId() {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT last_insert_rowid() as id', (error, row) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(row.id);
+                }
+            });
+        });
+    }
 
+    // Helper function to run a query with parameters
+    function runQuery(sql, params) {
+        return new Promise((resolve, reject) => {
+            db.run(sql, params, function (error) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(this);
+                }
+            });
+        });
+    }
 
-
-
-
-
-
-
-
-    // req.body.questions.forEach(function(question){
-    //
-    //         async function typeQuestionInsert() {
-    //             if (question.type === 'Open'){
-    //                 db.serialize(
-    //                     db.run(
-    //                         "INSERT INTO open_question (question) VALUES (?)",
-    //                         [req.body.question],
-    //                         function (err) {
-    //                             if (err) {
-    //                                 console.log(err.message)
-    //                             } else {
-    //                                 console.log('open question id:' + this.lastID)
-    //                                 openQuestionId = this.lastID
-    //                             }
-    //                         }
-    //                     )
-    //                 )
-    //
-    //             }else if (question.type === 'MultipleChoice') {
-    //
-    //             }else{
-    //                 console.log('wrong type of question')
-    //             }
-    //         }
-    //
-    //     async function questionInsert() {
-    //             db.serialize(
-    //                 db.run(
-    //                     "INSERT INTO questions (Open_Question_ID, is_deleted) VALUES (?, ?)",
-    //                     [openQuestionId, false],
-    //                     function (err) {
-    //                         if (err) {
-    //                             console.log(err.message)
-    //                         } else {
-    //                             console.log('question id:' + this.lastID)
-    //                             questionId = this.lastID
-    //                         }
-    //                     }
-    //                 )
-    //             )
-    //
-    //     }
-    //
-    //     async function filledInInsert() {
-    //         db.serialize(
-    //             db.run(
-    //                 "INSERT INTO filled_in (Survey_ID, Question_ID, question_order, is_reviewed) VALUES (?, ?, ?, ?)",
-    //                 [surveyId, questionId, questionOrder, false],
-    //                 function (err) {
-    //                     if (err) {
-    //                         console.log(err.message)
-    //                     } else {
-    //                         console.log('filled_in id:' + this.lastID)
-    //                         questionOrder++
-    //                     }
-    //                 }
-    //             )
-    //         )
-    //
-    //     }
-    // })
     res.send('saved')
 })
 
