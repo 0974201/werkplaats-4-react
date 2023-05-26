@@ -69,14 +69,14 @@ export default function ChangeQuestion({ question }) {
             return (
                 <>
                     <h1> Change Question {id}</h1>
-                    <p><b>{questionlist[id].question}</b></p>
+                    <p><b>{questionvalue}</b></p>
                 </>
             )
         } else if (question.type === 'MultipleChoice') {
             return (
                 <div>
                     <h1>Change Multiple Choice Question {id}</h1>
-                    <p><b>{questionlist[id].question}</b></p>
+                    <p><b>{questionvalue}</b></p>
                     {options.map((option, optionIndex) => {
                         return (
                             <div onClick={handleClick} className='radio_box'>
@@ -101,6 +101,7 @@ export default function ChangeQuestion({ question }) {
     useEffect(() => {
         setQuestionValue(question[id].question);
     }, [id]);
+
 
     /* The main template of changeQuestion(). 
     We put in renderQuestion() on top to combine it. */
