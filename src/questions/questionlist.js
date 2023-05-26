@@ -4,23 +4,27 @@ import './questions.css';
 import { questions } from '../index.js'
 import { Question } from '../survey/survey'
 import { Link } from 'react-router-dom';
+import { GetDB } from '../universal/manipulateDB.js'
 
 
 function ModifyQuestion() {
     // const [name, setName] = useState('');
     const [question, setQuestion] = useState(questions);
+    const [fetchedData, setFetchedData] = useState([]);
     let nextId = 0
 
     useEffect(() => {
-        fetch('localhost:81/test_games', {
-            'methods': 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => console.log(response.json()))
-            .catch(error => console.error(error));
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/test_question')
+            result.json().then(json => {
+                console.log(json)
+            })
+
+        }
+        fetchData();
     }, []);
+
+    console.log("data: ", fetchedData)
 
     console.log('dit is' + question.options)
     return (

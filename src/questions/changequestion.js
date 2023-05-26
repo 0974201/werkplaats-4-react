@@ -8,29 +8,30 @@ import { saveToDB } from '../universal/manipulateDB';
 
 export default function ChangeQuestion({ question }) {
     // const [value, setValue] = useState('')
+    // const [id, setId] = useState(question[id].id);
     const { id } = useParams();
-    const [isEditing, setIsEditing] = useState(false);
     const [questionlist, setQuestion] = useState(questions);
     // const [selectedOption, setSelectedOption] = useState('');
     const [questionvalue, setQuestionValue] = useState(question[id].question);
     const [options, setOptions] = useState(question[id].options)
 
-
+    console.log(question)
     console.log(options)
-    console.log((id))
+    console.log((question[id].id))
     function SaveQuestion() {
         const saveArray = {
             question: questionvalue,
             questionId: id,
-            options: options
+            options: options,
+            type: question[id].type,
         }
         saveToDB(saveArray, 'questions');
     }
     console.log(SaveQuestion)
     /* changes the state of div radio_box from false to true to allow input */
-    const handleClick = () => {
-        setIsEditing(true);
-    }
+    // const handleClick = () => {
+    //     setIsEditing(true);
+    // }
 
     function switchOptions(list, fromIndex, toIndex) {
         const newList = SwitchAround(list, fromIndex, toIndex)
@@ -62,6 +63,8 @@ export default function ChangeQuestion({ question }) {
         })
         setOptions(newOption)
     }
+
+    console.log('dit is options' + options)
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
         const question = questions[id];
@@ -78,10 +81,10 @@ export default function ChangeQuestion({ question }) {
                     <h1>Change Multiple Choice Question {id}</h1>
                     <p><b>{questionvalue}</b></p>
                     {options.map((option, optionIndex) => {
+                        console.log('dit is option' + option)
                         return (
-                            <div onClick={handleClick} className='radio_box'>
+                            <div className='radio_box'>
                                 <div className='radio_div' key={option}>
-
                                     <input className='input'
                                         type='text'
                                         defaultValue={option}
@@ -127,11 +130,11 @@ export default function ChangeQuestion({ question }) {
             <Link to={id > 0 ? `/question/${question[id].id - 1}` : ''}><button disabled={id === '0'} className='button'>Previous</button></Link>
             {
                 id < (questionlist.length - 1) ? /* if current id is lower than the questionlist array (-1  due to index!) */
-                    <Link to={`/question/${question[id].id + 1}`}><button className='button'>Volgende</button></Link>
+                    <Link to={`/question/${question[id].id + 1}`}><button className='button' >Volgende</button></Link >
                     : /* button is disabled if there is no more questions with a higher id in the array.*/
                     <button disabled className='button'>Vorige</button>
             }
-        </div>
+        </div >
     )
 }
 

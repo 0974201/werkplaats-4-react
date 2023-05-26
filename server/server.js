@@ -93,7 +93,7 @@ app.get("/test", function (req, res) {
 });
 
 /* dummy test api endpoint */
-app.get("/test_question", function (req, res) {
+app.get("/api/test_question", function (req, res) {
   res.type('json');
   db.all('Select * FROM questions', (err, row) => {
     if (err) {
@@ -110,7 +110,7 @@ for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
   console.log(req.body)
   res.type('json');
-  if (question.type === 'Open') {
+  if (req.body.type === 'Open') {
     db.run('UPDATE open_question SET question = ? WHERE open_question_id = ?', [req.body.question, req.body.questionId],
       function (err) {
         console.log(err.message);
@@ -119,7 +119,7 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
       console.log('question', req.body.question)
     )
   }
-  else if (question.type === 'MultipleChoice') {
+  else if (req.body.type === 'MultipleChoice') {
     db.run('UPDATE multiple_choice SET question = ? WHERE multiple_choice_id = ?', [req.body.question, req.body.questionId],
       function (err) {
         console.log(err.message);
