@@ -108,15 +108,19 @@ app.get("/api/test_question", function (req, res) {
 We first check if it's an open or multiple choice and then update the columns around it.
 for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
-  console.log(req.body)
+  const { type, question, questionId } = req.body;
+  console.log('Question type is ' + type)
+  console.log('Question is ' + question)
+  console.log('Question Id is ' + questionId)
+  console.log('Req.body is ' + req.body)
   res.type('json');
-  if (req.body.type === 'Open') {
-    db.run('UPDATE open_question SET question = ? WHERE open_question_id = ?', [req.body.question, req.body.questionId],
+  if (type === 'Open') {
+    db.run('UPDATE open_question SET question = ? WHERE open_question_id = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('question_id:', req.body.questionId),
-      console.log('question', req.body.question)
+      console.log('question_id:', questionId),
+      console.log('question', question)
     )
   }
   else if (req.body.type === 'MultipleChoice') {
@@ -124,8 +128,8 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
       function (err) {
         console.log(err.message);
       },
-      console.log('question_id:', req.body.questionId),
-      console.log('question', req.body.question)
+      console.log('question_id:', questionId),
+      console.log('question', question)
     )
     db.run('UPDATE option SET option = ? WHERE option_id = ?', [req.body.options, req.body.questionId],
       function (err) {
@@ -135,6 +139,56 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
     )
   }
 });
+
+/* GET function for fetching all questions. */
+app.get("/api/questions", function (req, res) {
+  res.type('json');
+  db.all('Select * FROM questions', (err, row) => {
+    if (err) {
+      console.log(err.message);
+    }
+    console.log(row);
+    res.send(JSON.stringify(row));
+  });
+});
+
+/* GET function for fetching all surveys. */
+app.get("/api/surveys", function (req, res) {
+  res.type('json');
+  db.all('Select * FROM survey', (err, row) => {
+    if (err) {
+      console.log(err.message);
+    }
+    console.log(row);
+    res.send(JSON.stringify(row));
+  });
+});
+
+/* GET endpoint for the user table. */
+app.get('/api/users', function (req, res) {
+  res.type('json');
+  db.all('Select * from user', (err, row) => {
+    if (err) {
+      console.log(err.message);
+    }
+    console.log(row)
+    res.send(JSON.stringify(row));
+  });
+});
+
+/* GET endpoint for filled_in surveys */
+app.get('/api/filled_surveys', function (req, res) {
+  res.type('json');
+  db.all('Select * from filled_in', (err, row) => {
+    if (err) {
+      console.log(err.message);
+    }
+    console.log(row)
+    res.send(JSON.stringify(row));
+  });
+});
+
+
 
 /*app.get("/test_birb", function(req, res){
   res.type('json');

@@ -13,7 +13,7 @@ function ModifyQuestion() {
     /* This should fetch the data asynchronously if you import GetDB */
     useEffect(() => {
         const fetchData = async () => {
-            await GetDB('test_question');
+            await GetDB('questions');
         };
         fetchData();
     }, []);
