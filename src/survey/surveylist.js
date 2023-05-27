@@ -1,12 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { surveys } from '../index.js'
+import { GetDB } from '../universal/manipulateDB.js'
 import './surveylist.css'
 
 
 export function SurveyList() {
 
-    const [survey] = useState(surveys);
+    const [survey, setSurvey] = useState([]);
+    console.log(survey)
+    /* Fetches the API endpoint from surveys in server.js */
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/surveys');
+            const data = await result.json();
+            console.log(data);
+            setSurvey(data)
+        };
+        fetchData();
+    }, []);
+
+    /* Handles the queries in surveybox on the left side */
+    function showClosedSurveys() {
+
+        const surveys = [...survey];
+        const closedSurveys = surveys.filter(survey => {
+            const closeDate = new Date(survey.close_date);
+            const currentDate = new Date();
+            return closeDate < currentDate;
+        });
+        console.log(surveys)
+        console.log(closedSurveys);
+        setSurvey(closedSurveys)
+    };
+
+    function showOpenSurveys() {
+
+        const surveys = [...survey];
+        const OpenSurveys = surveys.filter(survey => {
+            const closeDate = new Date(survey.close_date);
+            const currentDate = new Date();
+            return closeDate > currentDate;
+        });
+        console.log(surveys)
+        console.log(OpenSurveys);
+        setSurvey(OpenSurveys)
+    };
 
 
     /* This controls the left side of surveylist and is outside the container
@@ -30,13 +69,13 @@ export function SurveyList() {
                         </span>
                     </div>
                     <div className="survey_item">
-                        <span className="surveybox_content">
+                        <span className="surveybox_content" onClick={showOpenSurveys}>
                             <img className="survey_img" src="https://i.imgur.com/4hJ5Kcn.png" alt='Red lightning strike icon'></img>
                             <span>Open Surveys</span>
                         </span>
                     </div>
                     <div className="survey_item">
-                        <span className="surveybox_content">
+                        <span className="surveybox_content" onClick={showClosedSurveys}>
                             <img className="survey_img" src="https://i.imgur.com/JdLjn2N.png" alt='Green check mark'></img>
                             <span>Closed Surveys</span>
                         </span>

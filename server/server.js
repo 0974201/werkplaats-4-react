@@ -123,7 +123,7 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
       console.log('question', question)
     )
   }
-  else if (req.body.type === 'MultipleChoice') {
+  else if (type === 'MultipleChoice') {
     db.run('UPDATE multiple_choice SET question = ? WHERE multiple_choice_id = ?', [req.body.question, req.body.questionId],
       function (err) {
         console.log(err.message);
@@ -155,6 +155,7 @@ app.get("/api/questions", function (req, res) {
 /* GET function for fetching all surveys. */
 app.get("/api/surveys", function (req, res) {
   res.type('json');
+
   db.all('Select * FROM survey', (err, row) => {
     if (err) {
       console.log(err.message);
