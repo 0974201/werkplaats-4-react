@@ -8,6 +8,7 @@ import './surveylist.css'
 export function SurveyList() {
 
     const [survey, setSurvey] = useState([]);
+
     console.log(survey)
     /* Fetches the API endpoint from surveys in server.js */
     useEffect(() => {
@@ -35,7 +36,6 @@ export function SurveyList() {
     };
 
     function showOpenSurveys() {
-
         const surveys = [...survey];
         const OpenSurveys = surveys.filter(survey => {
             const closeDate = new Date(survey.close_date);
@@ -117,13 +117,13 @@ export function SurveyList() {
                             <th>Aanpassen</th>
                         </tr>
                         {survey.map(item => (
-                            <tr key={item.id}>
+                            <tr key={item.Survey_ID}>
                                 <td>
-                                    {item.id}
+                                    {item.Survey_ID}
                                 </td>
                                 <td className='question__grey'>
-                                    <Link to={`/survey/${item.id}`} className='link'>
-                                        {item.title}
+                                    <Link to={`/survey/${item.Survey_ID}`} className='link'>
+                                        {item.description}
                                     </Link>
                                 </td>
                                 <td>
