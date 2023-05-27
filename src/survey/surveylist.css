@@ -43,7 +43,7 @@
 
 /* Hover to increase p element by 10% and change colour to grey to indicate user pointing at it. */
 
-.survey_item span:hover {
+.survey_item .surveybox_content:hover {
     transform: scale(1.1);
     background-color: rgba(0, 0, 0, .1);
 }
@@ -61,6 +61,10 @@
 /* Had to use !important because the survey_icon kept ignoring this in favour of the first child element css. */
 .survey_box .Survey_icon {
     height: 30px !important;
+}
+
+.surveybox_content {
+    cursor: pointer;
 }
 
 /* Enquete title */

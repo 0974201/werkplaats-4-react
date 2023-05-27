@@ -47,6 +47,16 @@ export function SurveyList() {
         setSurvey(OpenSurveys)
     };
 
+    function showAll() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/surveys');
+            const data = await result.json();
+            console.log(data);
+            setSurvey(data)
+        };
+        fetchData();
+    };
+
 
     /* This controls the left side of surveylist and is outside the container
        things like Creating surveys or showing open/closed surveys..etc */
@@ -56,14 +66,14 @@ export function SurveyList() {
                 <div className="survey_box">
                     <div className="survey_item">
                         <Link to='/create' className='link'>
-                            <span>
+                            <span className="surveybox_content">
                                 <img src="https://i.imgur.com/5jk9Agu.png" alt='Red plus sign' ></img>
                                 <span >Create Survey</span>
                             </span>
                         </Link>
                     </div>
                     <div className="survey_item">
-                        <span>
+                        <span className="surveybox_content" onClick={showOpenSurveys}>
                             <img className="survey_img" src="https://i.imgur.com/5JQGokB.png" alt='Stickman inspecting'></img>
                             <span>Under Review</span>
                         </span>
@@ -81,12 +91,10 @@ export function SurveyList() {
                         </span>
                     </div>
                     <div className="survey_item">
-                        <Link to='/surveylist' className='link'>
-                            <span>
-                                <img className='Survey_icon' src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
-                                <span>Show All</span>
-                            </span>
-                        </Link>
+                        <span className="surveybox_content" onClick={showAll}>
+                            <img className='Survey_icon' src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
+                            <span>Show All</span>
+                        </span>
                     </div>
                 </div>
             </div>
