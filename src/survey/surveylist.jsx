@@ -6,10 +6,11 @@ import './surveylist.css'
 
 
 export function SurveyList() {
-
     const [survey, setSurvey] = useState([]);
-
+    let currentDate = new Date().toISOString().split('T')[0]
+    console.log(currentDate)
     console.log(survey)
+
     /* Fetches the API endpoint from surveys in server.js */
     useEffect(() => {
         const fetchData = async () => {
@@ -127,12 +128,12 @@ export function SurveyList() {
                                     </Link>
                                 </td>
                                 <td>
-                                    {item.status === "Open" ? (
-                                        <p style={{ color: "red" }}>{item.status}</p>
-                                    ) : item.status === "Closed" ? (
-                                        <p style={{ color: "green" }}>{item.status}</p>
+                                    {currentDate < item.close_date ? (
+                                        <p style={{ color: "red" }}>Open</p>
+                                    ) : currentDate > item.close_date ? (
+                                        <p style={{ color: "green" }}>Closed</p>
                                     ) : (
-                                        <p style={{ color: "orange" }}>{item.status}</p>
+                                        <p style={{ color: "orange" }}>Being Reviewed</p>
                                     )
                                     }
                                 </td>
