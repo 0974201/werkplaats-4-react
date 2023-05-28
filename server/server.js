@@ -19,8 +19,8 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
         // starting a SQL transaction
         await runQuery('BEGIN')
         // inserting a survey and getting the inserted id back
-        const surveyId = await insertAndGetLastId("INSERT INTO survey (description, open_date, close_date) VALUES (?, ?, ?)",
-            [req.body.description, req.body.openDate, req.body.closeDate])
+        const surveyId = await insertAndGetLastId("INSERT INTO survey (title, description, open_date, close_date, can_be_anonymous) VALUES (?, ?, ?)",
+            [req.body.title, req.body.description, req.body.openDate, req.body.closeDate, req.body.anonymity])
         // commit the started SQL transaction
         await runQuery('COMMIT');
         try {
@@ -29,7 +29,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
 
                 //check in the question is an open or a multiple choice question
                 if (question.type === 'Open') {
-                    // starting a SQL transaction for every loop cylce
+                    // starting a SQL transaction for every loop cycle
                     await runQuery('BEGIN')
                     // inserting an open question and getting the inserted id back so you can use it in the question query
                     const openQuestionId = await insertAndGetLastId("INSERT INTO open_question (question) VALUES (?)",
@@ -39,7 +39,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
                     const questionId = await insertAndGetLastId("INSERT INTO questions (Open_Question_ID, is_deleted) VALUES (?, ?)",
                         [openQuestionId, false])
 
-                    // insert everythin in the filled_in table to combine everything
+                    // insert everything in the filled_in table to combine everything
                     await runQuery("INSERT INTO filled_in (Survey_ID, Question_ID, question_order, is_reviewed) VALUES (?, ?, ?, ?)",
                         [surveyId, questionId, index, false],)
                     // commit the started SQL transaction for every loop cycle
