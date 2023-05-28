@@ -23,30 +23,31 @@ export function SurveyList() {
     }, []);
 
     /* Handles the queries in surveybox on the left side */
-    function showClosedSurveys() {
-
-        const surveys = [...survey];
-        const closedSurveys = surveys.filter(survey => {
-            const closeDate = new Date(survey.close_date);
-            const currentDate = new Date();
-            return closeDate < currentDate;
-        });
-        console.log(surveys)
-        console.log(closedSurveys);
-        setSurvey(closedSurveys)
-    };
-
     function showOpenSurveys() {
-        const surveys = [...survey];
-        const OpenSurveys = surveys.filter(survey => {
-            const closeDate = new Date(survey.close_date);
-            const currentDate = new Date();
-            return closeDate > currentDate;
-        });
-        console.log(surveys)
-        console.log(OpenSurveys);
-        setSurvey(OpenSurveys)
-    };
+        fetch('http://localhost:81/api/surveys?open=true')
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data
+                console.log(data);
+            })
+            .catch(error => {
+                // Handle the error
+                console.error(error);
+            });
+    }
+
+    function showClosedSurveys() {
+        fetch('http://localhost:81/api/surveys?open=false')
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data
+                console.log(data);
+            })
+            .catch(error => {
+                // Handle the error
+                console.error(error);
+            });
+    }
 
     function showAll() {
         const fetchData = async () => {

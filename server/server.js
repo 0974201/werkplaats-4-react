@@ -156,15 +156,29 @@ app.get("/api/questions", function (req, res) {
 app.get("/api/surveys", function (req, res) {
   res.type('json');
 
-  db.all('Select * FROM survey', (err, row) => {
+  const isOpen = req.query.open === 'true';
+  const isClosed = req.query.open === 'false';
+  console.log(isOpen)
+  console.log(isClosed)
+  console.log('req query ' + req.query.close_date)
+  console.log('req.query open ' + req.query.open_date)
+  let sql = `SELECT * FROM survey`;
+  if (isOpen) {
+    sql += ` WHERE close_date < date('now')`;
+  } else if (isClosed) {
+    sql += ` WHERE close_date > date('now')`;
+  }
+  console.log('this is sql ' + sql)
+  db.all(sql, (err, rows) => {
     if (err) {
       console.log(err.message);
+      res.status(500).send('Internal Server Error');
+      return;
     }
-    console.log(row);
-    res.send(JSON.stringify(row));
+    console.log(rows);
+    res.send(JSON.stringify(rows));
   });
 });
-
 /* GET endpoint for the user table. */
 app.get('/api/users', function (req, res) {
   res.type('json');
