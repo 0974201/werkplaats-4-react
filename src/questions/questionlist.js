@@ -21,12 +21,14 @@ function ModifyQuestion() {
     console.log('dit is' + question.options)
     return (
         <div className="questionlist_table">
-            <h1> Vragenlijst </h1>
+            <h1 className="questionlist_title">Vragenlijst</h1>
             <table width='100%'>
                 <tr>
                     <th>Id</th>
                     <th>Vraag</th>
-                    <th></th>
+                    <th>Deelnemers</th>
+                    <th>Overzicht</th>
+                    <th>Verwijderen</th>
                 </tr>
                 {question.map(item => (
                     <tr key={item.id}>
@@ -39,15 +41,19 @@ function ModifyQuestion() {
                             </Link>
                         </td>
                         <td>
+                            Deelnemers
+                        </td>
+                        <td>
+                            Overzicht
+                        </td>
+                        <td>
                             <button className='close_button' onClick={() => {
                                 if (window.confirm('Weet je zeker?')) {
                                     setQuestion(question.filter(q =>
                                         q.id !== item.id))
                                 }
                             }}
-                            >
-                                <img src="https://i.imgur.com/AhBVm9H.png" height="20px" alt="Red X Button">
-                                </img>
+                            > Verwijder
                             </button>
                         </td>
                     </tr>
