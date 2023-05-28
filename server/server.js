@@ -152,22 +152,30 @@ app.get("/api/questions", function (req, res) {
   });
 });
 
-/* GET function for fetching all surveys. */
+/* GET function for fetching all surveys.
+ We give the API endpoint a query parameter with req.query.open which allows us to
+ fetch it in surveylist.jsx and depending on the query parameter it will show 
+ the open or closed surveys  */
 app.get("/api/surveys", function (req, res) {
   res.type('json');
 
   const isOpen = req.query.open === 'true';
   const isClosed = req.query.open === 'false';
+
+
   console.log(isOpen)
   console.log(isClosed)
   console.log('req query ' + req.query.close_date)
   console.log('req.query open ' + req.query.open_date)
+  console.log(req.query.open)
   let sql = `SELECT * FROM survey`;
   if (isOpen) {
-    sql += ` WHERE close_date < date('now')`;
-  } else if (isClosed) {
     sql += ` WHERE close_date > date('now')`;
+  } else if (isClosed) {
+    sql += ` WHERE close_date < date('now')`;
   }
+
+
   console.log('this is sql ' + sql)
   db.all(sql, (err, rows) => {
     if (err) {
@@ -179,6 +187,7 @@ app.get("/api/surveys", function (req, res) {
     res.send(JSON.stringify(rows));
   });
 });
+
 /* GET endpoint for the user table. */
 app.get('/api/users', function (req, res) {
   res.type('json');

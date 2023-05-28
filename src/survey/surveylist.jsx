@@ -24,30 +24,25 @@ export function SurveyList() {
 
     /* Handles the queries in surveybox on the left side */
     function showOpenSurveys() {
-        fetch('http://localhost:81/api/surveys?open=true')
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response data
-                console.log(data);
-            })
-            .catch(error => {
-                // Handle the error
-                console.error(error);
-            });
-    }
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/surveys?open=true');
+            const data = await result.json();
+            console.log(data);
+            setSurvey(data)
+        };
+        fetchData();
+    };
+
 
     function showClosedSurveys() {
-        fetch('http://localhost:81/api/surveys?open=false')
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response data
-                console.log(data);
-            })
-            .catch(error => {
-                // Handle the error
-                console.error(error);
-            });
-    }
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/surveys?open=false');
+            const data = await result.json();
+            console.log(data);
+            setSurvey(data)
+        };
+        fetchData();
+    };
 
     function showAll() {
         const fetchData = async () => {
