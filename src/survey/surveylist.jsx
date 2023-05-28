@@ -116,46 +116,48 @@ export function SurveyList() {
                 {surveyBox()}
                 <div className="box2">
                     <table width='100%'>
-                        <tr>
-                            <th>Id</th>
-                            <th>Titel</th>
-                            <th>Status</th>
-                            <th>Deelnemers</th>
-                            <th>Aanpassen</th>
-                        </tr>
-                        {survey.map(item => (
-                            <tr key={item.Survey_ID}>
-                                <td>
-                                    {item.Survey_ID}
-                                </td>
-                                <td className='question__grey'>
-                                    <Link to={`/survey/${item.Survey_ID}`} className='link'>
-                                        {item.description}
-                                    </Link>
-                                </td>
-                                <td>{console.log(item)}
-                                    {currentDate < item.close_date ? (
-                                        <p style={{ color: "red" }}>Open</p>
-                                    ) : currentDate > item.close_date ? (
-                                        <p style={{ color: "green" }}>Closed</p>
-                                    ) : console.log(item) ? (
-                                        <p style={{ color: "orange" }}>Being Reviewed</p>
-                                    ) :
-                                        <p>unknown</p>
-                                    }
-                                </td>
-                                <td>
-                                    <p>{item.participants}</p>
-                                </td>
-                                <td>
-                                    {item.status === "Being reviewed" ? (
-                                        <button className="edit_button">Aanpassen</button>
-                                    ) :
-                                        <p>Gesloten</p>
-                                    }
-                                </td>
+                        <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <th>Titel</th>
+                                <th>Status</th>
+                                <th>Deelnemers</th>
+                                <th>Aanpassen</th>
                             </tr>
-                        ))}
+                            {survey?.map(item => (
+                                <tr key={item.Survey_ID}>
+                                    <td>
+                                        {item.Survey_ID}
+                                    </td>
+                                    <td className='question__grey'>
+                                        <Link to={`/survey/${item.Survey_ID}`} className='link'>
+                                            {item.description}
+                                        </Link>
+                                    </td>
+                                    <td>{console.log(item)}
+                                        {currentDate < item.close_date ? (
+                                            <p style={{ color: "red" }}>Open</p>
+                                        ) : currentDate > item.close_date ? (
+                                            <p style={{ color: "green" }}>Closed</p>
+                                        ) : console.log(item) ? (
+                                            <p style={{ color: "orange" }}>Being Reviewed</p>
+                                        ) :
+                                            <p>unknown</p>
+                                        }
+                                    </td>
+                                    <td>
+                                        <p>{item.participants}</p>
+                                    </td>
+                                    <td>
+                                        {item.status === "Being reviewed" ? (
+                                            <button className="edit_button">Aanpassen</button>
+                                        ) :
+                                            <p>Gesloten</p>
+                                        }
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
                 </div>
                 <div className="box3">

@@ -105,7 +105,7 @@ function App() {
                         <Route path={'/create'} element={<CreateSurvey />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
-                        <Route path='/overview/:id' element={< OverView />} />
+                        <Route path='/overview/:id' element={< OverView question={questions} />} />
                         <Route path='/question' element={<ChangeQuestion question={survey} />} />
                         <Route path='/question/:id' element={<ChangeQuestion question={questions} />} />
                         <Route path={'/survey'} element={<Survey surveyArray={survey} />} />
