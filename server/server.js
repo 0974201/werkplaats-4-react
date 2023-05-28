@@ -161,6 +161,7 @@ app.get("/api/surveys", function (req, res) {
 
   const isOpen = req.query.open === 'true';
   const isClosed = req.query.open === 'false';
+  const beingReviewed = req.query.open === 'reviewed'
 
 
   console.log(isOpen)
@@ -168,11 +169,13 @@ app.get("/api/surveys", function (req, res) {
   console.log('req query ' + req.query.close_date)
   console.log('req.query open ' + req.query.open_date)
   console.log(req.query.open)
-  let sql = `SELECT * FROM survey`;
+  let sql = `SELECT * FROM survey as s`;
   if (isOpen) {
     sql += ` WHERE close_date > date('now')`;
   } else if (isClosed) {
     sql += ` WHERE close_date < date('now')`;
+  } else if (beingReviewed) {
+    sql += ` WHERE is_reviewed = 1 )`;
   }
 
 

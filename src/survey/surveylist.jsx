@@ -23,6 +23,16 @@ export function SurveyList() {
     }, []);
 
     /* Handles the queries in surveybox on the left side */
+    function showBeingReviewed() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/surveys?open=reviewed');
+            const data = await result.json();
+            console.log(data);
+            setSurvey(data)
+        };
+        fetchData();
+    };
+
     function showOpenSurveys() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=true');
@@ -70,7 +80,7 @@ export function SurveyList() {
                         </Link>
                     </div>
                     <div className="survey_item">
-                        <span className="surveybox_content" onClick={showOpenSurveys}>
+                        <span className="surveybox_content" onClick={showBeingReviewed}>
                             <img className="survey_img" src="https://i.imgur.com/5JQGokB.png" alt='Stickman inspecting'></img>
                             <span>Under Review</span>
                         </span>
@@ -123,14 +133,15 @@ export function SurveyList() {
                                         {item.description}
                                     </Link>
                                 </td>
-                                <td>
+                                <td>{console.log(item)}
                                     {currentDate < item.close_date ? (
                                         <p style={{ color: "red" }}>Open</p>
                                     ) : currentDate > item.close_date ? (
                                         <p style={{ color: "green" }}>Closed</p>
-                                    ) : (
+                                    ) : console.log(item) ? (
                                         <p style={{ color: "orange" }}>Being Reviewed</p>
-                                    )
+                                    ) :
+                                        <p>unknown</p>
                                     }
                                 </td>
                                 <td>
