@@ -5,6 +5,7 @@ import Header from './pages/header';
 import Layout from './pages/layout';
 import ModifyQuestion from './questions/questionlist';
 import ChangeQuestion from './questions/changequestion';
+import OverView from './questions/overview';
 import { Home } from './pages/home';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
@@ -50,11 +51,11 @@ export let questions = [
 ]
 
 export let survey = {
-        title: "Waar hou je van?",
-        description: "Dit is een vragen lijst waar in we je vragen gaan stellen over dingen waar je van houd.",
-        questions: questions,
-        anonymity: true
-    }
+    title: "Waar hou je van?",
+    description: "Dit is een vragen lijst waar in we je vragen gaan stellen over dingen waar je van houd.",
+    questions: questions,
+    anonymity: true
+}
 
 
 
@@ -102,8 +103,9 @@ function App() {
                         <Route index element={<SurveyList />} />
                         {/* <Route path='/survey/:id' element={<Survey />} /> */}
                         <Route path={'/create'} element={<CreateSurvey />} />
-                        <Route index element={<ModifyQuestion />} /> 
+                        <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
+                        <Route path='/overview/:id' element={< OverView />} />
                         <Route path='/question' element={<ChangeQuestion question={survey} />} />
                         <Route path='/question/:id' element={<ChangeQuestion question={questions} />} />
                         <Route path={'/survey'} element={<Survey surveyArray={survey} />} />

@@ -8,6 +8,14 @@
     justify-content: center;
 }
 
+.questionlist_data {
+    cursor: pointer;
+}
+
+.questionlist_data:hover {
+    transform: scale(1.2);
+}
+
 .close_button {
     background: transparent;
     border-style: none;
