@@ -108,7 +108,7 @@ app.get("/api/test_question", function (req, res) {
 We first check if it's an open or multiple choice and then update the columns around it.
 for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
-  const { type, question, questionId } = req.body;
+  const { type, question, questionId, options } = req.body;
   console.log('Question type is ' + type)
   console.log('Question is ' + question)
   console.log('Question Id is ' + questionId)
@@ -124,14 +124,14 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
     )
   }
   else if (type === 'MultipleChoice') {
-    db.run('UPDATE multiple_choice SET question = ? WHERE multiple_choice_id = ?', [req.body.question, req.body.questionId],
+    db.run('UPDATE multiple_choice SET question = ? WHERE multiple_choice_id = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
       console.log('question_id:', questionId),
       console.log('question', question)
     )
-    db.run('UPDATE option SET option = ? WHERE option_id = ?', [req.body.options, req.body.questionId],
+    db.run('UPDATE option SET option = ? WHERE option_id = ?', [options, questionId],
       function (err) {
         console.log(err.message);
       },
@@ -161,7 +161,7 @@ app.get("/api/surveys", function (req, res) {
 
   const isOpen = req.query.open === 'true';
   const isClosed = req.query.open === 'false';
-  const beingReviewed = req.query.open === 'reviewed'
+  const beingReviewed = req.query.open === 'reviewed';
 
 
   console.log(isOpen)
@@ -206,7 +206,29 @@ app.get('/api/users', function (req, res) {
 /* GET endpoint for filled_in surveys */
 app.get('/api/filled_surveys', function (req, res) {
   res.type('json');
-  db.all('Select * from filled_in', (err, row) => {
+  const id = req.query.Question_ID;
+  let sql = `SELECT questions.Question_ID, open_question.Open_Question_ID, open_question.question, multiple_choice.Multiple_Choice_ID, multiple_choice.question
+  FROM questions 
+  LEFT JOIN open_question ON questions.Question_ID = open_question.open_Question_ID
+  LEFT JOIN multiple_choice ON questions.Question_ID = multiple_choice.multiple_Choice_ID`;
+
+  db.run(
+    sql,
+    function (err) {
+      if (err) {
+        console.log(err.message)
+      } else {
+        console.log('survey id:' + this.lastID)
+        surveyId = this.lastID
+      }
+    }
+  )
+  query = `SELECT * FROM filled_in`
+  console.log('req query ' + req.query);
+  console.log('req body' + req.body);
+  console.log('question_ID' + id);
+  console.log(sql)
+  db.all(query, [id], (err, row) => {
     if (err) {
       console.log(err.message);
     }

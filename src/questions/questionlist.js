@@ -20,8 +20,7 @@ function ModifyQuestion() {
     }, []);
 
 
-    console.log('dit is' + question.options)
-    console.log(setQuestion)
+
     return (
         <div className="questionlist_table">
             <h1 className="questionlist_title">Vragenlijst</h1>
@@ -39,7 +38,7 @@ function ModifyQuestion() {
                             <td>
                                 {item.Question_ID}
                             </td>
-                            <td className='question__grey'>
+                            <td className='question__grey'> {console.log(item)}
                                 <Link to={`/question/${item.Question_ID}`} className='link'>
                                     {item.question}
                                 </Link>

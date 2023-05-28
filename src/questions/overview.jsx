@@ -1,13 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// import { questions } from '../index.js';
+import './overview.css'
+
 
 function OverView() {
     const [overzichtlijst, setOverzicht] = useState([])
     const { id } = useParams();
-    // const [answers, showAnswers] = useState(question[id])
 
+    console.log(id)
 
     /* Fetches the api */
     useEffect(() => {
@@ -21,8 +22,8 @@ function OverView() {
     }, []);
 
     return (
-        <div className="questionlist_table">
-            <h1 className="questionlist_title">Overzicht</h1>
+        <div className="overview_table">
+            <h1 className="overview_title">Overzicht</h1>
             <table width='100%'>
                 <tbody>
                     <tr>
@@ -30,7 +31,7 @@ function OverView() {
                         <th>Gebruiker ID</th>
                     </tr>
                     {overzichtlijst.map(answer => (
-                        <tr key={answer.User_ID}>
+                        <tr key={answer.Question_ID}>
                             <td>
                                 {answer.answer}
                             </td>
