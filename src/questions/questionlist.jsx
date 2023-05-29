@@ -50,57 +50,65 @@ function ModifyQuestion() {
 
 
     return (
-        <div className="questionlist_table">
-            <h1 className="questionlist_title">Vragenlijst</h1>
-            {deletemessage && (
-                <p className="error"> {deletemessage} </p>
-            )}
-            <div className='questionlist_search'>
-                <input type='text' placeholder='Zoek Vraag' onChange={(e) => setSearch(e.target.value)}></input>
+        <>
+            <div className="questionlist_box1"></div>
+            <div className="questionlist_survey_box"></div>
+            <div className="questionlist_table">
+                <h1 className="questionlist_title">Vragenlijst</h1>
+                {deletemessage && (
+                    <p className="error"> {deletemessage} </p>
+                )}
+                <div className='questionlist_search'>
+                    <input type='text' placeholder='Zoek Vraag' onChange={(e) => setSearch(e.target.value)}></input>
+                </div>
+                <div className='questionlist_box2'>
+                    <table width='100%'>
+                        <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <th>Vraag</th>
+                                <th>Deelnemers</th>
+                                <th>Overzicht</th>
+                                <th>Verwijderen</th>
+                            </tr>
+                            {question.filter((item) => {
+                                return search.toLowerCase() === ''
+                                    ? item
+                                    : item.question.toLowerCase().includes(search)
+                            }).map(item => (
+                                <tr key={item.Question_ID}>
+                                    <td>
+                                        {item.Question_ID}
+                                    </td>
+                                    <td className='question__grey'> {console.log(item)}
+                                        <Link to={`/question/${item.Question_ID}`} className='link'>
+                                            {item.question}
+                                        </Link>
+                                    </td>
+                                    <td>
+                                        <span>Deelnemers</span>
+                                    </td>
+                                    <td className='questionlist_data'>
+                                        <span>
+                                            <Link to={`/overview/${item.Question_ID}`} className='link'>
+                                                <span>Antwoorden</span>
+                                            </Link>
+                                        </span>
+                                    </td>
+                                    <td> {console.log(item.Question_ID)}
+                                        <button className='close_button' onClick={() => DeleteQuestion(item.Question_ID)}
+                                        > Verwijder
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <table width='100%'>
-                <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <th>Vraag</th>
-                        <th>Deelnemers</th>
-                        <th>Overzicht</th>
-                        <th>Verwijderen</th>
-                    </tr>
-                    {question.filter((item) => {
-                        return search.toLowerCase() === ''
-                            ? item
-                            : item.question.toLowerCase().includes(search)
-                    }).map(item => (
-                        <tr key={item.Question_ID}>
-                            <td>
-                                {item.Question_ID}
-                            </td>
-                            <td className='question__grey'> {console.log(item)}
-                                <Link to={`/question/${item.Question_ID}`} className='link'>
-                                    {item.question}
-                                </Link>
-                            </td>
-                            <td>
-                                <span>Deelnemers</span>
-                            </td>
-                            <td className='questionlist_data'>
-                                <span>
-                                    <Link to={`/overview/${item.Question_ID}`} className='link'>
-                                        <span>Antwoorden</span>
-                                    </Link>
-                                </span>
-                            </td>
-                            <td> {console.log(item.Question_ID)}
-                                <button className='close_button' onClick={() => DeleteQuestion(item.Question_ID)}
-                                > Verwijder
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+            <div className="questionlist_box3">
+            </div>
+        </>
     )
 }
 

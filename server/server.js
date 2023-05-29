@@ -152,7 +152,7 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
 /* GET function for fetching all questions. */
 app.get("/api/questions", function (req, res) {
   res.type('json');
-  db.all('Select * FROM questions', (err, row) => {
+  db.all('Select * FROM questions WHERE is_deleted = 0', (err, row) => {
     if (err) {
       console.log(err.message);
     }
