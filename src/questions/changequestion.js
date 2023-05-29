@@ -16,7 +16,19 @@ export default function ChangeQuestion({ question }) {
     const [options, setOptions] = useState(question[id].options)
     const [message, setMessage] = useState('')
     const [showmessage, setShowMessage] = useState(false)
+    const [questionx, showQuestion] = useState([])
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetch(`http://localhost:81/api/questions${id}`);
+            const data = await result.json();
+            console.log(data);
+            showQuestion(data)
+        };
+        fetchData();
+    }, []);
+
+    console.log('dit is id ' + id)
     console.log(question)
     console.log(options)
     console.log((question[id].id))

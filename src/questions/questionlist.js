@@ -19,8 +19,6 @@ function ModifyQuestion() {
         fetchData();
     }, []);
 
-
-
     return (
         <div className="questionlist_table">
             <h1 className="questionlist_title">Vragenlijst</h1>

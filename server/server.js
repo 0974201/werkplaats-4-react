@@ -161,6 +161,26 @@ app.get("/api/questions", function (req, res) {
   });
 });
 
+/* GET endpoint for questions with question id parameters */
+app.get("/api/questions:id", function (req, res) {
+  res.type('json');
+
+  const questionId = req.params.id
+
+  const sql = 'SELECT * FROM questions WHERE Question_ID = ?';
+  console.log('dit is ' + req.params.id)
+  console.log(questionId)
+  console.log(req.params['id'])
+  db.all(sql, [questionId], (err, row) => {
+    if (err) {
+      console.log(err.message);
+    }
+    console.log(row);
+    res.send(JSON.stringify(row));
+  });
+});
+
+
 /* GET function for fetching all surveys.
  We give the API endpoint a query parameter with req.query.open which allows us to
  fetch it in surveylist.jsx and depending on the query parameter it will show 
@@ -226,8 +246,8 @@ app.get('/api/filled_surveys', function (req, res) {
   const id = req.query.Question_ID;
   // let sql = `SELECT questions.Question_ID, open_question.Open_Question_ID, open_question.question, multiple_choice.Multiple_Choice_ID, multiple_choice.question
   // FROM questions 
-  // LEFT JOIN open_question ON questions.Question_ID = open_question.open_Question_ID
-  // LEFT JOIN multiple_choice ON questions.Question_ID = multiple_choice.multiple_Choice_ID`;
+  // INNER JOIN open_question ON questions.Question_ID = open_question.open_Question_ID
+  // INNER JOIN multiple_choice ON questions.Question_ID = multiple_choice.multiple_Choice_ID`;
 
   query = `SELECT * FROM filled_in`
   console.log('req query ' + req.query);
