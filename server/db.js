@@ -46,8 +46,7 @@ function createTables(new_db){
   let multiple_choice =  `
   CREATE TABLE multiple_choice(
     Multiple_Choice_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    question TEXT (255),
-    Option_ID REFERENCES option (Option_ID)
+    question TEXT (255)
   );`;
 
   let option = `
@@ -59,15 +58,19 @@ function createTables(new_db){
   let option_row = `
   CREATE TABLE option_row(
     Option_ID REFERENCES option (Option_ID),
-    Multiple_Choice_ID REFERENCES multiple_choice (Multiple_Choice_ID)
+    Multiple_Choice_ID REFERENCES multiple_choice (Multiple_Choice_ID),
+    option_order INTEGER (100)
   );`;
 
   let survey = `
   CREATE TABLE survey(
     Survey_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT (255),
     description TEXT (255),
     open_date TEXT (50),
-    close_date TEXT (50)
+    close_date TEXT (50),
+    can_be_anonymous BOOLEAN DEFAULT (1),
+    is_reviewed BOOLEAN DEFAULT (0)
   );`;
 
   let filled_in = `
@@ -75,7 +78,6 @@ function createTables(new_db){
     date_answered TEXT (50),
     answer TEXT (255),
     question_order INTEGER (100),
-    is_reviewed BOOLEAN DEFAULT (0),
     Question_ID REFERENCES question (Question_ID),
     Survey_ID REFERENCES survey (Survey_ID),
     User_ID REFERENCES user (User_ID)
