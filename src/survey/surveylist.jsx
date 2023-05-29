@@ -7,9 +7,12 @@ import './surveylist.css'
 
 export function SurveyList() {
     const [survey, setSurvey] = useState([]);
-    let currentDate = new Date().toISOString().split('T')[0]
+
+    /* formats the current date to DD-MM-YY format.*/
+    const nowDate = new Date();
+    const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+    const currentDate = nowDate.toLocaleDateString('en-US', options).replace(/\//g, '-');
     console.log(currentDate)
-    console.log(survey)
 
     /* Fetches the API endpoint from surveys in server.js */
     useEffect(() => {
@@ -131,25 +134,26 @@ export function SurveyList() {
                                     </td>
                                     <td className='question__grey'>
                                         <Link to={`/survey/${item.Survey_ID}`} className='link'>
-                                            {item.description}
+                                            {item.title}
                                         </Link>
                                     </td>
-                                    <td>{console.log(item)}
-                                        {currentDate < item.close_date ? (
+                                    <td>
+                                        {(currentDate < item.close_date && item.is_reviewed == '0') ? (
                                             <p style={{ color: "red" }}>Open</p>
-                                        ) : currentDate > item.close_date ? (
+                                        ) : (currentDate > item.close_date && item.is_reviewed == '0') ? (
                                             <p style={{ color: "green" }}>Closed</p>
-                                        ) : console.log(item) ? (
+                                        ) : (item.is_reviewed == '1') ? (
                                             <p style={{ color: "orange" }}>Being Reviewed</p>
-                                        ) :
-                                            <p>unknown</p>
+                                        ) : (
+                                            <p>Unknown Status</p>
+                                        )
                                         }
                                     </td>
                                     <td>
                                         <p>{item.participants}</p>
                                     </td>
                                     <td>
-                                        {item.status === "Being reviewed" ? (
+                                        {item.is_reviewed == "1" ? (
                                             <button className="edit_button">Aanpassen</button>
                                         ) :
                                             <p>Gesloten</p>
