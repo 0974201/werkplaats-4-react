@@ -161,6 +161,25 @@ app.get("/api/questions", function (req, res) {
   });
 });
 
+/* Delete endpoint for questionlist.
+We use app.delete endpoint with res.type json to get the json information.
+*/
+app.delete('/api/questions', (req, res) => {
+  res.type('json');
+
+  /* questionId we sent through a const array to body (see questionlist.jsx DeleteQuestion function)*/
+  const questionId = req.body
+  console.log('question ID is ' + questionId)
+
+  /* We run a db.run query that deletes the question based on the question Id */
+  db.run('DELETE FROM questions WHERE Question_ID = ?', [questionId]),
+    function (err) {
+      console.log(err.message);
+    },
+    console.log("DELETE Request Called for " + questionId)
+  res.send("DELETE Request Called")
+});
+
 /* GET endpoint for questions with question id parameters 
 the req.params.id gets the id from the URL and we pass this ID to the sql query. */
 app.get("/api/questions:id", function (req, res) {
@@ -172,6 +191,8 @@ app.get("/api/questions:id", function (req, res) {
   console.log('dit is ' + req.params.id)
   console.log(questionId)
   console.log(req.params['id'])
+
+  /* Calls the database with the sql query variable and the questionId as argument. */
   db.all(sql, [questionId], (err, row) => {
     if (err) {
       console.log(err.message);

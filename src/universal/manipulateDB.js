@@ -11,6 +11,16 @@ function saveToDB(array, path) {
     })
 }
 
+function DeleteDB(path) {
+    fetch('http//localhost:81/api' + path, {
+        method: 'DELETE',
+        mode: 'cors',
+        headers: {
+            'Çontent-Type': 'application/json'
+        },
+    })
+}
+
 /* GET request fetch function
 We use useEffect to re-render the data immediately.
 fetch uses GET / application/json as standard so we don't need to define that.
@@ -23,7 +33,7 @@ async function GetDB(path) {
     console.log(data);
 }
 
-export { saveToDB, GetDB }
+export { saveToDB, GetDB, DeleteDB }
 
 // useEffect(() => {
 //     GetDB('test_question')

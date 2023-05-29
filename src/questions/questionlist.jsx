@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './questionlist.css';
 import { Link } from 'react-router-dom';
-import { GetDB } from '../universal/manipulateDB.js'
+import { GetDB, DeleteDB } from '../universal/manipulateDB.js'
 
 
 function ModifyQuestion() {
@@ -19,6 +19,37 @@ function ModifyQuestion() {
         };
         fetchData();
     }, []);
+
+    async function DeleteQuestion(questionId) {
+        if (window.confirm('Weet je zeker?')) {
+            try {
+                const array = {
+                    questionId: questionId
+                }
+                await fetch(`http://localhost:81/api/questions`, {
+                    method: "DELETE",
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(array)
+                });
+
+                setQuestion((question => question.filter(q =>
+                    q.Question_ID !== questionId)
+                ));
+                console.log('deleted successfully')
+            } catch (error) {
+                console.log('error!!', error)
+            }
+
+        }
+    };
+
+
+
+
+
 
     return (
         <div className="questionlist_table">
@@ -59,13 +90,8 @@ function ModifyQuestion() {
                                     </Link>
                                 </span>
                             </td>
-                            <td>
-                                <button className='close_button' onClick={() => {
-                                    if (window.confirm('Weet je zeker?')) {
-                                        setQuestion(question => question.filter(q =>
-                                            q.Question_ID !== item.Question_ID))
-                                    }
-                                }}
+                            <td> {console.log(item.Question_ID)}
+                                <button className='close_button' onClick={() => DeleteQuestion(item.Question_ID)}
                                 > Verwijder
                                 </button>
                             </td>
