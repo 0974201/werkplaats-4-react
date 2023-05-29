@@ -1,14 +1,22 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './questions.css';
 import { questions } from '../index.js'
 import { Question } from '../survey/survey'
 import { Link } from 'react-router-dom';
+import { GetDB } from '../universal/manipulateDB.js'
 
-function modifyQuestion() {
-    const [name, setName] = useState('');
+
+function ModifyQuestion() {
     const [question, setQuestion] = useState(questions);
-    let nextId = 0
+
+    /* This should fetch the data asynchronously if you import GetDB */
+    useEffect(() => {
+        const fetchData = async () => {
+            await GetDB('questions');
+        };
+        fetchData();
+    }, []);
 
     console.log('dit is' + question.options)
     return (
@@ -18,6 +26,7 @@ function modifyQuestion() {
                 <tr>
                     <th>Id</th>
                     <th>Vraag</th>
+                    <th></th>
                 </tr>
                 {question.map(item => (
                     <tr key={item.id}>
@@ -30,18 +39,22 @@ function modifyQuestion() {
                             </Link>
                         </td>
                         <td>
-                            <button className='close_button' onClick={() => setQuestion(question.filter(q =>
-                                q.id !== item.id))}>
+                            <button className='close_button' onClick={() => {
+                                if (window.confirm('Weet je zeker?')) {
+                                    setQuestion(question.filter(q =>
+                                        q.id !== item.id))
+                                }
+                            }}
+                            >
                                 <img src="https://i.imgur.com/AhBVm9H.png" height="20px" alt="Red X Button">
                                 </img>
                             </button>
                         </td>
                     </tr>
                 ))}
-
             </table>
         </div>
     )
 }
 
-export default modifyQuestion
+export default ModifyQuestion

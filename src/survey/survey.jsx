@@ -1,5 +1,6 @@
 import './survey.css'
 import React, {useState} from "react";
+import Progressbar from "../universal/progressbar";
 
 export default function Survey({surveyArray}) {
     const [answeredArray, setAnsweredArray] = useState(onLoadSurvey())
@@ -90,6 +91,8 @@ export default function Survey({surveyArray}) {
 
     return (
             <div className={"survey"}>
+                <Progressbar checkedAnswerd={checkAnswerd()} amountQuestion={questionList.length} />
+                <span>vragen beantwoord: {checkAnswerd()}/{questionList.length}</span>
                 <h1>{surveyArray.title}</h1>
                 {questionShown <= 0 &&
                     <p>{surveyArray.description}</p>
@@ -97,7 +100,6 @@ export default function Survey({surveyArray}) {
                 {questionShown > 0 &&
                     <>
                         <h3>Vraag {questionShown}/{questionList.length}</h3>
-                        <h4>vragen beantwoord: {checkAnswerd()}/{questionList.length}</h4>
                         {questionList[questionShown-1]}
                     </>
                 }
