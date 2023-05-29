@@ -151,8 +151,18 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
 
 /* GET function for fetching all questions. */
 app.get("/api/questions", function (req, res) {
+
+  const isOpen = req.query.open === 'true';
+  const isDeleted = req.query.open === 'false';
   res.type('json');
-  db.all('Select * FROM questions WHERE is_deleted = 0', (err, row) => {
+  sql = 'Select * FROM questions ';
+
+  if (isOpen) {
+    sql += 'WHERE is_deleted = 0';
+  } else if (isDeleted)
+    sql += 'WHERE is_deleted = 1';
+  console.log(sql)
+  db.all(sql, (err, row) => {
     if (err) {
       console.log(err.message);
     }

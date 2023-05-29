@@ -25,6 +25,23 @@
     width: available;
 }
 
+.questionlist_filterbox {
+    cursor: pointer;
+}
+
+.questionlist.filter_item:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, .1)
+}
+
+.questionlist_filter_item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 0;
+    padding: 0px 10px;
+}
+
 /* Everything below this is table related for questionlist.jsx */
 
 th {

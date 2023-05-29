@@ -48,11 +48,42 @@ function ModifyQuestion() {
         }
     };
 
+    function showQuestions() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/questions?open=true');
+            const data = await result.json();
+            console.log(data);
+            setQuestion(data)
+        };
+        fetchData();
+    };
+
+    function showDeleted() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/questions?open=false');
+            const data = await result.json();
+            console.log(data);
+            setQuestion(data)
+        };
+        fetchData();
+    };
+
 
     return (
         <>
             <div className="questionlist_box1"></div>
-            <div className="questionlist_survey_box"></div>
+            <div className="questionlist_filterbox">
+                <div className='questionlist_filter_item'>
+                    <div className='questionlist_filter_content' onClick={showQuestions}>
+                        <span>Alle Vragen</span>
+                    </div>
+                </div>
+                <div className='questionlist_filter_item'>
+                    <div className='questionlist_filter_content' onClick={showDeleted}>
+                        <span>Prullenbak</span>
+                    </div>
+                </div>
+            </div>
             <div className="questionlist_table">
                 <h1 className="questionlist_title">Vragenlijst</h1>
                 {deletemessage && (
