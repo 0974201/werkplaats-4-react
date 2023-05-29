@@ -7,6 +7,8 @@ import './surveylist.css'
 
 export function SurveyList() {
     const [survey, setSurvey] = useState([]);
+    const [search, setSearch] = useState('')
+    console.log('dit is ' + search)
 
     /* formats the current date to DD-MM-YY format.*/
     const nowDate = new Date();
@@ -105,6 +107,7 @@ export function SurveyList() {
                             <img className='Survey_icon' src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
                             <span>Show All</span>
                         </span>
+                        <input type="text" placeholder='Search surveys..' onChange={(e) => setSearch(e.target.value)}></input>
                     </div>
                 </div>
             </div>
@@ -127,7 +130,11 @@ export function SurveyList() {
                                 <th>Deelnemers</th>
                                 <th>Aanpassen</th>
                             </tr>
-                            {survey?.map(item => (
+                            {survey.filter((item) => {
+                                return search.toLowerCase() === ''
+                                    ? item
+                                    : item.title.toLowerCase().includes(search);
+                            }).map(item => (
                                 <tr key={item.Survey_ID}>
                                     <td>
                                         {item.Survey_ID}

@@ -161,7 +161,8 @@ app.get("/api/questions", function (req, res) {
   });
 });
 
-/* GET endpoint for questions with question id parameters */
+/* GET endpoint for questions with question id parameters 
+the req.params.id gets the id from the URL and we pass this ID to the sql query. */
 app.get("/api/questions:id", function (req, res) {
   res.type('json');
 
