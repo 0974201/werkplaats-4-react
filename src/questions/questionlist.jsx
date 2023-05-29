@@ -29,7 +29,7 @@ function ModifyQuestion() {
                     questionId: questionId
                 }
                 await fetch(`http://localhost:81/api/questions`, {
-                    method: "DELETE",
+                    method: "PUT",
                     mode: 'cors',
                     headers: {
                         'Content-Type': 'application/json'
