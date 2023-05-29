@@ -8,6 +8,8 @@ import { GetDB, DeleteDB } from '../universal/manipulateDB.js'
 function ModifyQuestion() {
     const [question, setQuestion] = useState([]);
     const [search, setSearch] = useState('')
+    const [deletemessage, showDeleteMessage] = useState('')
+
 
     /* This should fetch the data asynchronously if you import GetDB */
     useEffect(() => {
@@ -36,8 +38,8 @@ function ModifyQuestion() {
                 });
 
                 setQuestion((question => question.filter(q =>
-                    q.Question_ID !== questionId)
-                ));
+                    q.Question_ID !== questionId)));
+                showDeleteMessage(`Vraag ${questionId} is verwijderd`);
                 console.log('deleted successfully')
             } catch (error) {
                 console.log('error!!', error)
@@ -50,6 +52,9 @@ function ModifyQuestion() {
     return (
         <div className="questionlist_table">
             <h1 className="questionlist_title">Vragenlijst</h1>
+            {deletemessage && (
+                <p className="error"> {deletemessage} </p>
+            )}
             <div className='questionlist_search'>
                 <input type='text' placeholder='Zoek Vraag' onChange={(e) => setSearch(e.target.value)}></input>
             </div>
