@@ -6,17 +6,27 @@
     background-color: #fff;
 }
 
+.questionlist_filter_search input {
+    width: 625px;
+    margin-bottom: 10px;
+}
+
+.questionlist_filter_box {
+    overflow: hidden;
+    margin-right: 20px;
+    margin-top: 70px;
+}
+
 .questionlist_title {
     display: flex;
     justify-content: center;
 }
 
-.questionlist_data {
-    cursor: pointer;
-}
 
-.questionlist_data:hover {
+.questionlist_filter_content:hover {
+    cursor: pointer;
     transform: scale(1.2);
+    background-color: rgba(0, 0, 0, .1);
 }
 
 .questionlist_search {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { surveys } from '../index.js'
 import { GetDB } from '../universal/manipulateDB.js'
 import './surveylist.css'
 
@@ -8,20 +7,19 @@ import './surveylist.css'
 export function SurveyList() {
     const [survey, setSurvey] = useState([]);
     const [search, setSearch] = useState('')
-    console.log('dit is ' + search)
+
 
     /* formats the current date to DD-MM-YY format.*/
     const nowDate = new Date();
     const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
     const currentDate = nowDate.toLocaleDateString('en-US', options).replace(/\//g, '-');
-    console.log(currentDate)
+
 
     /* Fetches the API endpoint from surveys in server.js */
     useEffect(() => {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys');
             const data = await result.json();
-            console.log(data);
             setSurvey(data)
         };
         fetchData();
@@ -32,7 +30,6 @@ export function SurveyList() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=reviewed');
             const data = await result.json();
-            console.log(data);
             setSurvey(data)
         };
         fetchData();
@@ -42,7 +39,6 @@ export function SurveyList() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=true');
             const data = await result.json();
-            console.log(data);
             setSurvey(data)
         };
         fetchData();
@@ -53,7 +49,6 @@ export function SurveyList() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=false');
             const data = await result.json();
-            console.log(data);
             setSurvey(data)
         };
         fetchData();
@@ -63,7 +58,6 @@ export function SurveyList() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys');
             const data = await result.json();
-            console.log(data);
             setSurvey(data)
         };
         fetchData();
@@ -130,7 +124,7 @@ export function SurveyList() {
                                 <th>Deelnemers</th>
                                 <th>Aanpassen</th>
                             </tr>
-                            {survey.filter((item) => {
+                            {survey?.filter((item) => {
                                 return search.toLowerCase() === ''
                                     ? item
                                     : item.title.toLowerCase().includes(search);

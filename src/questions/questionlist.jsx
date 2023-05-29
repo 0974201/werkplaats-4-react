@@ -23,7 +23,7 @@ function ModifyQuestion() {
     }, []);
 
     async function DeleteQuestion(questionId) {
-        if (window.confirm('Weet je zeker?')) {
+        if (window.confirm(`Weet je zeker dat je vraag ${questionId} wil verwijderen?`)) {
             try {
                 const array = {
                     is_deleted: '1',
@@ -41,7 +41,6 @@ function ModifyQuestion() {
                 setQuestion((question => question.filter(q =>
                     q.Question_ID !== questionId)));
                 showMessage(`Vraag ${questionId} is verwijderd`);
-                console.log(' successfully')
             } catch (error) {
                 console.log('error!!', error)
             }
@@ -50,7 +49,7 @@ function ModifyQuestion() {
     };
 
     async function RetrieveQuestion(questionId) {
-        if (window.confirm('Weet je zeker?')) {
+        if (window.confirm(`Weet je zeker dat je vraag ${questionId} wil herstellen?`)) {
             try {
                 const array = {
                     is_deleted: '0',
@@ -80,7 +79,6 @@ function ModifyQuestion() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/questions?open=true');
             const data = await result.json();
-            console.log(data);
             setQuestion(data)
         };
         fetchData();
@@ -90,7 +88,6 @@ function ModifyQuestion() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/questions?open=false');
             const data = await result.json();
-            console.log(data);
             setQuestion(data)
         };
         fetchData();
@@ -99,7 +96,7 @@ function ModifyQuestion() {
     function questionBox() {
         return (
             <div className="questionlist_box1">
-                <div className="questionlist_filterbox">
+                <div className="questionlist_filter_box">
                     <div className='questionlist_filter_item'>
                         <div className='questionlist_filter_content' onClick={showQuestions}>
                             <span>Alle Vragen</span>
@@ -118,15 +115,15 @@ function ModifyQuestion() {
     return (
         <div className="surveylist_container">
             <h1 className="enquete_title">Vragenlijst</h1>
-            <div className='questionlist_filter_search'>
-                <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
-            </div>
             <div className="outside">
                 {questionBox()}
                 {deletemessage && (
                     <p className="error"> {deletemessage} </p>
                 )}
                 <div className='questionlist_box2'>
+                    <div className='questionlist_filter_search'>
+                        <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
+                    </div>
                     <table width='100%'>
                         <tbody>
                             <tr>
@@ -166,7 +163,7 @@ function ModifyQuestion() {
                                         </button>
                                         /* shows different button if deleted*/
                                         : <button className='close_button' onClick={() => RetrieveQuestion(item.Question_ID)}
-                                        > <span>Zet Terug</span>
+                                        > <span>Herstel</span>
                                         </button>
                                     }
                                     </td>
