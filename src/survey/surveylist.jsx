@@ -107,7 +107,7 @@ export function SurveyList() {
                             <img className='Survey_icon' src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
                             <span>Show All</span>
                         </span>
-                        <input type="text" placeholder='Search surveys..' onChange={(e) => setSearch(e.target.value)}></input>
+                        <input type="text" placeholder='Zoek Enquête..' onChange={(e) => setSearch(e.target.value)}></input>
                     </div>
                 </div>
             </div>

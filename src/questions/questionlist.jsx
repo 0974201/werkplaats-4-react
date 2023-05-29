@@ -1,12 +1,13 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import './questions.css';
+import './questionlist.css';
 import { Link } from 'react-router-dom';
 import { GetDB } from '../universal/manipulateDB.js'
 
 
 function ModifyQuestion() {
     const [question, setQuestion] = useState([]);
+    const [search, setSearch] = useState('')
 
     /* This should fetch the data asynchronously if you import GetDB */
     useEffect(() => {
@@ -22,6 +23,9 @@ function ModifyQuestion() {
     return (
         <div className="questionlist_table">
             <h1 className="questionlist_title">Vragenlijst</h1>
+            <div className='questionlist_search'>
+                <input type='text' placeholder='Zoek Vraag' onChange={(e) => setSearch(e.target.value)}></input>
+            </div>
             <table width='100%'>
                 <tbody>
                     <tr>
@@ -31,7 +35,11 @@ function ModifyQuestion() {
                         <th>Overzicht</th>
                         <th>Verwijderen</th>
                     </tr>
-                    {question?.map(item => (
+                    {question.filter((item) => {
+                        return search.toLowerCase() === ''
+                            ? item
+                            : item.question.toLowerCase().includes(search)
+                    }).map(item => (
                         <tr key={item.Question_ID}>
                             <td>
                                 {item.Question_ID}

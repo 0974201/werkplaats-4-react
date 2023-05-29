@@ -3,19 +3,6 @@
     cursor: pointer;
 }
 
-.questionlist_title {
-    display: flex;
-    justify-content: center;
-}
-
-.questionlist_data {
-    cursor: pointer;
-}
-
-.questionlist_data:hover {
-    transform: scale(1.2);
-}
-
 .close_button {
     background: transparent;
     border-style: none;
@@ -72,61 +59,4 @@
 .textarea {
     width: 200px;
     height: 100px;
-}
-
-.question__grey:hover {
-    background-color: rgba(0, 0, 0, .1);
-}
-
-/* everything under this are table related */
-
-th {
-    font-size: 25px;
-    padding: 0 10px;
-    font-weight: 600;
-}
-
-td {
-    font-weight: 600;
-    padding: 0 3px;
-}
-
-.questionlist_table table {
-    border-collapse: collapse;
-}
-
-.questionlist_table th {
-    font-size: 25px;
-}
-
-.questionlist_table th:nth-child(1),
-.questionlist_table td:nth-child(1) {
-    border: solid black;
-    border-width: 1px 0px 1px 1px;
-    padding: 0;
-}
-
-.questionlist_table th:nth-child(2),
-.questionlist_table td:nth-child(2) {
-    border: solid black;
-    border-width: 1px 0px 1px 0px;
-    padding: 10px 10px;
-}
-
-.questionlist_table th:nth-child(3),
-.questionlist_table td:nth-child(3) {
-    border: solid black;
-    border-width: 1px 0px 1px 0px
-}
-
-.questionlist_table th:nth-child(4),
-.questionlist_table td:nth-child(4) {
-    border: solid black;
-    border-width: 1px 0px 1px 0px
-}
-
-.questionlist_table th:nth-child(5),
-.questionlist_table td:nth-child(5) {
-    border: solid black;
-    border-width: 1px 1px 1px 0px
 }
