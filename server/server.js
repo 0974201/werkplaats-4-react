@@ -164,12 +164,13 @@ app.get("/api/questions", function (req, res) {
 /* Delete endpoint for questionlist.
 We use app.delete endpoint with res.type json to get the json information.
 */
-app.delete('/api/questions', (req, res) => {
+app.delete('/api/questions', bodyParser.json(), (req, res) => {
   res.type('json');
 
   /* questionId we sent through a const array to body (see questionlist.jsx DeleteQuestion function)*/
-  const questionId = req.body
-  console.log('question ID is ' + questionId)
+  const { questionId } = req.body
+  console.log('question ID is ' + questionId);
+  console.log('req.body question id ' + req.body.questionId);
 
   /* We run a db.run query that deletes the question based on the question Id */
   db.run('DELETE FROM questions WHERE Question_ID = ?', [questionId]),
