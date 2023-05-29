@@ -196,12 +196,13 @@ app.put('/api/questions', bodyParser.json(), (req, res) => {
   res.type('json');
 
   /* questionId we sent through a const array to body (see questionlist.jsx DeleteQuestion function)*/
-  const { questionId } = req.body;
+  const { is_deleted, questionId } = req.body;
   console.log('question ID is ' + questionId);
   console.log('req.body question id ' + req.body.questionId);
+  console.log('is_deleted ' + is_deleted)
 
   /* We run a db.run query that deletes the question based on the question Id */
-  db.run('UPDATE questions SET is_deleted = ? WHERE Question_ID = ?', [1, questionId]),
+  db.run('UPDATE questions SET is_deleted = ? WHERE Question_ID = ?', [is_deleted, questionId]),
     function (err) {
       console.log(err.message);
     },

@@ -8,13 +8,13 @@ import { GetDB, DeleteDB } from '../universal/manipulateDB.js'
 function ModifyQuestion() {
     const [question, setQuestion] = useState([]);
     const [search, setSearch] = useState('')
-    const [deletemessage, showDeleteMessage] = useState('')
+    const [deletemessage, showMessage] = useState('')
 
 
     /* This should fetch the data asynchronously if you import GetDB */
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions');
+            const result = await fetch('http://localhost:81/api/questions?open=true');
             const data = await result.json();
             console.log(data);
             setQuestion(data)
@@ -26,7 +26,8 @@ function ModifyQuestion() {
         if (window.confirm('Weet je zeker?')) {
             try {
                 const array = {
-                    questionId: questionId
+                    is_deleted: '1',
+                    questionId: questionId,
                 }
                 await fetch(`http://localhost:81/api/questions`, {
                     method: "PUT",
@@ -39,14 +40,41 @@ function ModifyQuestion() {
 
                 setQuestion((question => question.filter(q =>
                     q.Question_ID !== questionId)));
-                showDeleteMessage(`Vraag ${questionId} is verwijderd`);
-                console.log('deleted successfully')
+                showMessage(`Vraag ${questionId} is verwijderd`);
+                console.log(' successfully')
             } catch (error) {
                 console.log('error!!', error)
             }
 
         }
     };
+
+    async function RetrieveQuestion(questionId) {
+        if (window.confirm('Weet je zeker?')) {
+            try {
+                const array = {
+                    is_deleted: '0',
+                    questionId: questionId,
+                }
+                await fetch(`http://localhost:81/api/questions`, {
+                    method: "PUT",
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(array)
+                });
+
+                setQuestion((question => question.filter(q =>
+                    q.Question_ID !== questionId)));
+                showMessage(`Vraag ${questionId} is hersteld`);
+            } catch (error) {
+                console.log('error!!', error)
+            }
+
+        }
+    };
+
 
     function showQuestions() {
         const fetchData = async () => {
@@ -68,30 +96,36 @@ function ModifyQuestion() {
         fetchData();
     };
 
-
-    return (
-        <>
-            <div className="questionlist_box1"></div>
-            <div className="questionlist_filterbox">
-                <div className='questionlist_filter_item'>
-                    <div className='questionlist_filter_content' onClick={showQuestions}>
-                        <span>Alle Vragen</span>
+    function questionBox() {
+        return (
+            <div className="questionlist_box1">
+                <div className="questionlist_filterbox">
+                    <div className='questionlist_filter_item'>
+                        <div className='questionlist_filter_content' onClick={showQuestions}>
+                            <span>Alle Vragen</span>
+                        </div>
                     </div>
-                </div>
-                <div className='questionlist_filter_item'>
-                    <div className='questionlist_filter_content' onClick={showDeleted}>
-                        <span>Prullenbak</span>
+                    <div className='questionlist_filter_item'>
+                        <div className='questionlist_filter_content' onClick={showDeleted}>
+                            <span>Prullenbak</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="questionlist_table">
-                <h1 className="questionlist_title">Vragenlijst</h1>
+        )
+    }
+
+    return (
+        <div className="surveylist_container">
+            <h1 className="enquete_title">Vragenlijst</h1>
+            <div className='questionlist_filter_search'>
+                <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
+            </div>
+            <div className="outside">
+                {questionBox()}
                 {deletemessage && (
                     <p className="error"> {deletemessage} </p>
                 )}
-                <div className='questionlist_search'>
-                    <input type='text' placeholder='Zoek Vraag' onChange={(e) => setSearch(e.target.value)}></input>
-                </div>
                 <div className='questionlist_box2'>
                     <table width='100%'>
                         <tbody>
@@ -100,7 +134,7 @@ function ModifyQuestion() {
                                 <th>Vraag</th>
                                 <th>Deelnemers</th>
                                 <th>Overzicht</th>
-                                <th>Verwijderen</th>
+                                <th>Aanpassen</th>
                             </tr>
                             {question.filter((item) => {
                                 return search.toLowerCase() === ''
@@ -126,21 +160,25 @@ function ModifyQuestion() {
                                             </Link>
                                         </span>
                                     </td>
-                                    <td> {console.log(item.Question_ID)}
+                                    <td> {(item.is_deleted == '0') ?
                                         <button className='close_button' onClick={() => DeleteQuestion(item.Question_ID)}
-                                        > Verwijder
+                                        > <span>Verwijder</span>
                                         </button>
+                                        /* shows different button if deleted*/
+                                        : <button className='close_button' onClick={() => RetrieveQuestion(item.Question_ID)}
+                                        > <span>Zet Terug</span>
+                                        </button>
+                                    }
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
+                <div className='questionlist_box3'>
+                </div>
             </div>
-            <div className="questionlist_box3">
-            </div>
-        </>
+        </div>
     )
 }
-
 export default ModifyQuestion
