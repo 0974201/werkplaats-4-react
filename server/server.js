@@ -31,7 +31,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
                 if (question.type === 'Open') {
                     // starting a SQL transaction for every loop cycle
                     await runQuery('BEGIN')
-                    // inserting an open question and getting the inserted id back so you can use it in the question query
+                    // inserting an open question and getting the inserted id back, so you can use it in the question query
                     const openQuestionId = await insertAndGetLastId("INSERT INTO open_question (question) VALUES (?)",
                         [question.question])
 
@@ -40,8 +40,8 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
                         [openQuestionId, false])
 
                     // insert everything in the filled_in table to combine everything
-                    await runQuery("INSERT INTO filled_in (Survey_ID, Question_ID, question_order, is_reviewed) VALUES (?, ?, ?, ?)",
-                        [surveyId, questionId, index, false],)
+                    await runQuery("INSERT INTO filled_in (Survey_ID, Question_ID, question_order) VALUES (?, ?, ?)",
+                        [surveyId, questionId, index])
                     // commit the started SQL transaction for every loop cycle
                     await runQuery('COMMIT');
                 } else if (question.type === 'MultipleChoice') {
