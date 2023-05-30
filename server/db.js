@@ -3,14 +3,14 @@ const path = require('node:path');
 //const db_file = path.resolve(__dirname, "./database/dummy.db"); // dit is mijn eigen db (suman)
 const db_file = path.resolve(__dirname, "./database/test_data.db"); // dit is voor de vragen
 
-function db(){
+function db() {
   const db = new sqlite3.Database(db_file, sqlite3.OPEN_READWRITE, (error) => {
-    if(error && error.code === "SQLITE_CANTOPEN") {
+    if (error && error.code === "SQLITE_CANTOPEN") {
       console.info("creating new database");
       createDB();
       return;
-    } else if(error) {
-      return console.error(error.message);  
+    } else if (error) {
+      return console.error(error.message);
     } else {
       console.info("database zegt hoi :)");
     }
@@ -18,17 +18,17 @@ function db(){
   return db;
 }
 
-function createDB(){
+function createDB() {
   const new_file = path.resolve(__dirname, "./database/test_data.db");
   let new_db = new sqlite3.Database(new_file, (error) => {
-    if(error) {
+    if (error) {
       return console.error(error);
     }
     createTables(new_db);
   });
 }
 
-function createTables(new_db){
+function createTables(new_db) {
   let question = `
   CREATE TABLE questions(
     Question_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,7 +43,7 @@ function createTables(new_db){
     question TEXT (255)
   );`;
 
-  let multiple_choice =  `
+  let multiple_choice = `
   CREATE TABLE multiple_choice(
     Multiple_Choice_ID INTEGER PRIMARY KEY AUTOINCREMENT,
     question TEXT (255)
@@ -97,7 +97,7 @@ function createTables(new_db){
     email TEXT (255),
     password VARCHAR (255)
   );`;
-  
+
   new_db.exec(open_question);
   new_db.exec(option);
   new_db.exec(multiple_choice);
