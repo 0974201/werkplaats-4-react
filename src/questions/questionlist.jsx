@@ -8,7 +8,8 @@ import { GetDB, DeleteDB } from '../universal/manipulateDB.js'
 function ModifyQuestion() {
     const [question, setQuestion] = useState([]);
     const [search, setSearch] = useState('')
-    const [deletemessage, showMessage] = useState('')
+    const [message, showMessage] = React.useState(false)
+
 
 
     /* This should fetch the data asynchronously if you import GetDB */
@@ -21,6 +22,16 @@ function ModifyQuestion() {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                showMessage('');
+            }, 5000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
 
     async function DeleteQuestion(questionId) {
         if (window.confirm(`Weet je zeker dat je vraag ${questionId} wil verwijderen?`)) {
@@ -92,37 +103,50 @@ function ModifyQuestion() {
         };
         fetchData();
     };
-
+    function showFilter() {
+        let filter = document.getElementById('filter_choices');
+        filter.style.display = '';
+    }
     function questionBox() {
         return (
-            <div className="questionlist_box1">
-                <div className="questionlist_filter_box">
-                    <div className='questionlist_filter_item'>
-                        <div className='questionlist_filter_content' onClick={showQuestions}>
-                            <span>Alle Vragen</span>
+            <>
+                <div className="questionlist_box1">
+                    <div className="questionlist_filter_box">
+                        <div className='questionlist_filter_item'>
+                            <div className='questionlist_filter_content' onClick={showQuestions}>
+                                <span>Alle Vragen</span>
+                            </div>
                         </div>
-                    </div>
-                    <div className='questionlist_filter_item'>
-                        <div className='questionlist_filter_content' onClick={showDeleted}>
-                            <span>Prullenbak</span>
+                        <div className='questionlist_filter_item'>
+                            <div className='questionlist_filter_content' onClick={showDeleted}>
+                                <span>Prullenbak</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </>
         )
     }
 
     return (
         <div className="surveylist_container">
+            <div
+                className={`questionlist_message ${message ? 'alert-shown' : 'alert-hidden'}`}
+            >
+                {message && (
+                    <p className="error"> {message} </p>
+                )}
+            </div>
             <h1 className="enquete_title">Vragenlijst</h1>
             <div className="outside">
                 {questionBox()}
-                {deletemessage && (
-                    <p className="error"> {deletemessage} </p>
-                )}
                 <div className='questionlist_box2'>
                     <div className='questionlist_filter_search'>
                         <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
+                        <button onClick={showFilter}>Filter</button>
+                    </div>
+                    <div id='filter_choices'>
+
                     </div>
                     <table width='100%'>
                         <tbody>
@@ -175,7 +199,8 @@ function ModifyQuestion() {
                 <div className='questionlist_box3'>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 export default ModifyQuestion
+

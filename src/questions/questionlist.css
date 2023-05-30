@@ -22,7 +22,6 @@
     justify-content: center;
 }
 
-
 .questionlist_filter_content:hover {
     cursor: pointer;
     transform: scale(1.2);
@@ -59,6 +58,34 @@
     margin: 0;
     padding: 0px 10px;
 }
+
+#filter_choices {
+    display: none;
+}
+
+.questionlist_message {
+    position: absolute;
+    top: -10;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    border-style: ridge;
+    background-color: lightgreen;
+    font-size: 20px;
+    width: 250px;
+    height: 100px;
+    z-index: 2;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.alert-hidden {
+    opacity: 0;
+    transition: linear 500ms;
+}
+
+
+
 
 /* Everything below this is table related for questionlist.jsx */
 
