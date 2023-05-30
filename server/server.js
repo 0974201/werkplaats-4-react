@@ -10,7 +10,7 @@ app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.get("/", function (req, res) {
-  res.send('nothing to see here');
+  res.send('nothing to see here - connected with database');
 });
 
 app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
@@ -198,9 +198,7 @@ app.get('/api/filled_surveys', function (req, res) {
   });
 });
 
-
-
-/*app.get("/test_birb", function(req, res){
+app.get("/test_birb", function(req, res){
   res.type('json');
   db.all('SELECT * FROM vogels', (err, row) => {
     if (err){
@@ -231,6 +229,14 @@ app.get("/test_random", function(req, res){
     res.json(row);
     console.log(row);
   });
-});*/
+});
+
+app.get("/handle_login", function(req, res){
+  res.send('post');
+});
+
+app.post("/handle_login", function(req, res, next){
+  res.send('post');
+});
 
 app.listen(81); // start server
