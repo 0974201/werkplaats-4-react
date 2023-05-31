@@ -155,12 +155,18 @@ app.get("/api/questions", function (req, res) {
   const isOpen = req.query.open === 'true';
   const isDeleted = req.query.open === 'false';
   res.type('json');
-  sql = 'Select * FROM questions ';
+  sql = `SELECT questions.Question_ID, open_question.question, LENGTH(filled_in.User_ID)
+  from questions
+  LEFT JOIN open_question on questions.Question_ID = open_question.Open_Question_ID
+  LEFT JOIN multiple_choice on questions.Question_ID = open_question.Open_Question_ID
+  LEFT JOIN filled_in on questions.Question_ID = filled_in.Question_ID
+  WHERE open_question.Open_Question_ID IS NOT NULL OR  filled_in.User_ID IS NOT NULL AND`
+    ;
 
   if (isOpen) {
-    sql += 'WHERE is_deleted = 0';
+    sql += ' is_deleted = 0';
   } else if (isDeleted)
-    sql += 'WHERE is_deleted = 1';
+    sql += ' is_deleted = 1';
   console.log(sql)
   db.all(sql, (err, row) => {
     if (err) {
@@ -171,25 +177,6 @@ app.get("/api/questions", function (req, res) {
   });
 });
 
-/* Delete endpoint for questionlist.
-We use app.delete endpoint with res.type json to get the json information.
-*/
-// app.delete('/api/questions', bodyParser.json(), (req, res) => {
-//   res.type('json');
-
-//   /* questionId we sent through a const array to body (see questionlist.jsx DeleteQuestion function)*/
-//   const { questionId } = req.body.questionId;
-//   console.log('question ID is ' + questionId);
-//   console.log('req.body question id ' + req.body.questionId);
-
-//   /* We run a db.run query that deletes the question based on the question Id */
-//   db.run('DELETE FROM questions WHERE Question_ID = ?', [questionId]),
-//     function (err) {
-//       console.log(err.message);
-//     },
-//     console.log("DELETE Request Called for " + questionId)
-//   res.send("DELETE Request Called")
-// });
 
 /* Actually we might not need to delete route.. we have this we can use to switch to is_deleted to 1 */
 app.put('/api/questions', bodyParser.json(), (req, res) => {
