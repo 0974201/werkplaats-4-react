@@ -102,7 +102,7 @@ function App() {
                         <Route path='/surveylist' element={<SurveyList CreateSurvey={surveys} />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         {/* <Route path='/survey/:id' element={<Survey />} /> */}
-                        <Route path={'/create'} element={<CreateSurvey />} />
+                        <Route path={'/create'} element={<CreateSurvey endpoint={'saveNewSurvey'} />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
                         <Route path='/overview/:id' element={< OverView question={questions} />} />

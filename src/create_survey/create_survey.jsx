@@ -8,7 +8,7 @@ import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
 
-export default function CreateSurvey() {
+export default function CreateSurvey(endpoint) {
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
@@ -293,7 +293,7 @@ export default function CreateSurvey() {
                     ))}
                 </div>
                 <div className={'create'}>
-                    <button onClick={() => saveToDB(surveyArray, 'saveNewSurvey')}>Opslaan</button>
+                    <button onClick={() => saveToDB(surveyArray, endpoint)}>Opslaan</button>
                 </div>
             </div>
 
