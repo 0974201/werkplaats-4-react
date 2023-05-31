@@ -262,11 +262,11 @@ app.get("/api/surveys", function (req, res) {
   console.log(req.query.open)
   let sql = `SELECT * FROM survey`;
   if (isOpen) {
-    sql += ` WHERE close_date > '${formattedDate}' AND is_reviewed = 0`;
+    sql += ` WHERE close_date > '${formattedDate}' AND is_reviewed = 1`;
   } else if (isClosed) {
-    sql += ` WHERE close_date < '${formattedDate}' AND is_reviewed = 0`;
+    sql += ` WHERE close_date < '${formattedDate}' AND is_reviewed = 1`;
   } else if (beingReviewed) {
-    sql += ` WHERE is_reviewed = 1`;
+    sql += ` WHERE is_reviewed = 0`;
   }
   console.log(sql)
   console.log('this is sql ' + sql)

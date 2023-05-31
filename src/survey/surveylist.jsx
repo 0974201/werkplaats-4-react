@@ -139,11 +139,11 @@ export function SurveyList() {
                                         </Link>
                                     </td>
                                     <td>
-                                        {(currentDate < item.close_date && item.is_reviewed == '0') ? (
+                                        {(currentDate < item.close_date && item.is_reviewed == '1') ? (
                                             <p style={{ color: "red" }}>Open</p>
-                                        ) : (currentDate > item.close_date && item.is_reviewed == '0') ? (
+                                        ) : (currentDate > item.close_date && item.is_reviewed == '1') ? (
                                             <p style={{ color: "green" }}>Closed</p>
-                                        ) : (item.is_reviewed == '1') ? (
+                                        ) : (item.is_reviewed == '0') ? (
                                             <p style={{ color: "orange" }}>Being Reviewed</p>
                                         ) : (
                                             <p>Unknown Status</p>
@@ -154,7 +154,7 @@ export function SurveyList() {
                                         <p>{item.participants}</p>
                                     </td>
                                     <td>
-                                        {item.is_reviewed == "1" ? (
+                                        {item.is_reviewed == "0" ? (
                                             <button className="edit_button">Aanpassen</button>
                                         ) :
                                             <p>Gesloten</p>
