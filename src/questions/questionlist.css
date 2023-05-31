@@ -17,6 +17,11 @@
     margin-top: 70px;
 }
 
+.questionlist_data:hover {
+    cursor: pointer;
+    transform: scale(1.2)
+}
+
 .questionlist_title {
     display: flex;
     justify-content: center;

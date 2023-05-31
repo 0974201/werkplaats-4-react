@@ -152,20 +152,25 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
 /* GET function for fetching all questions. */
 app.get("/api/questions", function (req, res) {
 
-  const isOpen = req.query.open === 'true';
-  const isDeleted = req.query.open === 'false';
+  const isOpen = req.query.open === 'notdeleted';
+  const isDeleted = req.query.open === 'isdeleted';
+  const showOpenQuestions = req.query.open === 'OpenQuestions';
+  const showMultipleChoice = req.query.open === 'MultipleChoiceQuestions';
   res.type('json');
   sql = `SELECT questions.Question_ID, open_question.question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
   from questions
   LEFT JOIN open_question on questions.Question_ID = open_question.Open_Question_ID
-  LEFT JOIN multiple_choice on questions.Question_ID = multiple_choice.Multiple_Choice_ID
-  WHERE (open_question.Open_Question_ID IS NOT NULL Or Multiple_choice.Multiple_Choice_ID IS NULL) AND`
-    ;
+  LEFT JOIN multiple_choice on questions.Question_ID = multiple_choice.Multiple_Choice_ID`;
 
   if (isOpen) {
-    sql += ' questions.is_deleted = 0';
-  } else if (isDeleted)
-    sql += ' questions.is_deleted = 1';
+    sql += ` WHERE questions.is_deleted = 0`
+  } else if (showOpenQuestions)
+    sql += ' multiple_choice.multiple_Choice_ID IS NULL AND questions.is_deleted = 0'
+  else if (showMultipleChoice)
+    sql += ` WHERE questions.Multiple_Choice_ID IS NOT NULL AND questions.Open_Question_ID IS NULL AND questions.is_deleted = 0`
+  else if (isDeleted)
+    sql += ` WHERE (open_question.Open_Question_ID IS NOT NULL Or Multiple_choice.Multiple_Choice_ID IS NULL) AND
+   questions.is_deleted = 1`
   console.log(sql)
   db.all(sql, (err, row) => {
     if (err) {

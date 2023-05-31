@@ -88,7 +88,7 @@ function ModifyQuestion() {
 
     function showQuestions() {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions?open=true');
+            const result = await fetch('http://localhost:81/api/questions?open=notdeleted');
             const data = await result.json();
             setQuestion(data)
         };
@@ -97,16 +97,31 @@ function ModifyQuestion() {
 
     function showDeleted() {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions?open=false');
+            const result = await fetch('http://localhost:81/api/questions?open=isdeleted');
             const data = await result.json();
             setQuestion(data)
         };
         fetchData();
     };
-    function showFilter() {
-        let filter = document.getElementById('filter_choices');
-        filter.style.display = '';
-    }
+
+    function showOpenQuestions() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/questions?open=OpenQuestions');
+            const data = await result.json();
+            setQuestion(data)
+        };
+        fetchData();
+    };
+
+    function showMultipleChoice() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/questions?open=MultipleChoiceQuestions');
+            const data = await result.json();
+            setQuestion(data)
+        };
+        fetchData();
+    };
+
     function questionBox() {
         return (
             <>
@@ -115,6 +130,16 @@ function ModifyQuestion() {
                         <div className='questionlist_filter_item'>
                             <div className='questionlist_filter_content' onClick={showQuestions}>
                                 <span>Alle Vragen</span>
+                            </div>
+                        </div>
+                        <div className='questionlist_filter_item'>
+                            <div className='questionlist_filter_content' onClick={showOpenQuestions}>
+                                <span>Open Vragen</span>
+                            </div>
+                        </div>
+                        <div className='questionlist_filter_item'>
+                            <div className='questionlist_filter_content' onClick={showMultipleChoice}>
+                                <span>Multiple Choice</span>
                             </div>
                         </div>
                         <div className='questionlist_filter_item'>
@@ -143,10 +168,6 @@ function ModifyQuestion() {
                 <div className='questionlist_box2'>
                     <div className='questionlist_filter_search'>
                         <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
-                        <button onClick={showFilter}>Filter</button>
-                    </div>
-                    <div id='filter_choices'>
-
                     </div>
                     <table width='100%'>
                         <tbody>
