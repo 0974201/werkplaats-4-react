@@ -186,12 +186,10 @@ function ModifyQuestion() {
                             }).map(item => (
                                 <tr key={item.Question_ID}>
                                     <td>
-                                        {item.Question_ID}
+                                        <span>{item.Question_ID}</span>
                                     </td>
                                     <td className='question__grey'> {console.log(item)}
-                                        <Link to={`/question/${item.Question_ID}`} className='link'>
-                                            {item.question}
-                                        </Link>
+                                        <span>{item.question}</span>
                                     </td>
                                     <td> {item.Open_Question_ID != 'NULL' ?
                                         <span>Open</span>
@@ -201,7 +199,7 @@ function ModifyQuestion() {
                                     </td>
                                     <td className='questionlist_data'>
                                         <span>
-                                            <Link to={`/overview/${item.Question_ID}`} className='link'>
+                                            <Link to={`/question/${item.Question_ID}`} className='link'>
                                                 <span>Aanpassen</span>
                                             </Link>
                                         </span>

@@ -251,7 +251,9 @@ app.get("/api/surveys", function (req, res) {
   console.log('req query ' + req.query.close_date)
   console.log('req.query open ' + req.query.open_date)
   console.log(req.query.open)
-  let sql = `SELECT * FROM survey`;
+  let sql = `select survey.*, IFNULL(LENGTH(filled_in.User_ID), 0) AS participants
+  from survey
+  LEFT JOIN filled_in ON survey.Survey_ID = filled_in.Survey_ID `;
   if (isOpen) {
     sql += ` WHERE close_date > '${formattedDate}' AND is_reviewed = 1`;
   } else if (isClosed) {

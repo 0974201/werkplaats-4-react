@@ -150,7 +150,7 @@ export function SurveyList() {
                                         )
                                         }
                                     </td>
-                                    <td>
+                                    <td> {console.log(item)}
                                         <p>{item.participants}</p>
                                     </td>
                                     <td>
