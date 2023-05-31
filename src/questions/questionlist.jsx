@@ -2,15 +2,11 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './questionlist.css';
 import { Link } from 'react-router-dom';
-import { GetDB, DeleteDB } from '../universal/manipulateDB.js'
-
 
 function ModifyQuestion() {
     const [question, setQuestion] = useState([]);
     const [search, setSearch] = useState('')
     const [message, showMessage] = React.useState(false)
-
-
 
     /* This should fetch the data asynchronously if you import GetDB */
     useEffect(() => {
@@ -33,6 +29,7 @@ function ModifyQuestion() {
         }
     }, [message]);
 
+    /* Updates the is deleted column from questions to a 1, thus essentially 'deleting' it. */
     async function DeleteQuestion(questionId) {
         if (window.confirm(`Weet je zeker dat je vraag ${questionId} wil verwijderen?`)) {
             try {
@@ -59,6 +56,7 @@ function ModifyQuestion() {
         }
     };
 
+    /* Updates the is_deleted column from questions from 1 back to 0 thus restoring the question. */
     async function RetrieveQuestion(questionId) {
         if (window.confirm(`Weet je zeker dat je vraag ${questionId} wil herstellen?`)) {
             try {
@@ -85,7 +83,7 @@ function ModifyQuestion() {
         }
     };
 
-
+    /* Shows everything that is not deleted for questions */
     function showQuestions() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/questions?open=notdeleted');
@@ -95,6 +93,7 @@ function ModifyQuestion() {
         fetchData();
     };
 
+    /* Shows the deleted questions for questions */
     function showDeleted() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/questions?open=isdeleted');
@@ -104,6 +103,7 @@ function ModifyQuestion() {
         fetchData();
     };
 
+    /* Shows  Open Questions for questions */
     function showOpenQuestions() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/questions?open=OpenQuestions');
@@ -113,6 +113,7 @@ function ModifyQuestion() {
         fetchData();
     };
 
+    /* Shows multiple choice for questions */
     function showMultipleChoice() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/questions?open=MultipleChoiceQuestions');

@@ -159,15 +159,15 @@ app.get("/api/questions", function (req, res) {
   res.type('json');
   sql = `SELECT questions.Question_ID, open_question.question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
   from questions
-  LEFT JOIN open_question on questions.Question_ID = open_question.Open_Question_ID
-  LEFT JOIN multiple_choice on questions.Question_ID = multiple_choice.Multiple_Choice_ID`;
+  LEFT JOIN open_question on questions.Open_Question_ID = open_question.Open_Question_ID
+  LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID`;
 
   if (isOpen) {
     sql += ` WHERE questions.is_deleted = 0`
   } else if (showOpenQuestions)
-    sql += ' multiple_choice.multiple_Choice_ID IS NULL AND questions.is_deleted = 0'
+    sql += ' WHERE open_question.Open_Question_ID is NOT NULL AND multiple_choice.multiple_Choice_ID IS NULL AND questions.is_deleted = 0'
   else if (showMultipleChoice)
-    sql += ` WHERE questions.Multiple_Choice_ID IS NOT NULL AND questions.Open_Question_ID IS NULL AND questions.is_deleted = 0`
+    sql += ` WHERE multiple_choice.Multiple_Choice_ID IS NOT NULL AND open_question.Open_Question_ID IS NULL AND questions.is_deleted = 0`
   else if (isDeleted)
     sql += ` WHERE (open_question.Open_Question_ID IS NOT NULL Or Multiple_choice.Multiple_Choice_ID IS NULL) AND
    questions.is_deleted = 1`
