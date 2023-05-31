@@ -14,6 +14,8 @@ export default function ChangeQuestion({ }) {
     const [showmessage, setShowMessage] = useState(false)
     const [fetchedquestion, showQuestion] = useState([])
 
+    /* Allows us to access the value outside the map*/
+    const fetchedvalue = fetchedquestion.map((item) => item.question);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,7 +33,7 @@ export default function ChangeQuestion({ }) {
             question: questionvalue,
             questionId: id,
             options: options,
-            // type: question[id].type,
+            type: 'Open',
         }
         saveToDB(saveArray, 'questions');
         setMessage('Vraag is succesvol opgeslagen!')
@@ -47,7 +49,7 @@ export default function ChangeQuestion({ }) {
 
     /* Changes the question to the value that is put in the textarea element */
     const handleModify = (id, newQuestion) => {
-        let updatedQuestion = questionlist.map(question => {
+        let updatedQuestion = fetchedquestion.map(question => {
             if (question.id === id && newQuestion !== '') {
                 return { ...question, question: newQuestion };
             } else {
@@ -116,10 +118,10 @@ export default function ChangeQuestion({ }) {
     return (
         <div>
             {renderQuestion()}
-            {(questionvalue !== '')
+            {(fetchedvalue !== '')
                 ? ''
                 : <span style={{ color: 'red' }}>Vraag mag niet leeg zijn!</span>}
-            {(questionvalue.length !== 250)
+            {(fetchedvalue.length !== 250)
                 ? ''
                 : <span style={{ color: 'red' }}>Vraag kan niet meer dan 250 karakters bevatten</span>}
             {showmessage && <p>{message}</p>}
@@ -127,7 +129,7 @@ export default function ChangeQuestion({ }) {
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
                     <button className='button' onClick={() => handleModify(id, questionvalue)}>Aanpassen</button>
-                    <button className='button' onClick={() => SaveQuestion()}>Opslaan</button>
+                    <button className='button' onClick={() => SaveQuestion()}>Opslaan</button>{console.log(SaveQuestion)}
                 </div>
             </div>
             {/* Links back to Questionlist. */}
