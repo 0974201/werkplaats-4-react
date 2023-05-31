@@ -155,18 +155,18 @@ app.get("/api/questions", function (req, res) {
   const isOpen = req.query.open === 'true';
   const isDeleted = req.query.open === 'false';
   res.type('json');
-  sql = `SELECT questions.Question_ID, open_question.question, LENGTH(filled_in.User_ID)
+  sql = `SELECT questions.Question_ID, open_question.question, LENGTH(filled_in.User_ID), questions.is_deleted
   from questions
   LEFT JOIN open_question on questions.Question_ID = open_question.Open_Question_ID
   LEFT JOIN multiple_choice on questions.Question_ID = open_question.Open_Question_ID
   LEFT JOIN filled_in on questions.Question_ID = filled_in.Question_ID
-  WHERE open_question.Open_Question_ID IS NOT NULL OR  filled_in.User_ID IS NOT NULL AND`
+  WHERE (open_question.Open_Question_ID IS NOT NULL OR  filled_in.User_ID IS NOT NULL) AND`
     ;
 
   if (isOpen) {
-    sql += ' is_deleted = 0';
+    sql += ' questions.is_deleted = 0';
   } else if (isDeleted)
-    sql += ' is_deleted = 1';
+    sql += ' questions.is_deleted = 1';
   console.log(sql)
   db.all(sql, (err, row) => {
     if (err) {
