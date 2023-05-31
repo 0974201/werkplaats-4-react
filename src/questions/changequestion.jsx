@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import './questions.css';
 import { useParams, Link } from 'react-router-dom';
-import { questions } from '../index.js'
 import SwitchAround from '../universal/switch_around.js'
 import { saveToDB } from '../universal/manipulateDB';
 
 
-export default function ChangeQuestion({ question }) {
-    // const [value, setValue] = useState('')
-    // const [id, setId] = useState(question[id].id);
+export default function ChangeQuestion({ }) {
     const { id } = useParams();
-    const [questionlist, setQuestion] = useState(questions);
-    // const [selectedOption, setSelectedOption] = useState('');
-    const [questionvalue, setQuestionValue] = useState(question[id].question);
-    const [options, setOptions] = useState(question[id].options)
+    const [questionlist, setQuestion] = useState('');
+    const [questionvalue, setQuestionValue] = useState('');
+    const [options, setOptions] = useState('')
     const [message, setMessage] = useState('')
     const [showmessage, setShowMessage] = useState(false)
-    const [questionx, showQuestion] = useState([])
+    const [fetchedquestion, showQuestion] = useState([])
+
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch(`http://localhost:81/api/questions${id}`);
+            const result = await fetch(`http://localhost:81/api/questions/${id}`);
             const data = await result.json();
             console.log(data);
             showQuestion(data)
@@ -28,16 +25,13 @@ export default function ChangeQuestion({ question }) {
         fetchData();
     }, []);
 
-    console.log('dit is id ' + id)
-    console.log(question)
-    console.log(options)
-    console.log((question[id].id))
+
     function SaveQuestion() {
         const saveArray = {
             question: questionvalue,
             questionId: id,
             options: options,
-            type: question[id].type,
+            // type: question[id].type,
         }
         saveToDB(saveArray, 'questions');
         setMessage('Vraag is succesvol opgeslagen!')
@@ -78,15 +72,14 @@ export default function ChangeQuestion({ question }) {
         setOptions(newOption)
     }
 
-    console.log('dit is options' + options)
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
-        const question = questions[id];
-        if (question.type === 'Open') {
+        const question = [id];
+        if (question) {
             return (
                 <>
                     <h1> Open Vraag {id}</h1>
-                    <p><b>{questionvalue}</b></p>
+                    <p><b>{fetchedquestion.map((item) => { return item.question })}</b></p>
                 </>
             )
         } else if (question.type === 'MultipleChoice') {
@@ -95,7 +88,6 @@ export default function ChangeQuestion({ question }) {
                     <h1>Multiple Choice Vraag {id}</h1>
                     <p><b>{questionvalue}</b></p>
                     {options.map((option, optionIndex) => {
-                        console.log('dit is option' + option)
                         return (
                             <div className='radio_box'>
                                 <div className='radio_div' key={option}>
@@ -115,9 +107,9 @@ export default function ChangeQuestion({ question }) {
         }
     }
     /* re-renders the question in the textarea depending on the id parameter. */
-    useEffect(() => {
-        setQuestionValue(question[id].question);
-    }, [id]);
+    // useEffect(() => {
+    //     setQuestionValue(question[id].question);
+    // }, [id]);
 
     /* The main template of changeQuestion(). 
     We put in renderQuestion() on top to combine it. */
@@ -134,7 +126,7 @@ export default function ChangeQuestion({ question }) {
             <div className='save_question_border'>
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
-                    <button className='button' onClick={() => handleModify(question[id].id, questionvalue)}>Aanpassen</button>
+                    <button className='button' onClick={() => handleModify(id, questionvalue)}>Aanpassen</button>
                     <button className='button' onClick={() => SaveQuestion()}>Opslaan</button>
                 </div>
             </div>

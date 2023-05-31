@@ -204,12 +204,15 @@ app.put('/api/questions', bodyParser.json(), (req, res) => {
 
 /* GET endpoint for questions with question id parameters 
 the req.params.id gets the id from the URL and we pass this ID to the sql query. */
-app.get("/api/questions:id", function (req, res) {
+app.get("/api/questions/:id", function (req, res) {
   res.type('json');
 
-  const questionId = req.params.id
+  const questionId = req.params.id;
 
-  const sql = 'SELECT * FROM questions WHERE Question_ID = ?';
+  const sql = `select questions.question_ID, open_question.question
+  FROM questions
+  LEFT JOIN open_question ON questions.Question_ID = open_question.Open_Question_ID
+  where question_ID = ?`
   console.log('dit is ' + req.params.id)
   console.log(questionId)
   console.log(req.params['id'])
