@@ -6,7 +6,6 @@ import Layout from './pages/layout';
 import ModifyQuestion from './questions/questionlist';
 import ChangeQuestion from './questions/changequestion';
 import OverView from './questions/overview';
-import { Home } from './pages/home';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
 import { SurveyList } from './survey/surveylist';
@@ -96,13 +95,12 @@ function App() {
                 <Layout>
                     <Routes>
                         <Route path='/' element={<Layout />} /> {/* Covers the entire website */}
-                        <Route index element={<Home />} />
-                        <Route path='/login' element={<Login />} />
-                        <Route path='/*' element={<NotFound />} />
-                        <Route path='/surveylist' element={<SurveyList CreateSurvey={surveys} />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         {/* <Route path='/survey/:id' element={<Survey />} /> */}
                         <Route path={'/create'} element={<CreateSurvey endpoint={'saveNewSurvey'} />} />
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/*' element={<NotFound />} />
+                        <Route path='/surveylist' element={<SurveyList CreateSurvey={surveys} />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
                         <Route path='/overview/:id' element={< OverView question={questions} />} />
