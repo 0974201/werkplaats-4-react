@@ -8,7 +8,8 @@ import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
 
-export default function CreateSurvey(endpoint) {
+export default function CreateSurvey({endpoint}) {
+    console.log(endpoint)
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
