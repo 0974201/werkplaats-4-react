@@ -153,7 +153,7 @@ function ModifyQuestion() {
                             <tr>
                                 <th>Id</th>
                                 <th>Vraag</th>
-                                <th>Deelnemers</th>
+                                <th>Type</th>
                                 <th>Overzicht</th>
                                 <th>Aanpassen</th>
                             </tr>
@@ -171,13 +171,16 @@ function ModifyQuestion() {
                                             {item.question}
                                         </Link>
                                     </td>
-                                    <td>
-                                        <span>Deelnemers</span>
+                                    <td> {item.Open_Question_ID != 'NULL' ?
+                                        <span>Open</span>
+
+                                        : <span>Multiple Choice</span>
+                                    }
                                     </td>
                                     <td className='questionlist_data'>
                                         <span>
                                             <Link to={`/overview/${item.Question_ID}`} className='link'>
-                                                <span>Antwoorden</span>
+                                                <span>Aanpassen</span>
                                             </Link>
                                         </span>
                                     </td>

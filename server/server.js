@@ -155,12 +155,11 @@ app.get("/api/questions", function (req, res) {
   const isOpen = req.query.open === 'true';
   const isDeleted = req.query.open === 'false';
   res.type('json');
-  sql = `SELECT questions.Question_ID, open_question.question, LENGTH(filled_in.User_ID), questions.is_deleted
+  sql = `SELECT questions.Question_ID, open_question.question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
   from questions
   LEFT JOIN open_question on questions.Question_ID = open_question.Open_Question_ID
-  LEFT JOIN multiple_choice on questions.Question_ID = open_question.Open_Question_ID
-  LEFT JOIN filled_in on questions.Question_ID = filled_in.Question_ID
-  WHERE (open_question.Open_Question_ID IS NOT NULL OR  filled_in.User_ID IS NOT NULL) AND`
+  LEFT JOIN multiple_choice on questions.Question_ID = multiple_choice.Multiple_Choice_ID
+  WHERE (open_question.Open_Question_ID IS NOT NULL Or Multiple_choice.Multiple_Choice_ID IS NULL) AND`
     ;
 
   if (isOpen) {
