@@ -134,7 +134,7 @@ export function SurveyList() {
                                         {item.Survey_ID}
                                     </td>
                                     <td className='question__grey'>
-                                        <Link to={`/survey/${item.Survey_ID}`} className='link'>
+                                        <Link to={`/surveyQuestions/${item.Survey_ID}`} className='link'>
                                             {item.title}
                                         </Link>
                                     </td>
@@ -155,7 +155,10 @@ export function SurveyList() {
                                     </td>
                                     <td>
                                         {item.is_reviewed == "0" ? (
-                                            <button className="edit_button">Aanpassen</button>
+                                            // {/* Change this Link to to aanpassen route .*/}
+                                            <Link to='/create'>
+                                                <button className="edit_button">Aanpassen</button>
+                                            </Link>
                                         ) :
                                             <p>Gesloten</p>
                                         }

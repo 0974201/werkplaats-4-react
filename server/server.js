@@ -274,6 +274,26 @@ app.get("/api/surveys", function (req, res) {
   });
 });
 
+app.get("/api/surveys/:id", function (req, res) {
+  res.type('json');
+
+  const questionId = req.params.id;
+
+  let sql = 'SELECT * FROM survey WHERE Survey_ID = ? '
+
+  console.log(sql)
+  console.log('this is sql ' + sql)
+  db.all(sql, [questionId], (err, rows) => {
+    if (err) {
+      console.log(err.message);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    console.log(rows);
+    res.send(JSON.stringify(rows));
+  });
+});
+
 /* GET endpoint for the user table. */
 app.get('/api/users', function (req, res) {
   res.type('json');

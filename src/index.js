@@ -10,6 +10,7 @@ import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
 import { SurveyList } from './survey/surveylist';
 import Survey from './survey/survey';
+import SurveyQuestion from './survey/SurveyQuestions';
 import CreateSurvey from "./create_survey/create_survey";
 import DbTest from './db_test/dbtest';
 import './css/App.css';
@@ -101,6 +102,7 @@ function App() {
                         <Route path='/login' element={<Login />} />
                         <Route path='/*' element={<NotFound />} />
                         <Route path='/surveylist' element={<SurveyList CreateSurvey={surveys} />} />
+                        <Route path='/surveyquestions/:id' element={<SurveyQuestion />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
                         <Route path='/overview/:id' element={< OverView question={questions} />} />
