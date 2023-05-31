@@ -218,6 +218,7 @@ export default function CreateSurvey({endpoint}) {
                         <input
                             type={'date'}
                             value={surveyArray.openDate}
+                            min={new Date().toJSON().slice(0, 10)}
                             onChange={e => replaceSurveyItem('openDate', e.target.value)}
                         />
                     </label>

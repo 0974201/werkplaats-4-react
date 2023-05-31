@@ -3,6 +3,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser')
 const db = require('./db.js') // connectie met db
 
+
+
 const app = express();
 
 app.use(cors()); // allow cross orgin req
@@ -88,12 +90,12 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
     } catch (error) {
         await runQuery('ROLLBACK');
     }
-    // Helper function to put a insert and a last id together
+
     async function insertAndGetLastId(query, param) {
         await runQuery(query, param)
         return await getLastInsertedId()
     }
-    // Helper function to get the ID of the last inserted row
+// Helper function to get the ID of the last inserted row
     function getLastInsertedId() {
         return new Promise((resolve, reject) => {
             db.get('SELECT last_insert_rowid() as id', (error, row) => {
@@ -105,7 +107,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
             });
         });
     }
-    // Helper function to run a query with parameters
+// Helper function to run a query with parameters
     function runQuery(sql, params) {
         return new Promise((resolve, reject) => {
             db.run(sql, params, function (error) {
@@ -117,6 +119,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
             });
         });
     }
+
     res.send('saved')
 })
 
