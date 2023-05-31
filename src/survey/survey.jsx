@@ -1,11 +1,13 @@
 import './survey.css'
 import React, {useState} from "react";
 import Progressbar from "../universal/progressbar";
+import {GetDB} from "../universal/manipulateDB";
 
 export default function Survey({surveyArray}) {
     const [answeredArray, setAnsweredArray] = useState(onLoadSurvey())
     const [questionShown, setQuestionShow] = useState(onLoadQuestionShown())
 
+    console.log(GetDB('getSurvey'))
     console.log(answeredArray)
 
     sessionStorage.setItem("survey", JSON.stringify(answeredArray))

@@ -8,6 +8,8 @@ import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
 
+// this function is very big because if you spit it up into different files en functions some function get a bug that when you
+// type in a input field the field loses focus and you stop typing
 export default function CreateSurvey({endpoint}) {
     console.log(endpoint)
     const [questionArray, setQuestionArray] = useState(onLoadArray())
@@ -237,7 +239,7 @@ export default function CreateSurvey({endpoint}) {
                         ></textarea>
                     </label>
 
-                    <label>Deze enquête kan anoniem beantwoord worden
+                    <label>Deze enquête kan niet anoniem beantwoord worden
                         <input
                             type={'checkbox'}
                             onChange={e => replaceSurveyItem('anonymity', e.target.checked)}
@@ -262,8 +264,9 @@ export default function CreateSurvey({endpoint}) {
                                     onChange={e => replaceQuestion(questionIndex, e.target.value)}
                                 />
 
+                                {/* delete question button*/}
                                 <button onClick={() => (
-                                    setQuestionArray(questionArray.filter(question =>
+                                    addToArray(questionArray.filter(question =>
                                         question.id !== questionArray[questionIndex].id)
                                     )
                                 )}>X</button>

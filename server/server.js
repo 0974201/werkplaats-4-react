@@ -123,6 +123,13 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
     res.send('saved')
 })
 
+app.get('api/getSurvey', function (req, res) {
+    db.all('SELECT * FROM survey',(err, rows) => {
+        res.send(JSON.stringify(rows))
+    })
+
+})
+
 app.get("/test", function (req, res) {
     //res.send('test'); < dit zorgde er voor dat het de hele tijd borkte. je kan maar 1x een send of json dingetje hebben.
     res.type('json');
