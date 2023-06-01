@@ -19,6 +19,7 @@ function ModifyQuestion() {
         fetchData();
     }, []);
 
+    /* Timer for message.. 5000 is 5 seconds */
     useEffect(() => {
         if (message) {
             const timer = setTimeout(() => {

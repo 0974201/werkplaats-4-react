@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './questions.css';
+import './changequestion.css';
 import { useParams, Link } from 'react-router-dom';
 import SwitchAround from '../universal/switch_around.js'
 import { saveToDB } from '../universal/manipulateDB';
@@ -30,7 +30,18 @@ export default function ChangeQuestion({ }) {
         fetchData();
     }, [fetchedquestion]);
 
+    /* Timer for message... 5000 is 5 seconds */
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setShowMessage('');
+            }, 5000);
 
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
+
+    /* Saves the question to the database.*/
     function SaveQuestion() {
         const saveArray = {
             question: questionvalue,
@@ -121,14 +132,20 @@ export default function ChangeQuestion({ }) {
     We put in renderQuestion() on top to combine it. */
     return (
         <div>
+            <div
+                className={`changequestion_message ${showmessage ? 'alert-shown' : 'alert-hidden'}`}
+            >
+                {showmessage && (
+                    <p className="error"> {message} </p>
+                )}
+            </div>
             {renderQuestion()}
-            {(fetchedvalue !== '')
+            {(questionvalue !== '')
                 ? ''
                 : <span style={{ color: 'red' }}>Vraag mag niet leeg zijn!</span>}
-            {(fetchedvalue.length !== 250)
+            {(questionvalue.length !== 250)
                 ? ''
                 : <span style={{ color: 'red' }}>Vraag kan niet meer dan 250 karakters bevatten</span>}
-            {showmessage && <p>{message}</p>}
             <div className='save_question_border'>
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} defaultValue={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
