@@ -40,13 +40,15 @@ function createTables(new_db) {
   let open_question = `
   CREATE TABLE open_question(
     Open_Question_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    question TEXT (255)
+    question TEXT (255),
+    type TEXT (255) DEFAULT 'Open'defau
   );`;
 
   let multiple_choice = `
   CREATE TABLE multiple_choice(
     Multiple_Choice_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    question TEXT (255)
+    question TEXT (255),
+    type TEXT (255) DEFAULT 'Multiple Choice'
   );`;
 
   let option = `

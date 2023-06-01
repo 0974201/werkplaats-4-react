@@ -209,10 +209,10 @@ app.get("/api/questions/:id", function (req, res) {
 
   const questionId = req.params.id;
 
-  const sql = `select questions.question_ID, open_question.question
+  const sql = `SELECT questions.Question_ID, open_question.question, open_question.open_question_ID
   FROM questions
-  LEFT JOIN open_question ON questions.Question_ID = open_question.Open_Question_ID
-  where question_ID = ?`
+  LEFT JOIN open_question ON questions.Open_Question_ID = open_question.open_question_ID
+  WHERE open_question.question is not null AND QUESTION_ID = ?;`
   console.log('dit is ' + req.params.id)
   console.log(questionId)
   console.log(req.params['id'])

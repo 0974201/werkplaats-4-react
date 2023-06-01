@@ -16,16 +16,19 @@ export default function ChangeQuestion({ }) {
 
     /* Allows us to access the value outside the map*/
     const fetchedvalue = fetchedquestion.map((item) => item.question);
+    const fetchedopen = fetchedquestion.map((item) => item.open_question_ID);
+    const fetchedMC = fetchedquestion.map((item) => item.Multiple_Choice_ID);
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await fetch(`http://localhost:81/api/questions/${id}`);
             const data = await result.json();
+            const question = data.question;
             console.log(data);
             showQuestion(data)
         };
         fetchData();
-    }, []);
+    }, [fetchedquestion]);
 
 
     function SaveQuestion() {
@@ -76,15 +79,16 @@ export default function ChangeQuestion({ }) {
 
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
-        const question = [id];
-        if (question) {
+        if (fetchedopen) {
             return (
                 <>
-                    <h1> Open Vraag {id}</h1>
-                    <p><b>{fetchedquestion.map((item) => { return item.question })}</b></p>
+                    <h1>Open vraag {id} </h1>
+                    {fetchedquestion.map(item =>
+                        <p><b>{item.question}</b></p>)}
+
                 </>
             )
-        } else if (question.type === 'MultipleChoice') {
+        } else if (fetchedMC) {
             return (
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
@@ -127,7 +131,7 @@ export default function ChangeQuestion({ }) {
             {showmessage && <p>{message}</p>}
             <div className='save_question_border'>
                 <div className='save_question_box'>
-                    <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
+                    <textarea type='text' className='textarea' maxLength={250} defaultValue={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
                     <button className='button' onClick={() => handleModify(id, questionvalue)}>Aanpassen</button>
                     <button className='button' onClick={() => SaveQuestion()}>Opslaan</button>{console.log(SaveQuestion)}
                 </div>
