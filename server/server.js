@@ -11,6 +11,35 @@ app.use(cors()); // allow cross orgin req
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+async function insertAndGetLastId(query, param) {
+    await runQuery(query, param)
+    return await getLastInsertedId()
+}
+// Helper function to get the ID of the last inserted row
+function getLastInsertedId() {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT last_insert_rowid() as id', (error, row) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(row.id);
+            }
+        });
+    });
+}
+// Helper function to run a query with parameters
+function runQuery(sql, params) {
+    return new Promise((resolve, reject) => {
+        db.run(sql, params, function (error) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(this);
+            }
+        });
+    });
+}
+
 app.get("/", function (req, res) {
     res.send('nothing to see here');
 });
@@ -34,7 +63,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
                     await runQuery('BEGIN')
 
                     // inserting an open question and getting the inserted id back, so you can use it in the question query
-                    const openQuestionId = await insertAndGetLastId("INSERT INTO open_question (question) VALUES (?)",
+                    const openQuestionId = await insertAndGetLastId("INSERT INTO open_question (open_question) VALUES (?)",
                         [question.question])
 
                     // inserting the question with the open question id and getting the question id back
@@ -53,7 +82,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
                     await runQuery('BEGIN')
 
                     // inserting a multiple choice question and getting the inserted id back, so you can use it in the question query and the option_row query
-                    const multiQuestionId = await insertAndGetLastId("INSERT INTO multiple_choice (question) VALUES (?)",
+                    const multiQuestionId = await insertAndGetLastId("INSERT INTO multiple_choice (multi_question) VALUES (?)",
                         [question.question])
 
                     // starting a loop to insert every option in the database
@@ -91,42 +120,31 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
         await runQuery('ROLLBACK');
     }
 
-    async function insertAndGetLastId(query, param) {
-        await runQuery(query, param)
-        return await getLastInsertedId()
-    }
-// Helper function to get the ID of the last inserted row
-    function getLastInsertedId() {
-        return new Promise((resolve, reject) => {
-            db.get('SELECT last_insert_rowid() as id', (error, row) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(row.id);
-                }
-            });
-        });
-    }
-// Helper function to run a query with parameters
-    function runQuery(sql, params) {
-        return new Promise((resolve, reject) => {
-            db.run(sql, params, function (error) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(this);
-                }
-            });
-        });
-    }
-
     res.send('saved')
 })
 
-app.get('api/getSurvey', function (req, res) {
-    db.all('SELECT * FROM survey',(err, rows) => {
-        res.send(JSON.stringify(rows))
-    })
+app.get('/api/getSurvey', function (req, res) {
+    // db.all('SELECT * FROM survey',(err, rows) => {
+    //     res.send(JSON.stringify(rows))
+    // })
+            db.all(
+                "SELECT filled_in.question_order, survey.title, COALESCE(multiple_choice.multi_question, open_question.open_question) FROM filled_in " +
+                "INNER JOIN survey ON filled_in.Survey_ID = survey.Survey_ID " +
+                "INNER JOIN questions ON filled_in.Question_ID = questions.Question_ID " +
+                "INNER JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID " +
+                "INNER JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID",
+
+                [], function (error, rows) {
+                if (error) {
+                    console.log(error)
+                } else {
+                    console.log(rows)
+                }
+            })
+
+    // console.log(allQuery('SELECT * FROM survey', []))
+    //
+    // res.send(allQuery('SELECT * FROM survey', []))
 
 })
 
@@ -196,6 +214,7 @@ app.get("/api/questions", function (req, res) {
     const isOpen = req.query.open === 'true';
     const isDeleted = req.query.open === 'false';
     res.type('json');
+    // eslint-disable-next-line no-undef
     sql = 'Select * FROM questions ';
 
     if (isOpen) {
