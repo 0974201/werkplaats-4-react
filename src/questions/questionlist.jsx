@@ -190,9 +190,10 @@ function ModifyQuestion() {
                                         <span>{item.Question_ID}</span>
                                     </td>
                                     <td className='question__grey'> {console.log(item)}
-                                        <span>{item.question}</span>
+                                        <span>{item.open_question}</span>
+                                        <span>{item.multi_question}</span>
                                     </td>
-                                    <td> {item.Open_Question_ID != 'NULL' ?
+                                    <td> {(item.Open_Question_ID != null) ?
                                         <span>Open</span>
 
                                         : <span>Multiple Choice</span>

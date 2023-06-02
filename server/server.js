@@ -157,7 +157,7 @@ app.get("/api/questions", function (req, res) {
   const showOpenQuestions = req.query.open === 'OpenQuestions';
   const showMultipleChoice = req.query.open === 'MultipleChoiceQuestions';
   res.type('json');
-  let sql = `SELECT questions.Question_ID, open_question.open_question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
+  let sql = `SELECT questions.Question_ID, open_question.open_question, multiple_choice.multi_question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
   from questions
   LEFT JOIN open_question on questions.Open_Question_ID = open_question.Open_Question_ID
   LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID`;
