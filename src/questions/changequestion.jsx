@@ -24,6 +24,8 @@ export default function ChangeQuestion({ }) {
         };
         fetchData();
     }, []);
+    console.log(question.multi_question)
+    console.log(question.open_question)
 
 
     /* Timer for message... 5000 is 5 seconds */
@@ -38,15 +40,29 @@ export default function ChangeQuestion({ }) {
     }, [message]);
 
     /* Saves the question to the database.*/
-    function SaveQuestion() {
+    function SaveOpenQuestion() {
         const saveArray = {
             question: questionvalue,
-            questionId: id,
+            questionId: question.Open_Question_ID,
             options: options,
-            type: 'Open',
+            type: 'Open'
         }
         saveToDB(saveArray, 'questions');
-        setMessage('Vraag is succesvol opgeslagen!')
+        setMessage('Open Vraag is succesvol opgeslagen!')
+        setShowMessage(true);
+    }
+
+    /* Saves the question to the database.*/
+    function SaveMultiQuestion() {
+        const saveArray = {
+            question: questionvalue,
+            questionId: question.Multiple_Choice_ID,
+            options: options,
+            type: 'MultipleChoice'
+        }
+
+        saveToDB(saveArray, 'questions');
+        setMessage('Multi Vraag is succesvol opgeslagen!')
         setShowMessage(true);
     }
 
@@ -82,7 +98,7 @@ export default function ChangeQuestion({ }) {
         })
         setOptions(newOption)
     }
-
+    console.log(question.Open_Question_ID)
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
         console.log(question)
@@ -144,7 +160,13 @@ export default function ChangeQuestion({ }) {
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
                     <button className='button' onClick={() => handleModify(id, questionvalue)}>Aanpassen</button>
-                    <button className='button' onClick={() => SaveQuestion()}>Opslaan</button>
+                    {/* Checks if the open_question_ID is not null.. if not null show Function SaveOpenQuestion
+                    else it will show SaveMultiQuestion. */}
+                    {question.Open_Question_ID !== null ? (
+                        <button className='button' onClick={() => SaveOpenQuestion()}>Opslaan</button>
+                    ) : (<button className='button' onClick={() => SaveMultiQuestion()}>Opslaan</button>
+                    )
+                    }
                 </div>
             </div>
             {/* Links back to Questionlist. */}

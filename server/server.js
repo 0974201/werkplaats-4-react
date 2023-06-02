@@ -119,29 +119,32 @@ for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
   const { type, question, questionId, options } = req.body;
   res.type('json');
+  console.log(type)
+  console.log(question)
+  console.log('dit is ' + questionId)
 
   /* Checks if the type is open and if so updates open_question. */
   if (type === 'Open') {
-    db.run('UPDATE open_question SET open_question = ? WHERE open_question_id = ?', [question, questionId],
+    db.run('UPDATE open_question SET open_question = ? WHERE Open_Question_ID = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('Question ' + [questionId] + 'has successfully updated to ' + [question]),
+      console.log('Open Question ' + [questionId] + ' has successfully updated to ' + [question]),
 
     )
   } /* If not open then it updates multiple choice */
   else if (type === 'MultipleChoice') {
-    db.run('UPDATE multiple_choice SET multi_question = ? WHERE multiple_choice_id = ?', [question, questionId],
+    db.run('UPDATE multiple_choice SET multi_question = ? WHERE Multiple_Choice_ID = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('Question ' + [questionId] + 'has successfully updated to ' + [question]),
+      console.log('Multiple Choice Question ' + [questionId] + ' has successfully updated to ' + [question]),
     ) /* Multiple choice also has to update options so we put that after it has ran the first query. */
     db.run('UPDATE option SET option = ? WHERE option_id = ?', [options, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('Options have been changed to ' + [options])
+      console.log('Options from' + [questionId] + ' have been changed to ' + [options])
     )
   }
 });
