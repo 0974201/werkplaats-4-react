@@ -124,7 +124,7 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
   console.log('Req.body is ' + req.body)
   res.type('json');
   if (type === 'Open') {
-    db.run('UPDATE open_question SET question = ? WHERE open_question_id = ?', [question, questionId],
+    db.run('UPDATE open_question SET open_question = ? WHERE open_question_id = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
@@ -133,7 +133,7 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
     )
   }
   else if (type === 'MultipleChoice') {
-    db.run('UPDATE multiple_choice SET question = ? WHERE multiple_choice_id = ?', [question, questionId],
+    db.run('UPDATE multiple_choice SET multi_question = ? WHERE multiple_choice_id = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
@@ -157,7 +157,7 @@ app.get("/api/questions", function (req, res) {
   const showOpenQuestions = req.query.open === 'OpenQuestions';
   const showMultipleChoice = req.query.open === 'MultipleChoiceQuestions';
   res.type('json');
-  let sql = `SELECT questions.Question_ID, open_question.question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
+  let sql = `SELECT questions.Question_ID, open_question.open_question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
   from questions
   LEFT JOIN open_question on questions.Open_Question_ID = open_question.Open_Question_ID
   LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID`;
@@ -209,7 +209,7 @@ app.get("/api/questions/:id", function (req, res) {
 
   const questionId = req.params.id;
 
-  const sql = `SELECT questions.Question_ID, open_question.question, open_question.open_question_ID
+  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID
   FROM questions
   LEFT JOIN open_question ON questions.Open_Question_ID = open_question.open_question_ID
   WHERE Question_ID = ?`

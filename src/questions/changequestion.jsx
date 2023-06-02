@@ -19,6 +19,7 @@ export default function ChangeQuestion({ }) {
         const fetchData = async () => {
             const response = await fetch(`http://localhost:81/api/questions/ ` + id);
             const data = await response.json();
+            console.log(data[0]);
             showQuestion(data[0]);
         };
         fetchData();
@@ -85,16 +86,16 @@ export default function ChangeQuestion({ }) {
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
         console.log(question)
-        console.log(question.question)
+        console.log(question.open_question)
 
         if (question.Open_Question_ID !== null) {
             return (
                 <>
                     <h1>Open vraag {id} </h1>
-                    <b>{question.question}</b>
+                    <b>{question.open_question}</b>
                 </>
             )
-        } else if ('') {
+        } else if (question.Open_Question_ID == null) {
             return (
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
