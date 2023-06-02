@@ -12,6 +12,7 @@ export default function ChangeQuestion({ }) {
     const [questionvalue, setQuestionValue] = useState('');
     const [options, setOptions] = useState()
     const [message, setMessage] = useState('')
+    const [errormessage, setErrorMessage] = useState(false)
     const [showmessage, setShowMessage] = useState(false)
 
     /* Fetches the data from api. Conditionally checks whether the open_questionID in the data[0]
@@ -37,14 +38,15 @@ export default function ChangeQuestion({ }) {
 
     /* Timer for message... 5000 is 5 seconds */
     useEffect(() => {
-        if (message) {
+        if (message && errormessage) {
             const timer = setTimeout(() => {
                 setShowMessage('');
+                setErrorMessage('');
             }, 5000);
 
             return () => clearTimeout(timer);
         }
-    }, [message]);
+    }, [message, errormessage]);
 
     /* Saves the open question to the database.*/
     function SaveOpenQuestion() {
@@ -61,7 +63,7 @@ export default function ChangeQuestion({ }) {
         }
         else {
             setMessage('Veld mag niet leeg zijn!')
-            setShowMessage(true);
+            setErrorMessage(true);
         }
     };
 
@@ -80,7 +82,7 @@ export default function ChangeQuestion({ }) {
         }
         else {
             setMessage('Veld mag niet leeg zijn!')
-            setShowMessage(true);
+            setErrorMessage(true);
         }
     };
 
@@ -100,7 +102,6 @@ export default function ChangeQuestion({ }) {
             }
         });
         setQuestion(updatedQuestion)
-        setMessage('Vraag is aangepast!')
         setShowMessage(true);
     };
 
@@ -164,8 +165,16 @@ export default function ChangeQuestion({ }) {
                 className={`changequestion_message ${showmessage ? 'alert-shown' : 'alert-hidden'}`}
             >
                 {showmessage && (
-                    <p className="error"> {message} </p>
+                    <p className="message"> {message}  </p>
                 )}
+            </div>
+            <div
+                className={`Error_Message ${errormessage ? 'alert-shown' : 'alert-hidden'}`}
+            > {errormessage && (
+                <p className='message'>{message}</p>
+
+            )
+                }
             </div>
             {renderQuestion()}
             {console.log(question.Question_ID)}
