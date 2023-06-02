@@ -10,61 +10,81 @@ export default function ChangeQuestion({ }) {
     const [questionlist, setQuestion] = useState('');
     const [question, showQuestion] = useState([])
     const [questionvalue, setQuestionValue] = useState('');
-    const [options, setOptions] = useState('')
+    const [options, setOptions] = useState()
     const [message, setMessage] = useState('')
+    const [errormessage, setErrorMessage] = useState(false)
     const [showmessage, setShowMessage] = useState(false)
 
-
+    /* Fetches the data from api. Conditionally checks whether the open_questionID in the data[0]
+    is null or not. If null it fetches open question. If not null it fetches multiple choice.*/
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetch(`http://localhost:81/api/questions/ ` + id);
             const data = await response.json();
             console.log(data[0]);
             showQuestion(data[0]);
-        };
-        fetchData();
-    }, []);
-    console.log(question.multi_question)
-    console.log(question.open_question)
+            setOptions(data);
 
+            if (data[0].Open_Question_ID !== null) {
+                setQuestionValue(data[0].open_question)
+            } else if (question.Open_Question_ID == null) {
+                setQuestionValue(data[0].multi_question)
+            }
+        }
+            ;
+        fetchData();
+    }, []
+    );
 
     /* Timer for message... 5000 is 5 seconds */
     useEffect(() => {
-        if (message) {
+        if (message && errormessage) {
             const timer = setTimeout(() => {
                 setShowMessage('');
+                setErrorMessage('');
             }, 5000);
 
             return () => clearTimeout(timer);
         }
-    }, [message]);
+    }, [message, errormessage]);
 
-    /* Saves the question to the database.*/
+    /* Saves the open question to the database.*/
     function SaveOpenQuestion() {
-        const saveArray = {
-            question: questionvalue,
-            questionId: question.Open_Question_ID,
-            options: options,
-            type: 'Open'
+        if (questionvalue !== '') {
+            const saveArray = {
+                question: questionvalue,
+                questionId: question.Open_Question_ID,
+                options: options,
+                type: 'Open'
+            };
+            saveToDB(saveArray, 'questions');
+            setMessage('Open Vraag is succesvol opgeslagen!')
+            setShowMessage(true);
         }
-        saveToDB(saveArray, 'questions');
-        setMessage('Open Vraag is succesvol opgeslagen!')
-        setShowMessage(true);
-    }
+        else {
+            setMessage('Veld mag niet leeg zijn!')
+            setErrorMessage(true);
+        }
+    };
 
-    /* Saves the question to the database.*/
+    /* Saves the multiple choice question to the database.*/
     function SaveMultiQuestion() {
-        const saveArray = {
-            question: questionvalue,
-            questionId: question.Multiple_Choice_ID,
-            options: options,
-            type: 'MultipleChoice'
+        if (questionvalue !== '') {
+            const saveArray = {
+                question: questionvalue,
+                questionId: question.Multiple_Choice_ID,
+                options: options,
+                type: 'MultipleChoice'
+            };
+            saveToDB(saveArray, 'questions');
+            setMessage('Multi Vraag is succesvol opgeslagen!')
+            setShowMessage(true);
         }
-
-        saveToDB(saveArray, 'questions');
-        setMessage('Multi Vraag is succesvol opgeslagen!')
-        setShowMessage(true);
-    }
+        else {
+            setMessage('Veld mag niet leeg zijn!')
+            setErrorMessage(true);
+        }
+    };
 
     /* This is the Up and Down buttons that allow us to change the order of options.*/
     function switchOptions(list, fromIndex, toIndex) {
@@ -82,7 +102,6 @@ export default function ChangeQuestion({ }) {
             }
         });
         setQuestion(updatedQuestion)
-        setMessage('Vraag is aangepast!')
         setShowMessage(true);
     };
 
@@ -108,17 +127,17 @@ export default function ChangeQuestion({ }) {
             return (
                 <>
                     <h1>Open vraag {id} </h1>
-                    <b>{question.open_question}</b>
+                    <b>{questionvalue}</b>
                 </>
             )
         } else if (question.Open_Question_ID == null) {
             return (
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
-                    <p><b>{question.multi_question}</b></p>
-                    {((option, optionIndex) => {
+                    <p><b>{questionvalue}</b></p>
+                    {options && options.map((option, optionIndex) => {
                         return (
-                            <div className='radio_box'>
+                            <div className='radio_box'>{console.log(option)}
                                 <div className='radio_div' key={option}>
                                     <input className='input'
                                         type='text'
@@ -135,10 +154,6 @@ export default function ChangeQuestion({ }) {
             )
         }
     }
-    /* re-renders the question in the textarea depending on the id parameter. */
-    // useEffect(() => {
-    //     setQuestionValue(question[id].question);
-    // }, [id]);
 
     /* The main template of changeQuestion(). 
     We put in renderQuestion() on top to combine it. */
@@ -148,8 +163,16 @@ export default function ChangeQuestion({ }) {
                 className={`changequestion_message ${showmessage ? 'alert-shown' : 'alert-hidden'}`}
             >
                 {showmessage && (
-                    <p className="error"> {message} </p>
+                    <p className="message"> {message}  </p>
                 )}
+            </div>
+            <div
+                className={`Error_Message ${errormessage ? 'alert-shown' : 'alert-hidden'}`}
+            > {errormessage && (
+                <p className='message'>{message}</p>
+
+            )
+                }
             </div>
             {renderQuestion()}
             {console.log(question.Question_ID)}
