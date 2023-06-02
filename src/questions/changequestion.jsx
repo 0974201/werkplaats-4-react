@@ -48,30 +48,41 @@ export default function ChangeQuestion({ }) {
 
     /* Saves the open question to the database.*/
     function SaveOpenQuestion() {
-        const saveArray = {
-            question: questionvalue,
-            questionId: question.Open_Question_ID,
-            options: options,
-            type: 'Open'
+        if (questionvalue !== '') {
+            const saveArray = {
+                question: questionvalue,
+                questionId: question.Open_Question_ID,
+                options: options,
+                type: 'Open'
+            };
+            saveToDB(saveArray, 'questions');
+            setMessage('Open Vraag is succesvol opgeslagen!')
+            setShowMessage(true);
         }
-        saveToDB(saveArray, 'questions');
-        setMessage('Open Vraag is succesvol opgeslagen!')
-        setShowMessage(true);
-    }
+        else {
+            setMessage('Veld mag niet leeg zijn!')
+            setShowMessage(true);
+        }
+    };
 
     /* Saves the multiple choice question to the database.*/
     function SaveMultiQuestion() {
-        const saveArray = {
-            question: questionvalue,
-            questionId: question.Multiple_Choice_ID,
-            options: options,
-            type: 'MultipleChoice'
+        if (questionvalue !== '') {
+            const saveArray = {
+                question: questionvalue,
+                questionId: question.Multiple_Choice_ID,
+                options: options,
+                type: 'MultipleChoice'
+            };
+            saveToDB(saveArray, 'questions');
+            setMessage('Multi Vraag is succesvol opgeslagen!')
+            setShowMessage(true);
         }
-
-        saveToDB(saveArray, 'questions');
-        setMessage('Multi Vraag is succesvol opgeslagen!')
-        setShowMessage(true);
-    }
+        else {
+            setMessage('Veld mag niet leeg zijn!')
+            setShowMessage(true);
+        }
+    };
 
     /* This is the Up and Down buttons that allow us to change the order of options.*/
     function switchOptions(list, fromIndex, toIndex) {
@@ -115,14 +126,14 @@ export default function ChangeQuestion({ }) {
             return (
                 <>
                     <h1>Open vraag {id} </h1>
-                    <b>{question.open_question}</b>
+                    <b>{questionvalue}</b>
                 </>
             )
         } else if (question.Open_Question_ID == null) {
             return (
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
-                    <p><b>{question.multi_question}</b></p>
+                    <p><b>{questionvalue}</b></p>
                     {options && options.map((option, optionIndex) => {
                         return (
                             <div className='radio_box'>{console.log(option)}
@@ -142,10 +153,8 @@ export default function ChangeQuestion({ }) {
             )
         }
     }
-    /* re-renders the question in the textarea depending on the id parameter. */
-    // useEffect(() => {
-    //     setQuestionValue(question[id].question);
-    // }, [id]);
+    //  re-renders the question in the textarea depending on the id parameter. 
+
 
     /* The main template of changeQuestion(). 
     We put in renderQuestion() on top to combine it. */
