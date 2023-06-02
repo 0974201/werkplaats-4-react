@@ -180,11 +180,14 @@ function ModifyQuestion() {
                                 <th>Overzicht</th>
                                 <th>Aanpassen</th>
                             </tr>
+                            {/* The ? behind open and multi question is a method called Optional Chaining.
+                            If the value is null Optional Chaining changes it to undefined, now we can search through the questionlist
+                            without mega null errors. */}
                             {question.filter((item) => {
                                 return search.toLowerCase() === ''
 
                                     ? item
-                                    : item.open_question.toLowerCase().includes(search)
+                                    : item.open_question?.toLowerCase().includes(search) || item.multi_question?.toLowerCase().includes(search)
 
                             }).map(item => (
                                 <tr key={item.Question_ID}>

@@ -154,8 +154,6 @@ export default function ChangeQuestion({ }) {
             )
         }
     }
-    //  re-renders the question in the textarea depending on the id parameter. 
-
 
     /* The main template of changeQuestion(). 
     We put in renderQuestion() on top to combine it. */
