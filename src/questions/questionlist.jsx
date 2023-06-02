@@ -183,7 +183,8 @@ function ModifyQuestion() {
                             {question.filter((item) => {
                                 return search.toLowerCase() === ''
                                     ? item
-                                    : item.question.toLowerCase().includes(search)
+                                    : item.open_question.toLowerCase().includes(search) || item.multi_question.toLowerCase().includes(search)
+
                             }).map(item => (
                                 <tr key={item.Question_ID}>
                                     <td>
