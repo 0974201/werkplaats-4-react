@@ -8,27 +8,22 @@ import { saveToDB } from '../universal/manipulateDB';
 export default function ChangeQuestion({ }) {
     const { id } = useParams();
     const [questionlist, setQuestion] = useState('');
+    const [question, showQuestion] = useState([])
     const [questionvalue, setQuestionValue] = useState('');
     const [options, setOptions] = useState('')
     const [message, setMessage] = useState('')
     const [showmessage, setShowMessage] = useState(false)
-    const [fetchedquestion, showQuestion] = useState([])
 
-    /* Allows us to access the value outside the map*/
-    const fetchedvalue = fetchedquestion.map((item) => item.question);
-    const fetchedopen = fetchedquestion.map((item) => item.open_question_ID);
-    const fetchedMC = fetchedquestion.map((item) => item.Multiple_Choice_ID);
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch(`http://localhost:81/api/questions/${id}`);
-            const data = await result.json();
-            const question = data.question;
-            console.log(data);
-            showQuestion(data)
+            const response = await fetch(`http://localhost:81/api/questions/ ` + id);
+            const data = await response.json();
+            showQuestion(data[0]);
         };
         fetchData();
-    }, [fetchedquestion]);
+    }, []);
+
 
     /* Timer for message... 5000 is 5 seconds */
     useEffect(() => {
@@ -53,7 +48,6 @@ export default function ChangeQuestion({ }) {
         setMessage('Vraag is succesvol opgeslagen!')
         setShowMessage(true);
     }
-    console.log(SaveQuestion)
 
     /* This is the Up and Down buttons that allow us to change the order of options.*/
     function switchOptions(list, fromIndex, toIndex) {
@@ -63,7 +57,7 @@ export default function ChangeQuestion({ }) {
 
     /* Changes the question to the value that is put in the textarea element */
     const handleModify = (id, newQuestion) => {
-        let updatedQuestion = fetchedquestion.map(question => {
+        let updatedQuestion = question.map(question => {
             if (question.id === id && newQuestion !== '') {
                 return { ...question, question: newQuestion };
             } else {
@@ -90,16 +84,17 @@ export default function ChangeQuestion({ }) {
 
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
-        if (fetchedopen) {
+        console.log(question)
+        console.log(question.question)
+
+        if (question.Open_Question_ID !== null) {
             return (
                 <>
                     <h1>Open vraag {id} </h1>
-                    {fetchedquestion.map(item =>
-                        <p><b>{item.question}</b></p>)}
-
+                    <b>{question.question}</b>
                 </>
             )
-        } else if (fetchedMC) {
+        } else if ('') {
             return (
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
@@ -140,17 +135,15 @@ export default function ChangeQuestion({ }) {
                 )}
             </div>
             {renderQuestion()}
-            {(questionvalue !== '')
-                ? ''
-                : <span style={{ color: 'red' }}>Vraag mag niet leeg zijn!</span>}
+            {console.log(question.Question_ID)}
             {(questionvalue.length !== 250)
                 ? ''
                 : <span style={{ color: 'red' }}>Vraag kan niet meer dan 250 karakters bevatten</span>}
             <div className='save_question_border'>
                 <div className='save_question_box'>
-                    <textarea type='text' className='textarea' maxLength={250} defaultValue={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
+                    <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
                     <button className='button' onClick={() => handleModify(id, questionvalue)}>Aanpassen</button>
-                    <button className='button' onClick={() => SaveQuestion()}>Opslaan</button>{console.log(SaveQuestion)}
+                    <button className='button' onClick={() => SaveQuestion()}>Opslaan</button>
                 </div>
             </div>
             {/* Links back to Questionlist. */}

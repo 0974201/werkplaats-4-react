@@ -87,6 +87,7 @@ export let surveys = [
     }
 ]
 function App() {
+
     return (
         <>
             <div className='App'>
@@ -107,7 +108,7 @@ function App() {
                         <Route path='/questionlist' element={<ModifyQuestion />} />
                         <Route path='/overview/:id' element={< OverView question={questions} />} />
                         <Route path='/question' element={<ChangeQuestion question={survey} />} />
-                        <Route path='/question/:id' element={<ChangeQuestion question={questions} />} />
+                        <Route path='/question/:id' element={<ChangeQuestion />} />
                         <Route path={'/survey'} element={<Survey surveyArray={survey} />} />
                         <Route path='/dbtest' element={<DbTest />} />
                         <Route />

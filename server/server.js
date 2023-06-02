@@ -157,7 +157,7 @@ app.get("/api/questions", function (req, res) {
   const showOpenQuestions = req.query.open === 'OpenQuestions';
   const showMultipleChoice = req.query.open === 'MultipleChoiceQuestions';
   res.type('json');
-  sql = `SELECT questions.Question_ID, open_question.question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
+  let sql = `SELECT questions.Question_ID, open_question.question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
   from questions
   LEFT JOIN open_question on questions.Open_Question_ID = open_question.Open_Question_ID
   LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID`;
@@ -171,7 +171,7 @@ app.get("/api/questions", function (req, res) {
   else if (isDeleted)
     sql += ` WHERE (open_question.Open_Question_ID IS NOT NULL Or Multiple_choice.Multiple_Choice_ID IS NULL) AND
    questions.is_deleted = 1`
-  console.log(sql)
+
   db.all(sql, (err, row) => {
     if (err) {
       console.log(err.message);
@@ -212,7 +212,9 @@ app.get("/api/questions/:id", function (req, res) {
   const sql = `SELECT questions.Question_ID, open_question.question, open_question.open_question_ID
   FROM questions
   LEFT JOIN open_question ON questions.Open_Question_ID = open_question.open_question_ID
-  WHERE open_question.question is not null AND QUESTION_ID = ?;`
+  WHERE Question_ID = ?`
+
+
   console.log('dit is ' + req.params.id)
   console.log(questionId)
   console.log(req.params['id'])
