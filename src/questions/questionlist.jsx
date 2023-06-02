@@ -11,7 +11,7 @@ function ModifyQuestion() {
     /* This should fetch the data asynchronously if you import GetDB */
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions?open=true');
+            const result = await fetch('http://localhost:81/api/questions?open=notdeleted');
             const data = await result.json();
             console.log(data);
             setQuestion(data)
@@ -212,11 +212,11 @@ function ModifyQuestion() {
                                         </span>
                                     </td>
                                     <td> {(item.is_deleted == '0') ?
-                                        <button className='close_button' onClick={() => DeleteQuestion(item.Question_ID)}
+                                        <button className='Delete_button' onClick={() => DeleteQuestion(item.Question_ID)}
                                         > <span>Verwijder</span>
                                         </button>
                                         /* shows different button if deleted*/
-                                        : <button className='close_button' onClick={() => RetrieveQuestion(item.Question_ID)}
+                                        : <button className='restore_button' onClick={() => RetrieveQuestion(item.Question_ID)}
                                         > <span>Herstel</span>
                                         </button>
                                     }

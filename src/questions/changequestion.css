@@ -3,17 +3,6 @@
     cursor: pointer;
 }
 
-.close_button {
-    background: transparent;
-    border-style: none;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.close_button:hover {
-    transform: scale(1.5)
-}
-
 .button:disabled {
     cursor: not-allowed;
     pointer-events: all !important;
