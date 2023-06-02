@@ -10,7 +10,7 @@ export default function ChangeQuestion({ }) {
     const [questionlist, setQuestion] = useState('');
     const [question, showQuestion] = useState([])
     const [questionvalue, setQuestionValue] = useState('');
-    const [options, setOptions] = useState('')
+    const [options, setOptions] = useState()
     const [message, setMessage] = useState('')
     const [showmessage, setShowMessage] = useState(false)
 
@@ -21,6 +21,7 @@ export default function ChangeQuestion({ }) {
             const data = await response.json();
             console.log(data[0]);
             showQuestion(data[0]);
+            setOptions(data);
         };
         fetchData();
     }, []);
@@ -39,7 +40,7 @@ export default function ChangeQuestion({ }) {
         }
     }, [message]);
 
-    /* Saves the question to the database.*/
+    /* Saves the open question to the database.*/
     function SaveOpenQuestion() {
         const saveArray = {
             question: questionvalue,
@@ -52,7 +53,7 @@ export default function ChangeQuestion({ }) {
         setShowMessage(true);
     }
 
-    /* Saves the question to the database.*/
+    /* Saves the multiple choice question to the database.*/
     function SaveMultiQuestion() {
         const saveArray = {
             question: questionvalue,
@@ -116,9 +117,9 @@ export default function ChangeQuestion({ }) {
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
                     <p><b>{question.multi_question}</b></p>
-                    {((option, optionIndex) => {
+                    {options && options.map((option, optionIndex) => {
                         return (
-                            <div className='radio_box'>
+                            <div className='radio_box'>{console.log(option)}
                                 <div className='radio_div' key={option}>
                                     <input className='input'
                                         type='text'
