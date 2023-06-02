@@ -118,33 +118,30 @@ We first check if it's an open or multiple choice and then update the columns ar
 for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
   const { type, question, questionId, options } = req.body;
-  console.log('Question type is ' + type)
-  console.log('Question is ' + question)
-  console.log('Question Id is ' + questionId)
-  console.log('Req.body is ' + req.body)
   res.type('json');
+
+  /* Checks if the type is open and if so updates open_question. */
   if (type === 'Open') {
     db.run('UPDATE open_question SET open_question = ? WHERE open_question_id = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('question_id:', questionId),
-      console.log('question', question)
+      console.log('Question ' + [questionId] + 'has successfully updated to ' + [question]),
+
     )
-  }
+  } /* If not open then it updates multiple choice */
   else if (type === 'MultipleChoice') {
     db.run('UPDATE multiple_choice SET multi_question = ? WHERE multiple_choice_id = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('question_id:', questionId),
-      console.log('question', question)
-    )
+      console.log('Question ' + [questionId] + 'has successfully updated to ' + [question]),
+    ) /* Multiple choice also has to update options so we put that after it has ran the first query. */
     db.run('UPDATE option SET option = ? WHERE option_id = ?', [options, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('')
+      console.log('Options have been changed to ' + [options])
     )
   }
 });
@@ -217,11 +214,13 @@ app.get("/api/questions/:id", function (req, res) {
   const questionId = req.params.id;
 
   /* The Base Query that execute.
-  We select questions question_ID and have it joined by the open question and the open question id,
-  and as last we have the Question_ID which we will get from the second argument[questionId] */
-  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID
+  We select questions question_ID and have it joined by the open and multi choice questions and their id,
+  and as last we have the Question_ID which we will get from the second argument[questionId]
+  This allows us to fetch the questions per ID .*/
+  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID, multiple_choice.multi_question, multiple_Choice.Multiple_choice_ID
   FROM questions
   LEFT JOIN open_question ON questions.Open_Question_ID = open_question.open_question_ID
+  LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID
   WHERE Question_ID = ?`
 
 

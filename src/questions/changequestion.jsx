@@ -99,8 +99,8 @@ export default function ChangeQuestion({ }) {
             return (
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
-                    <p><b>{questionvalue}</b></p>
-                    {options.map((option, optionIndex) => {
+                    <p><b>{question.multi_question}</b></p>
+                    {((option, optionIndex) => {
                         return (
                             <div className='radio_box'>
                                 <div className='radio_div' key={option}>
