@@ -165,12 +165,11 @@ app.get("/api/questions", function (req, res) {
   if (isOpen) {
     sql += ` WHERE questions.is_deleted = 0`
   } else if (showOpenQuestions)
-    sql += ' WHERE open_question.Open_Question_ID is NOT NULL AND multiple_choice.multiple_Choice_ID IS NULL AND questions.is_deleted = 0'
+    sql += ' WHERE multiple_choice.multiple_Choice_ID IS NULL AND questions.is_deleted = 0'
   else if (showMultipleChoice)
-    sql += ` WHERE multiple_choice.Multiple_Choice_ID IS NOT NULL AND open_question.Open_Question_ID IS NULL AND questions.is_deleted = 0`
+    sql += ` WHERE open_question.Open_question_ID IS NULL AND questions.is_deleted = 0`
   else if (isDeleted)
-    sql += ` WHERE (open_question.Open_Question_ID IS NOT NULL Or Multiple_choice.Multiple_Choice_ID IS NULL) AND
-   questions.is_deleted = 1`
+    sql += ` WHERE questions.is_deleted = 1`
 
   db.all(sql, (err, row) => {
     if (err) {
