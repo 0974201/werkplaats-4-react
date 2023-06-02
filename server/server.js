@@ -123,29 +123,37 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
     res.send('saved')
 })
 
-app.get('/api/getSurvey', function (req, res) {
-    // db.all('SELECT * FROM survey',(err, rows) => {
-    //     res.send(JSON.stringify(rows))
-    // })
-            db.all(
-                "SELECT filled_in.question_order, survey.title, COALESCE(multiple_choice.multi_question, open_question.open_question) FROM filled_in " +
-                "INNER JOIN survey ON filled_in.Survey_ID = survey.Survey_ID " +
-                "INNER JOIN questions ON filled_in.Question_ID = questions.Question_ID " +
-                "INNER JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID " +
-                "INNER JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID",
+app.get('/api/getSurvey/:surveyId', function (req, res) {
+    const surveyId = parseInt(req.params['surveyId'])
 
-                [], function (error, rows) {
-                if (error) {
-                    console.log(error)
-                } else {
-                    console.log(rows)
-                }
-            })
+    db.all("SELECT title, description, open_date, close_date, can_be_anonymous FROM survey WHERE Survey_ID = ?",
+        [surveyId], function (error, rows) {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log(rows)
+                res.send(JSON.stringify(rows))
+            }
+        })
+})
 
-    // console.log(allQuery('SELECT * FROM survey', []))
-    //
-    // res.send(allQuery('SELECT * FROM survey', []))
+app.get('/api/getSurveyQuestions/:surveyId', function (req, res) {
+    const surveyId = parseInt(req.params['surveyId'])
 
+    db.all(
+        "SELECT filled_in.question_order, multiple_choice.multi_question, open_question.open_question FROM filled_in " +
+        "LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID " +
+        "LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID " +
+        "LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID " +
+        "WHERE filled_in.Survey_ID = ?",
+        [surveyId], function (error, rows) {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log(rows)
+                res.send(JSON.stringify(rows))
+            }
+        })
 })
 
 app.get("/test", function (req, res) {

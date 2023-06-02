@@ -8,8 +8,8 @@ import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
 
-// this function is very big because if you spit it up into different files en functions some function get a bug that when you
-// type in a input field the field loses focus and you stop typing
+// this function is very big because if you split it up into different files en functions some function get a bug that when you
+// type in an input field the field loses focus, and you stop typing
 export default function CreateSurvey({endpoint}) {
     console.log(endpoint)
     const [questionArray, setQuestionArray] = useState(onLoadArray())
@@ -174,6 +174,14 @@ export default function CreateSurvey({endpoint}) {
     }
 
     function PopUp() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/questions?open=true')
+            const data = await result.json()
+            console.log(data)
+
+        }
+        fetchData()
+
         return (
             <div className={'pop_up_container'}>
                 <div className={'pop_up'}>
@@ -245,7 +253,6 @@ export default function CreateSurvey({endpoint}) {
                             onChange={e => replaceSurveyItem('anonymity', e.target.checked)}
                         />
                     </label>
-                    <button onClick={() => sessionStorage.removeItem("createSurvey")}>reset</button>
                 </div>
                 <AddButtons />
             </div>

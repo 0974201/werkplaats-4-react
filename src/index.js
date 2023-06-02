@@ -108,7 +108,7 @@ function App() {
                         <Route path='/overview/:id' element={< OverView question={questions} />} />
                         <Route path='/question' element={<ChangeQuestion question={survey} />} />
                         <Route path='/question/:id' element={<ChangeQuestion question={questions} />} />
-                        <Route path={'/survey'} element={<Survey surveyArray={survey} />} />
+                        <Route path={'/survey/:id'} element={<Survey surveyArray={survey} />} />
                         <Route path='/dbtest' element={<DbTest />} />
                         <Route />
                         <Route />

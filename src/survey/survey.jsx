@@ -1,25 +1,47 @@
 import './survey.css'
 import React, {useEffect, useState} from "react";
 import Progressbar from "../universal/progressbar";
+import {useParams} from "react-router-dom";
+import {questions} from "../index";
 
 export default function Survey({surveyArray}) {
+    const { id } = useParams();
     const [answeredArray, setAnsweredArray] = useState(onLoadSurvey())
     const [questionShown, setQuestionShow] = useState(onLoadQuestionShown())
+    const [testArray, setTestArray] = useState({})
+
+
+    console.log(id)
 
     console.log(answeredArray)
+    console.log(testArray)
 
     sessionStorage.setItem("survey", JSON.stringify(answeredArray))
     sessionStorage.setItem("questionShown", JSON.stringify(questionShown))
 
+
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/getSurvey');
-            const data = await result.json();
-            console.log(data);
-            // setAnsweredArray(data)
-        };
-        fetchData();
+        async function fetchSurvey() {
+            const result = await fetch('http://localhost:81/api/getSurvey/' + id)
+            const data = await result.json()
+            console.log(data)
+            setTestArray(data)
+        }
+
+        async function fetchQuestion() {
+            const result = await fetch('http://localhost:81/api/getSurveyQuestions/' + id)
+            const data = await result.json()
+            console.log(data)
+            testArray.map(survey)
+            setTestArray({ ...testArray, questions: data })
+        }
+        fetchSurvey().then(fetchQuestion())
+
     }, []);
+
+
+
+
 
     function onLoadSurvey() {
         if (JSON.parse(sessionStorage.getItem("survey")) === null) {
