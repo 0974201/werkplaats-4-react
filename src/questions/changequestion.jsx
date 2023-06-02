@@ -14,7 +14,8 @@ export default function ChangeQuestion({ }) {
     const [message, setMessage] = useState('')
     const [showmessage, setShowMessage] = useState(false)
 
-
+    /* Fetches the data from api. Conditionally checks whether the open_questionID in the data[0]
+    is null or not. If null it fetches open question. If not null it fetches multiple choice.*/
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetch(`http://localhost:81/api/questions/ ` + id);
@@ -22,12 +23,17 @@ export default function ChangeQuestion({ }) {
             console.log(data[0]);
             showQuestion(data[0]);
             setOptions(data);
-        };
-        fetchData();
-    }, []);
-    console.log(question.multi_question)
-    console.log(question.open_question)
 
+            if (data[0].Open_Question_ID !== null) {
+                setQuestionValue(data[0].open_question)
+            } else if (question.Open_Question_ID == null) {
+                setQuestionValue(data[0].multi_question)
+            }
+        }
+            ;
+        fetchData();
+    }, []
+    );
 
     /* Timer for message... 5000 is 5 seconds */
     useEffect(() => {
