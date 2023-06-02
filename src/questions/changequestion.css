@@ -60,3 +60,24 @@
     width: 200px;
     height: 100px;
 }
+
+.changequestion_message {
+    position: absolute;
+    top: -10;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    border-style: ridge;
+    background-color: lightgreen;
+    font-size: 20px;
+    width: 250px;
+    height: 100px;
+    z-index: 2;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.alert-hidden {
+    opacity: 0;
+    transition: linear 500ms;
+}
