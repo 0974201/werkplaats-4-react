@@ -159,14 +159,14 @@ export default function ChangeQuestion({ }) {
     We put in renderQuestion() on top to combine it. */
     return (
         <div>
-            <div
+            <div // if showmessage true show message, if false hide it. //
                 className={`changequestion_message ${showmessage ? 'alert-shown' : 'alert-hidden'}`}
             >
                 {showmessage && (
                     <p className="message"> {message}  </p>
                 )}
             </div>
-            <div
+            <div // if errormessage true show error message, if false hide it. //
                 className={`Error_Message ${errormessage ? 'alert-shown' : 'alert-hidden'}`}
             > {errormessage && (
                 <p className='message'>{message}</p>

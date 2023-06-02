@@ -26,6 +26,8 @@ export function SurveyList() {
     }, []);
 
     /* Handles the queries in surveybox on the left side */
+
+    // Shows every Survey that is under review (is_reviewed = 0)//
     function showBeingReviewed() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=reviewed');
@@ -35,6 +37,8 @@ export function SurveyList() {
         fetchData();
     };
 
+    // Shows all Open Surveys that passed review (is_reviewed = 1) (is_deleted = 0)
+    // And current date is not past the close_date. //
     function showOpenSurveys() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=true');
@@ -44,7 +48,8 @@ export function SurveyList() {
         fetchData();
     };
 
-
+    // Shows all Closed Surveys that passed review (is_reviewed = 1) (is_deleted = 0)
+    // And Current date is past the close_date. //
     function showClosedSurveys() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=false');
@@ -54,6 +59,7 @@ export function SurveyList() {
         fetchData();
     };
 
+    // Shows everything. //
     function showAll() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys');

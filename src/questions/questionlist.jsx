@@ -106,12 +106,16 @@ function ModifyQuestion() {
 
     /* Shows  Open Questions for questions */
     function showOpenQuestions() {
-        const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions?open=OpenQuestions');
-            const data = await result.json();
-            setQuestion(data)
-        };
-        fetchData();
+        try {
+            const fetchData = async () => {
+                const result = await fetch('http://localhost:81/api/questions?open=OpenQuestions');
+                const data = await result.json();
+                setQuestion(data)
+            };
+            fetchData();
+        } catch (error) {
+            console.error(error)
+        }
     };
 
     /* Shows multiple choice for questions */
@@ -124,6 +128,7 @@ function ModifyQuestion() {
         fetchData();
     };
 
+    /* The sidebar that gets the queries. If clicked show the corresponding queries.*/
     function questionBox() {
         return (
             <>
@@ -157,7 +162,7 @@ function ModifyQuestion() {
 
     return (
         <div className="surveylist_container">
-            <div
+            <div // if message is true show alert, if false hide it//
                 className={`questionlist_message ${message ? 'alert-shown' : 'alert-hidden'}`}
             >
                 {message && (
@@ -225,7 +230,7 @@ function ModifyQuestion() {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div> {/* box3 is just there to make our code in box2 stay in middle*/}
                 <div className='questionlist_box3'>
                 </div>
             </div>
