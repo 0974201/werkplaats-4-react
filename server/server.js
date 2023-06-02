@@ -126,7 +126,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
 app.get('/api/getSurvey/:surveyId', function (req, res) {
     const surveyId = parseInt(req.params['surveyId'])
 
-    db.all("SELECT title, description, open_date, close_date, can_be_anonymous FROM survey WHERE Survey_ID = ?",
+    db.get("SELECT title, description, open_date, close_date, can_be_anonymous FROM survey WHERE Survey_ID = ?",
         [surveyId], function (error, rows) {
             if (error) {
                 console.log(error)
@@ -141,11 +141,30 @@ app.get('/api/getSurveyQuestions/:surveyId', function (req, res) {
     const surveyId = parseInt(req.params['surveyId'])
 
     db.all(
-        "SELECT filled_in.question_order, multiple_choice.multi_question, open_question.open_question FROM filled_in " +
+        "SELECT filled_in.question_order, multiple_choice.multi_question, multiple_choice.Multiple_Choice_ID, open_question.open_question FROM filled_in " +
         "LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID " +
         "LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID " +
         "LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID " +
         "WHERE filled_in.Survey_ID = ?",
+        [surveyId], function (error, rows) {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log(rows)
+                res.send(JSON.stringify(rows))
+            }
+        })
+})
+
+app.get('/api/getSurveyOptions/:surveyId', function (req, res) {
+    const surveyId = parseInt(req.params['surveyId'])
+
+    db.all("SELECT multiple_choice.Multiple_Choice_ID, option.option FROM option_row " +
+            "LEFT JOIN multiple_choice ON option_row.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID " +
+            "LEFT JOIN option ON option_row.Option_ID = option.Option_ID " +
+            "WHERE multiple_choice.Multiple_Choice_ID = (" +
+                "SELECT Multiple_Choice_ID FROM questions WHERE Question_ID IN (" +
+                    "SELECT Question_ID FROM filled_in WHERE Survey_ID = ?) AND Multiple_Choice_ID IS NOT NULL)",
         [surveyId], function (error, rows) {
             if (error) {
                 console.log(error)

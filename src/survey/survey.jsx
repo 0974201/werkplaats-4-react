@@ -1,46 +1,60 @@
 import './survey.css'
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Progressbar from "../universal/progressbar";
 import {useParams} from "react-router-dom";
-import {questions} from "../index";
+import Group from "../universal/GroupBy";
 
 export default function Survey({surveyArray}) {
     const { id } = useParams();
     const [answeredArray, setAnsweredArray] = useState(onLoadSurvey())
     const [questionShown, setQuestionShow] = useState(onLoadQuestionShown())
-    const [testArray, setTestArray] = useState({})
-
-
-    console.log(id)
+    const [testArray, setTestArray] = useState(fetchSurvey)
+    const [testQuest, setTestQuest] = useState(fetchQuestion)
 
     console.log(answeredArray)
     console.log(testArray)
+    console.log(testQuest)
 
     sessionStorage.setItem("survey", JSON.stringify(answeredArray))
     sessionStorage.setItem("questionShown", JSON.stringify(questionShown))
 
 
-    useEffect(() => {
-        async function fetchSurvey() {
-            const result = await fetch('http://localhost:81/api/getSurvey/' + id)
-            const data = await result.json()
-            console.log(data)
-            setTestArray(data)
-        }
 
-        async function fetchQuestion() {
-            const result = await fetch('http://localhost:81/api/getSurveyQuestions/' + id)
-            const data = await result.json()
-            console.log(data)
-            testArray.map(survey)
-            setTestArray({ ...testArray, questions: data })
-        }
-        fetchSurvey().then(fetchQuestion())
+    async function fetchSurvey() {
+        const result = await fetch('http://localhost:81/api/getSurvey/' + id)
+        const data = await result.json()
+        console.log(data)
+        setTestArray(data)
+    }
 
-    }, []);
+    async function fetchQuestion() {
+        const result = await fetch('http://localhost:81/api/getSurveyQuestions/' + id)
+        const data = await result.json()
+        console.log(data)
+        setTestQuest(data)
+    }
+
+    async function fetchOption() {
+        const result = await fetch('http://localhost:81/api/getSurveyOptions/' + id)
+        const data = await result.json()
+        console.log(data)
+
+        const grouped = Group(data)
 
 
+        console.log(Object.keys(grouped))
 
+        const newQuestionArray = testQuest.map(question => {
+            if (question.Multiple_Choice_ID !== null && question.Multiple_Choice_ID === Object.keys(grouped)) {
+                return {...question}
+
+            } else {
+                return {...question, options: ''}
+            }
+        })
+        console.log(newQuestionArray)
+        // setTestArray({ ...testArray.questions, options: data })
+    }
 
 
     function onLoadSurvey() {
@@ -123,6 +137,9 @@ export default function Survey({surveyArray}) {
 
     return (
             <div className={"survey"}>
+                <button onClick={fetchSurvey}>knop</button>
+                <button onClick={fetchQuestion}>knop</button>
+                <button onClick={fetchOption}>knop</button>
                 <Progressbar checkedAnswerd={checkAnswerd()} amountQuestion={questionList.length} />
                 <span>vragen beantwoord: {checkAnswerd()}/{questionList.length}</span>
                 <h1>{surveyArray.title}</h1>
