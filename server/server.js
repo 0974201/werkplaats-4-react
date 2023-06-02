@@ -235,8 +235,27 @@ app.get("/handle_login", function(req, res){
   res.send('post');
 });
 
-app.post("/handle_login", function(req, res, next){
-  res.send('post');
+user = [{// temp user, moet nog users aanmaken kek
+  email:"eeee@gmail.com",
+  password:"eeeeeee"
+}];
+
+app.post("/handle_login", bodyParser.json(), function(req, res, next){
+  console.log(req.body.email, req.body.password); // kijken of hij login gegevens door stuurt
+  const { email, password } = req.body;
+
+  const login = (email, password) => user.some(user => user.email === email && user.password === password);
+  // whack manier om te checken of doorgestuurde inlog klopt met array
+
+  login(email, password) ?
+  res.redirect('/post_login') : res.sendStatus(451); // check of inlog overeenkomt anders gooit ie status error
+
+  //res.send('post');
+});
+
+app.get("/post_login", function(req, res){
+  console.log("ingelogd") //als t goed gaat zou ik dit moeten zien in console
+  res.send("hoi");
 });
 
 app.listen(81); // start server

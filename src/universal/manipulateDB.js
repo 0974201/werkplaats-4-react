@@ -21,11 +21,16 @@ async function GetDB(path) {
 	console.log(data);
 }
 
-function UserLogin(data){
+function UserLogin(user){
 	fetch('http://localhost:81/handle_login', {
 		method: 'POST',
-		mode: 'cors'
-	})
+		mode: 'cors',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(user)
+	});
+	console.log(user);
 }
 
 export { saveToDB, GetDB, UserLogin }
