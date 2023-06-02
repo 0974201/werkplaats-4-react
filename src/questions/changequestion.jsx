@@ -38,7 +38,7 @@ export default function ChangeQuestion({ }) {
 
     /* Timer for message... 5000 is 5 seconds */
     useEffect(() => {
-        if (message && errormessage) {
+        if (message || errormessage) {
             const timer = setTimeout(() => {
                 setShowMessage('');
                 setErrorMessage('');

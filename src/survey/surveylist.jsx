@@ -139,25 +139,25 @@ export function SurveyList() {
                                     <td>
                                         {item.Survey_ID}
                                     </td>
-                                    <td className='question__grey'>
+                                    <td className='question__grey'>  {/* links to corresponding Surveyquestion_ID page. */}
                                         <Link to={`/surveyQuestions/${item.Survey_ID}`} className='link'>
                                             {item.title}
                                         </Link>
                                     </td>
-                                    <td>
+                                    <td> {/* Conditional checks for Status */}
                                         {(currentDate < item.close_date && item.is_reviewed == '1') ? (
-                                            <p style={{ color: "red" }}>Open</p>
+                                            <p style={{ color: "red" }}>Open</p> // If current date < close_date and item is reviewed.. shows open. //
                                         ) : (currentDate > item.close_date && item.is_reviewed == '1') ? (
-                                            <p style={{ color: "green" }}>Closed</p>
+                                            <p style={{ color: "green" }}>Closed</p> // if current date > close_date and item is reviewed.. shows closed. //
                                         ) : (item.is_reviewed == '0') ? (
-                                            <p style={{ color: "orange" }}>Being Reviewed</p>
+                                            <p style={{ color: "orange" }}>Being Reviewed</p> // if item is not yet reviewed.. shows this. //
                                         ) : (
-                                            <p>Unknown Status</p>
+                                            <p>Unknown Status</p> // If all else fails it becomes Unknown Status. Should not happen.. I hope. //
                                         )
                                         }
                                     </td>
-                                    <td> {console.log(item)}
-                                        <p>{item.participants}</p>
+                                    <td>
+                                        <p>{item.participants}</p> {/* The amount of participants that answered survey*/}
                                     </td>
                                     <td>
                                         {item.is_reviewed == "0" ? (
