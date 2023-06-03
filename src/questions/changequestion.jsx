@@ -74,9 +74,10 @@ export default function ChangeQuestion({ }) {
             const saveArray = {
                 question: questionvalue,
                 questionId: question.Multiple_Choice_ID,
-                options: question.option,
+                options: options[0],
                 type: 'MultipleChoice',
             };
+            console.log(options)
             saveToDB(saveArray, 'questions');
             setMessage('Multi Vraag is succesvol opgeslagen!')
             setShowMessage(true);
@@ -131,17 +132,17 @@ export default function ChangeQuestion({ }) {
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
                     <p><b>{questionvalue}</b></p>
-                    {options && options.map((option, optionIndex) => {
+                    {options.map((option, optionIndex) => {
                         return (
                             <div className='radio_box'>{console.log(option, optionIndex)}
-                                <div className='radio_div' key={option}>
+                                <div className='radio_div' key={optionIndex}>
                                     <input className='input'
                                         type='text'
-                                        value={option.option}
+                                        defaultValue={option.option}
                                         onChange={event => replaceOptions(optionIndex, event.target.value)}>
                                     </input>
-                                    <button onClick={() => switchOptions(option, optionIndex, optionIndex - 1)}>Up</button>
-                                    <button onClick={() => switchOptions(option, optionIndex, optionIndex + 1)}>Down</button>
+                                    <button onClick={() => switchOptions(option.option, optionIndex, optionIndex - 1)}>Up</button>
+                                    <button onClick={() => switchOptions(option.option, optionIndex, optionIndex + 1)}>Down</button>
                                 </div>
                             </div>
                         )

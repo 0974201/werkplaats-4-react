@@ -117,11 +117,13 @@ app.get("/api/test_question", function (req, res) {
 We first check if it's an open or multiple choice and then update the columns around it.
 for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
-  const { type, question, questionId, options } = req.body;
+  const { type, question, questionId, options, optionId } = req.body;
   res.type('json');
   console.log(type)
   console.log(question)
   console.log('dit is ' + questionId)
+  console.log('dit is ' + optionId)
+  console.log('dit is options ' + options)
 
   /* Checks if the type is open and if so updates open_question. */
   if (type === 'Open') {
@@ -140,11 +142,11 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
       },
       console.log('Multiple Choice Question ' + [questionId] + ' has successfully updated to ' + [question]),
     ) /* Multiple choice also has to update options so we put that after it has ran the first query. */
-    db.run('UPDATE option SET option = ? WHERE option_id = ?', [options, questionId],
+    db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [options, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('Options from' + [questionId] + ' have been changed to ' + [options])
+      console.log('Options from' + [optionId] + ' have been changed to ' + [options] + ' at ' + 'Multiple Choice ID ' + [questionId])
     )
   }
 });
@@ -220,13 +222,14 @@ app.get("/api/questions/:id", function (req, res) {
   We select questions question_ID and have it joined by the open and multi choice questions and their id,
   and as last we have the Question_ID which we will get from the second argument[questionId]
   This allows us to fetch the questions per ID .*/
-  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID, multiple_choice.multi_question, multiple_Choice.Multiple_choice_ID, option_row.Option_order, option.option
+  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID, multiple_choice.multi_question, multiple_Choice.Multiple_choice_ID, option_row.Option_order, option_row.Option_ID, option.option
   FROM questions
   LEFT JOIN open_question ON questions.Open_Question_ID = open_question.open_question_ID
   LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID
   LEFT JOIN option_row ON multiple_choice.Multiple_Choice_ID = option_row.Multiple_Choice_ID
   LEFT JOIN option ON option_row.Option_ID = option.Option_ID
-  WHERE Question_ID = ? `
+  WHERE Question_ID = ?`
+
 
 
   /* Calls the database with the sql query variable and the questionId as argument. */
