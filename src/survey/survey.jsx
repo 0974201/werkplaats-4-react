@@ -1,6 +1,7 @@
 import './survey.css'
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Progressbar from "../universal/progressbar";
+import {questions} from "../index";
 
 export default function Survey({surveyArray}) {
 
@@ -34,7 +35,7 @@ export default function Survey({surveyArray}) {
     }
 
     function replaceAnswer(questionIndex, value) {
-        const inBetweenArray = answeredArray.map((question, i) => {
+        const inBetweenArray = answeredArray.questions.map((question, i) => {
             if (i === questionIndex) {
                 question.answer = value
                 return question
@@ -42,7 +43,7 @@ export default function Survey({surveyArray}) {
                 return question
             }
         })
-        setAnsweredArray(inBetweenArray)
+        setAnsweredArray({answeredArray, questions: inBetweenArray})
     }
 
     function checkAnswerd() {
@@ -112,7 +113,7 @@ export default function Survey({surveyArray}) {
                     {questionShown > 0 &&
                         <button className={'prev'} onClick={() => setQuestionShow(questionShown-1)}>Vorige</button>
                     }
-                    {questionShown < answeredArray.length &&
+                    {questionShown < answeredArray.questions.length &&
                         <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende</button>
                     }
                 </div>

@@ -310,7 +310,7 @@ export default function CreateSurvey({endpoint}) {
             </div>
 
             <div className={'box'}>
-                {/*<Preview />*/}
+                <Preview />
             </div>
             {buttonState &&
                 <PopUp />
