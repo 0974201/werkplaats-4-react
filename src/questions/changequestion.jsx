@@ -10,10 +10,11 @@ export default function ChangeQuestion({ }) {
     const [questionlist, setQuestion] = useState('');
     const [question, showQuestion] = useState([])
     const [questionvalue, setQuestionValue] = useState('');
-    const [options, setOptions] = useState()
+    const [options, setOptions] = useState('')
     const [message, setMessage] = useState('')
     const [errormessage, setErrorMessage] = useState(false)
     const [showmessage, setShowMessage] = useState(false)
+
 
     /* Fetches the data from api. Conditionally checks whether the open_questionID in the data[0]
     is null or not. If null it fetches open question. If not null it fetches multiple choice.*/
@@ -36,6 +37,7 @@ export default function ChangeQuestion({ }) {
     }, []
     );
 
+
     /* Timer for message... 5000 is 5 seconds */
     useEffect(() => {
         if (message || errormessage) {
@@ -54,7 +56,6 @@ export default function ChangeQuestion({ }) {
             const saveArray = {
                 question: questionvalue,
                 questionId: question.Open_Question_ID,
-                options: options,
                 type: 'Open'
             };
             saveToDB(saveArray, 'questions');
@@ -73,8 +74,8 @@ export default function ChangeQuestion({ }) {
             const saveArray = {
                 question: questionvalue,
                 questionId: question.Multiple_Choice_ID,
-                options: options,
-                type: 'MultipleChoice'
+                options: splittedOption,
+                type: 'MultipleChoice',
             };
             saveToDB(saveArray, 'questions');
             setMessage('Multi Vraag is succesvol opgeslagen!')
@@ -104,6 +105,12 @@ export default function ChangeQuestion({ }) {
         setQuestion(updatedQuestion)
         setShowMessage(true);
     };
+    console.log(question)
+    console.log(question.open_question)
+    console.log(question.option && question.option.split(','))
+    let splittedOption = question.option?.split(',');
+    console.log(splittedOption)
+
 
     /* Changes the option values of multiple choice questions */
     function replaceOptions(radioIndex, value) {
@@ -120,8 +127,7 @@ export default function ChangeQuestion({ }) {
     console.log(question.Open_Question_ID)
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
-        console.log(question)
-        console.log(question.open_question)
+
 
         if (question.Open_Question_ID !== null) {
             return (
@@ -135,17 +141,17 @@ export default function ChangeQuestion({ }) {
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
                     <p><b>{questionvalue}</b></p>
-                    {options && options.map((option, optionIndex) => {
+                    {options && splittedOption?.map((option, optionIndex) => {
                         return (
-                            <div className='radio_box'>{console.log(option)}
+                            <div className='radio_box'>{console.log(option, optionIndex)}
                                 <div className='radio_div' key={option}>
                                     <input className='input'
                                         type='text'
                                         defaultValue={option}
                                         onChange={event => replaceOptions(optionIndex, event.target.value)}>
                                     </input>
-                                    <button onClick={() => switchOptions(options, optionIndex, optionIndex - 1)}>Up</button>
-                                    <button onClick={() => switchOptions(options, optionIndex, optionIndex + 1)}>Down</button>
+                                    <button onClick={() => switchOptions(option, optionIndex, optionIndex - 1)}>Up</button>
+                                    <button onClick={() => switchOptions(option, optionIndex, optionIndex + 1)}>Down</button>
                                 </div>
                             </div>
                         )

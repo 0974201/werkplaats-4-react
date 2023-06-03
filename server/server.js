@@ -220,10 +220,11 @@ app.get("/api/questions/:id", function (req, res) {
   We select questions question_ID and have it joined by the open and multi choice questions and their id,
   and as last we have the Question_ID which we will get from the second argument[questionId]
   This allows us to fetch the questions per ID .*/
-  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID, multiple_choice.multi_question, multiple_Choice.Multiple_choice_ID
+  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID, multiple_choice.multi_question, multiple_Choice.Multiple_choice_ID, option.Option
   FROM questions
   LEFT JOIN open_question ON questions.Open_Question_ID = open_question.open_question_ID
   LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID
+  LEFT JOIN option ON questions.Multiple_Choice_ID = option.Option_ID
   WHERE Question_ID = ?`
 
 
