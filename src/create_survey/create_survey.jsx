@@ -3,7 +3,7 @@ import { useState } from "react";
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
-import { questions } from "../index";
+import { questionsTest } from "../index";
 import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
@@ -194,7 +194,7 @@ export default function CreateSurvey({endpoint}) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {questions.map((question) => (
+                                {questionsTest.map((question) => (
                                     <tr key={question.id}>
                                         <td>{question.question}</td>
                                         <td>{question.type}</td>

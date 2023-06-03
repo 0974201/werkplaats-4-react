@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './questions.css';
 import { useParams, Link } from 'react-router-dom';
-import { questions } from '../index.js'
+import { questionsTest } from '../index.js'
 import SwitchAround from '../universal/switch_around.js'
 import { saveToDB } from '../universal/manipulateDB';
 
@@ -10,7 +10,7 @@ export default function ChangeQuestion({ question }) {
     // const [value, setValue] = useState('')
     // const [id, setId] = useState(question[id].id);
     const { id } = useParams();
-    const [questionlist, setQuestion] = useState(questions);
+    const [questionlist, setQuestion] = useState(questionsTest);
     // const [selectedOption, setSelectedOption] = useState('');
     const [questionvalue, setQuestionValue] = useState(question[id].question);
     const [options, setOptions] = useState(question[id].options)
@@ -81,7 +81,7 @@ export default function ChangeQuestion({ question }) {
     console.log('dit is options' + options)
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
-        const question = questions[id];
+        const question = questionsTest[id];
         if (question.type === 'Open') {
             return (
                 <>

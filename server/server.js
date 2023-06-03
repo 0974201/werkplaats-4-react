@@ -162,7 +162,7 @@ app.get('/api/getSurveyOptions/:surveyId', function (req, res) {
     db.all("SELECT multiple_choice.Multiple_Choice_ID, option.option FROM option_row " +
             "LEFT JOIN multiple_choice ON option_row.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID " +
             "LEFT JOIN option ON option_row.Option_ID = option.Option_ID " +
-            "WHERE multiple_choice.Multiple_Choice_ID = (" +
+            "WHERE multiple_choice.Multiple_Choice_ID IN (" +
                 "SELECT Multiple_Choice_ID FROM questions WHERE Question_ID IN (" +
                     "SELECT Question_ID FROM filled_in WHERE Survey_ID = ?) AND Multiple_Choice_ID IS NOT NULL)",
         [surveyId], function (error, rows) {
