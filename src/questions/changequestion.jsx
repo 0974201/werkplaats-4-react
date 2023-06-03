@@ -74,10 +74,14 @@ export default function ChangeQuestion({ }) {
             const saveArray = {
                 question: questionvalue,
                 questionId: question.Multiple_Choice_ID,
-                options: options[0],
+                option1: options[0],
+                option2: options[1],
+                option3: options[2],
+                optionid1: '1',
+                optionid2: '2',
+                optionid3: '3',
                 type: 'MultipleChoice',
-            };
-            console.log(options)
+            }; console.log('option value: ' + options[1])
             saveToDB(saveArray, 'questions');
             setMessage('Multi Vraag is succesvol opgeslagen!')
             setShowMessage(true);
@@ -114,7 +118,7 @@ export default function ChangeQuestion({ }) {
         })
         setOptions(newOption)
     }
-    console.log(question.Open_Question_ID)
+
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
 

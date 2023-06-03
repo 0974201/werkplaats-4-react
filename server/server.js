@@ -117,13 +117,14 @@ app.get("/api/test_question", function (req, res) {
 We first check if it's an open or multiple choice and then update the columns around it.
 for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
-  const { type, question, questionId, options, optionId } = req.body;
+  const { type, question, questionId, option1, option2, option3, option4, optionid1, optionid2, optionid3, optionid4 } = req.body;
   res.type('json');
   console.log(type)
   console.log(question)
   console.log('dit is ' + questionId)
-  console.log('dit is ' + optionId)
-  console.log('dit is options ' + options)
+  console.log(option1)
+
+
 
   /* Checks if the type is open and if so updates open_question. */
   if (type === 'Open') {
@@ -131,7 +132,7 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
       function (err) {
         console.log(err.message);
       },
-      console.log('Open Question ' + [questionId] + ' has successfully updated to ' + [question]),
+      console.log('Open Question ' + questionId + ' has successfully updated to ' + question),
 
     )
   } /* If not open then it updates multiple choice */
@@ -140,16 +141,36 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
       function (err) {
         console.log(err.message);
       },
-      console.log('Multiple Choice Question ' + [questionId] + ' has successfully updated to ' + [question]),
+      console.log('Multiple Choice Question ' + questionId + ' has successfully updated to ' + question),
     ) /* Multiple choice also has to update options so we put that after it has ran the first query. */
-    db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [options, questionId],
+    db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [option1, optionid1],
       function (err) {
         console.log(err.message);
       },
-      console.log('Options from' + [optionId] + ' have been changed to ' + [options] + ' at ' + 'Multiple Choice ID ' + [questionId])
+      console.log('Option have been changed to ' + option1 + ' at Option_ID ' + optionid1)
+    ),
+      db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [option2, optionid2],
+        function (err) {
+          console.log(err.message);
+        },
+        console.log('Options have been changed to ' + option2 + ' at Option_ID ' + optionid2)
+      )
+    if (option3)
+      db.run('UPDATE option SET option = ? WHERE Option_ID = ?', [option3, optionid3],
+        function (err) {
+          console.log(err.message);
+        },
+        console.log('Options have been changed to ' + option3 + ' at Option_ID ' + optionid3)
+      )
+  } if (option4)
+    db.run('UPDATE option SET option = ? WHERE Option_ID = ?', [option4, optionid4],
+      function (err) {
+        console.log(err.message);
+      },
+      console.log('Options have been changed to ' + option4 + ' at Option_ID ' + optionid4)
     )
-  }
-});
+},
+);
 
 /* GET function for fetching all questions. */
 app.get("/api/questions", function (req, res) {
