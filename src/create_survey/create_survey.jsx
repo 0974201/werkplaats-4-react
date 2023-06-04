@@ -10,7 +10,7 @@ let nextOrder = 0
 
 // this function is very big because if you split it up into different files en functions some function get a bug that when you
 // type in an input field the field loses focus, and you stop typing
-export default function CreateSurvey({endpoint}) {
+export default function CreateSurvey({ endpoint }) {
     console.log(endpoint)
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
@@ -24,8 +24,8 @@ export default function CreateSurvey({endpoint}) {
             const arrayToSurvey = {
                 title: "Titel",
                 description: "Beschrijving",
-                openDate: "",
-                closeDate: "",
+                open_date: "",
+                close_date: "",
                 questions: questionArray,
                 anonymity: true
             }
@@ -86,11 +86,11 @@ export default function CreateSurvey({endpoint}) {
             case 'description':
                 setSurveyArray({ ...surveyArray, description: value })
                 break
-            case 'openDate':
-                setSurveyArray({ ...surveyArray, openDate: value })
+            case 'open_date':
+                setSurveyArray({ ...surveyArray, open_date: value })
                 break
-            case 'closeDate':
-                setSurveyArray({ ...surveyArray, closeDate: value })
+            case 'close_date':
+                setSurveyArray({ ...surveyArray, close_date: value })
                 break
             case 'anonymity':
                 if (value === true) {
@@ -227,16 +227,16 @@ export default function CreateSurvey({endpoint}) {
                     <label>Begin tijd
                         <input
                             type={'date'}
-                            value={surveyArray.openDate}
+                            value={surveyArray.open_date}
                             min={new Date().toJSON().slice(0, 10)}
-                            onChange={e => replaceSurveyItem('openDate', e.target.value)}
+                            onChange={e => replaceSurveyItem('open_date', e.target.value)}
                         />
                     </label>
                     <label>Eind tijd (optioneel)
                         <input
                             type={'date'}
-                            value={surveyArray.closeDate}
-                            onChange={e => replaceSurveyItem('closeDate', e.target.value)}
+                            value={surveyArray.close_date}
+                            onChange={e => replaceSurveyItem('close_date', e.target.value)}
                         />
                     </label>
                     <label>Beschrijving
@@ -310,6 +310,7 @@ export default function CreateSurvey({endpoint}) {
             </div>
 
             <div className={'box'}>
+
                 <Preview />
             </div>
             {buttonState &&

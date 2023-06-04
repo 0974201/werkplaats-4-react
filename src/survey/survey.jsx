@@ -1,9 +1,9 @@
 import './survey.css'
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Progressbar from "../universal/progressbar";
-import {saveToDB} from "../universal/manipulateDB";
+import { saveToDB } from "../universal/manipulateDB";
 
-export default function Survey({surveyArray}) {
+export default function Survey({ surveyArray }) {
     const urlStart = window.location.pathname.split('/')
     const [answeredArray, setAnsweredArray] = useState(onLoadSurvey)
     const [questionShown, setQuestionShow] = useState(onLoadQuestionShown())
@@ -14,7 +14,7 @@ export default function Survey({surveyArray}) {
 
     console.log(answeredArray)
 
-    if (urlStart[1] === 'survey'){
+    if (urlStart[1] === 'survey') {
         sessionStorage.setItem("survey", JSON.stringify(answeredArray))
     }
     sessionStorage.setItem("questionShown", JSON.stringify(questionShown))
@@ -26,7 +26,7 @@ export default function Survey({surveyArray}) {
             } else {
                 return JSON.parse(sessionStorage.getItem("survey"))
             }
-        } else if (urlStart[1] === 'create') {
+        } else if (urlStart[1] === 'create' || urlStart[1] === 'changesurvey') {
             return JSON.parse(sessionStorage.getItem("createSurvey"))
         }
 
@@ -35,11 +35,11 @@ export default function Survey({surveyArray}) {
 
 
     function onLoadQuestionShown() {
-        if (JSON.parse(sessionStorage.getItem("questionShown")) === null || urlStart[1] === 'create') {
+        if (JSON.parse(sessionStorage.getItem("questionShown")) === null || urlStart[1] === 'create' || urlStart[1] === 'changesurvey') {
             return 0
         } else {
             const questionShown = JSON.parse(sessionStorage.getItem("questionShown"))
-            return(questionShown)
+            return (questionShown)
         }
     }
 
@@ -52,7 +52,7 @@ export default function Survey({surveyArray}) {
                 return question
             }
         })
-        setAnsweredArray({...answeredArray, questions: inBetweenArray})
+        setAnsweredArray({ ...answeredArray, questions: inBetweenArray })
     }
 
     function checkAnswered() {
@@ -68,7 +68,7 @@ export default function Survey({surveyArray}) {
     function pageCheckMulti(question) {
         if (urlStart[1] === 'survey') {
             return question.multi_question !== null;
-        }else if(urlStart[1] === 'create') {
+        } else if (urlStart[1] === 'create' || urlStart[1] === 'changesurvey') {
             return question.type === 'MultipleChoice';
         }
     }
@@ -76,90 +76,90 @@ export default function Survey({surveyArray}) {
     function pageCheckOpen(question) {
         if (urlStart[1] === 'survey') {
             return question.open_question !== null;
-        }else if(urlStart[1] === 'create') {
+        } else if (urlStart[1] === 'create' || urlStart[1] === 'changesurvey') {
             return question.type === 'Open';
         }
     }
 
-    const questionList = answeredArray.questions.map((question, questionIndex) => {
+    const questionList = answeredArray && answeredArray.questions.map((question, questionIndex) => {
         console.log(question)
-            if (pageCheckMulti(question)) {
+        if (pageCheckMulti(question)) {
 
-                return (
-                    <div>
-                        <h3>{question.multi_question}</h3>
-                        <ul>
-                            {question.options.map((option, optionIndex) =>
-                                <li key={optionIndex} onChange={e => replaceAnswer(questionIndex, e.target.value)}>
-                                    <label>
-                                        <input
-                                            type={"radio"}
-                                            value={option}
-                                            name={"question" + questionIndex}
-                                            checked={question.answer === option}
+            return (
+                <div>
+                    <h3>{question.multi_question}</h3>
+                    <ul>
+                        {question.options.map((option, optionIndex) =>
+                            <li key={optionIndex} onChange={e => replaceAnswer(questionIndex, e.target.value)}>
+                                <label>
+                                    <input
+                                        type={"radio"}
+                                        value={option}
+                                        name={"question" + questionIndex}
+                                        checked={question.answer === option}
 
-                                        />
-                                        {option}
-                                    </label>
-                                </li>
-                            )}
-                        </ul>
-                    </div>
-                )
-            } else if(pageCheckOpen(question)) {
-                return (
-                    <div>
-                        <h3>{question.open_question}</h3>
-                        <textarea
-                            maxLength={250}
-                            value={answeredArray.questions[questionIndex].answer}
-                            onChange={e => replaceAnswer(questionIndex, e.target.value)}
-                        />
-                    </div>
-                )
-            } else {
-                console.log("Wrong type")
-                return (
-                    <div><h3>Wrong type</h3></div>
-                )
-            }
+                                    />
+                                    {option}
+                                </label>
+                            </li>
+                        )}
+                    </ul>
+                </div>
+            )
+        } else if (pageCheckOpen(question)) {
+            return (
+                <div>
+                    <h3>{question.open_question}</h3>
+                    <textarea
+                        maxLength={250}
+                        value={answeredArray.questions[questionIndex].answer}
+                        onChange={e => replaceAnswer(questionIndex, e.target.value)}
+                    />
+                </div>
+            )
+        } else {
+            console.log("Wrong type")
+            return (
+                <div><h3>Wrong type</h3></div>
+            )
         }
+    }
     )
 
     return (
-            <div className={"survey"}>
-                {urlStart[1] === 'survey' &&
-                    <>
-                        <Progressbar checkedAnswerd={checkAnswered()} amountQuestion={questionList.length} />
-                        <span>vragen beantwoord: {checkAnswered()}/{questionList.length}</span>
-                    </>
+        <div className={"survey"}>
+            {urlStart[1] === 'survey' &&
+                <>
+                    <Progressbar checkedAnswerd={checkAnswered()} amountQuestion={questionList.length} />
+                    <span>vragen beantwoord: {checkAnswered()}/{questionList.length}</span>
+                </>
 
-                }
-                <h1>{answeredArray.title}</h1>
-                {questionShown <= 0 &&
-                    <p>{answeredArray.description}</p>
-                }
+            }
+            <h1>{answeredArray.title}</h1>
+            {questionShown <= 0 &&
+                <p>{answeredArray.description}</p>
+            }
+            {questionShown > 0 &&
+                <>
+                    <h3>Vraag {questionShown}/{questionList.length}</h3>
+                    {questionList[questionShown - 1]}
+                </>
+            }
+
+            <div className={'navigation'}>
                 {questionShown > 0 &&
-                    <>
-                        <h3>Vraag {questionShown}/{questionList.length}</h3>
-                        {questionList[questionShown-1]}
-                    </>
+                    <button className={'prev'} onClick={() => setQuestionShow(questionShown - 1)}>Vorige</button>
                 }
-
-                <div className={'navigation'}>
-                    {questionShown > 0 &&
-                        <button className={'prev'} onClick={() => setQuestionShow(questionShown-1)}>Vorige</button>
-                    }
-                    {questionShown < answeredArray.questions.length &&
-                        <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende</button>
-                    }
-                    {checkAnswered() === questionList.length && urlStart[1] === 'survey' &&
-                        <button className={'submit'} onClick={() => {
-                            saveToDB(answeredArray, 'saveAnswers')
-                            sessionStorage.removeItem("survey")
-                        }}>Lever in</button>
-                    }
-                </div>
+                {questionShown < answeredArray.questions.length &&
+                    <button className={'next'} onClick={() => setQuestionShow(questionShown + 1)}>Volgende</button>
+                }
+                {checkAnswered() === questionList.length && urlStart[1] === 'survey' &&
+                    <button className={'submit'} onClick={() => {
+                        saveToDB(answeredArray, 'saveAnswers')
+                        sessionStorage.removeItem("survey")
+                    }}>Lever in</button>
+                }
             </div>
+        </div>
     )
 }

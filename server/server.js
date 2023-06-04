@@ -426,7 +426,7 @@ app.get("/api/surveys/:id", function (req, res) {
   LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID 
   LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID 
   LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID 
-  WHERE filled_in.Survey_ID = ? AND filled_in.answer is NOT null`;
+  WHERE filled_in.Survey_ID = ? AND filled_in.answer is null`;
 
   console.log(sql)
   console.log('this is sql ' + sql)
@@ -454,20 +454,16 @@ app.get('/api/users', function (req, res) {
 });
 
 /* GET endpoint for filled_in surveys */
-app.get('/api/filled_surveys', function (req, res) {
+app.get('/api/filled_surveys/:questionId', function (req, res) {
   res.type('json');
-  const id = req.query.Question_ID;
-  // let sql = `SELECT questions.Question_ID, open_question.Open_Question_ID, open_question.question, multiple_choice.Multiple_Choice_ID, multiple_choice.question
-  // FROM questions
-  // INNER JOIN open_question ON questions.Question_ID = open_question.open_Question_ID
-  // INNER JOIN multiple_choice ON questions.Question_ID = multiple_choice.multiple_Choice_ID`;
+  const questionId = parseInt(req.params['questionId']);
 
-  query = `SELECT * FROM filled_in`
-  console.log('req query ' + req.query);
-  console.log('req body' + req.body);
-  console.log('question_ID' + id);
-  console.log
-  db.all(query, (err, row) => {
+  console.log('dit is ' + questionId)
+
+  let sql = `SELECT * from filled_in
+  WHERE filled_in.answer is not null AND Question_ID = ?`;
+
+  db.all(sql, [questionId], (err, row) => {
     if (err) {
       console.log(err.message);
     }

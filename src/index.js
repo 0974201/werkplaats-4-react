@@ -5,7 +5,7 @@ import Header from './pages/header';
 import Layout from './pages/layout';
 import ModifyQuestion from './questions/questionlist';
 import ChangeQuestion from './questions/changequestion';
-import OverView from './questions/overview';
+import OverView from './survey/overview';
 import ChangeSurvey from './survey/changesurvey';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
@@ -135,14 +135,14 @@ function App() {
                         <Route path='/login' element={<Login />} />
                         <Route path='/*' element={<NotFound />} />
                         <Route path='/surveylist' element={<SurveyList CreateSurvey={surveys} />} />
-                        <Route path='/changesurvey' element={<ChangeSurvey />} />
+                        <Route path='/changesurvey/:id' element={<ChangeSurvey />} />
                         <Route path='/surveyquestions/:id' element={<SurveyQuestion />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
                         <Route path='/overview/:id' element={< OverView question={questionsTest} />} />
                         <Route path='/question' element={<ChangeQuestion question={surveyTest} />} />
                         <Route path='/question/:id' element={<ChangeQuestion />} />
-                        <Route path={'/survey/:id'} element={<SetUpSurvey />} />
+                        <Route path={'/survey/:id'} element={<SetUpSurvey page={'survey'} />} />
                         <Route path='/dbtest' element={<DbTest />} />
                         <Route />
                         <Route />

@@ -2,14 +2,15 @@ import Group from "../universal/GroupBy";
 import { useEffect, useState } from "react";
 import Survey from "./survey";
 import { useParams } from "react-router-dom";
+import CreateSurvey from '../create_survey/create_survey'
 
-export default function SetUpSurvey() {
+export default function SetUpSurvey({ page }) {
     const { id } = useParams();
     const [survey, setSurvey] = useState(null)
     const [loading, setLoading] = useState(true)
 
     console.log(survey)
-
+    console.log(page)
     async function fetchSurvey() {
         const rawSurvey = await fetch('http://localhost:81/api/getSurvey/' + id)
         const survey = await rawSurvey.json()
@@ -44,9 +45,17 @@ export default function SetUpSurvey() {
     if (loading) {
         return <div>help</div>
     }
-
+    if (page === 'create') {
+        sessionStorage.setItem("createSurvey", JSON.stringify(survey))
+    }
     return (
-        <Survey surveyArray={survey} />
-        // <div>hi</div>
+        <>
+            {page === 'survey' &&
+                <Survey surveyArray={survey} />
+            }
+            {page === 'create' &&
+                <CreateSurvey endpoint={''} />
+            }
+        </>
     )
 }
