@@ -376,13 +376,14 @@ app.get("/api/surveys", function (req, res) {
   const isClosed = req.query.open === 'false';
   const beingReviewed = req.query.open === 'reviewed';
 
-  /* formats the time to DD-MM-YY so it works with database times*/
-  let currentDate = new Date();
-  let formattedDate = currentDate.toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: '2-digit',
-    year: '2-digit'
-  }).split('/').join('-'); // Convert slashes to dashes
+  /* formats the time to YYYY-MM-DD so it works with database times. */
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+  console.log(formattedDate)
+
 
 
   /* The base query that executes.
@@ -418,13 +419,19 @@ app.get("/api/surveys", function (req, res) {
 app.get("/api/surveys/:id", function (req, res) {
   res.type('json');
 
-  const questionId = req.params.id;
+  const SurveyId = req.params.id;
 
-  let sql = 'SELECT * FROM survey WHERE Survey_ID = ? '
+  let sql = `SELECT filled_in.*, questions.Question_ID , open_question.open_question, multiple_choice.multi_question
+  FROM filled_in
+  LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID
+  LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID
+  LEFT join multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID
+ WHERE filled_in.Survey_ID = ?`;
+
 
   console.log(sql)
   console.log('this is sql ' + sql)
-  db.all(sql, [questionId], (err, rows) => {
+  db.all(sql, [SurveyId], (err, rows) => {
     if (err) {
       console.log(err.message);
       res.status(500).send('Internal Server Error');

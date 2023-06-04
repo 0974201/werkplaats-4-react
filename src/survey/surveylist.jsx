@@ -9,10 +9,12 @@ export function SurveyList() {
     const [search, setSearch] = useState('')
 
 
-    /* formats the current date to DD-MM-YY format.*/
+    /* formats the current date to YYYY-MM-DD format.*/
     const nowDate = new Date();
-    const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-    const currentDate = nowDate.toLocaleDateString('en-US', options).replace(/\//g, '-');
+    const year = nowDate.getFullYear();
+    const month = String(nowDate.getMonth() + 1).padStart(2, '0');
+    const day = String(nowDate.getDate()).padStart(2, '0');
+    const currentDate = `${year}-${month}-${day}`;
 
 
     /* Fetches the API endpoint from surveys in server.js */
@@ -145,7 +147,7 @@ export function SurveyList() {
                                         </Link>
                                     </td>
                                     <td> {/* Conditional checks for Status */}
-                                        {(currentDate < item.close_date && item.is_reviewed == '1') ? (
+                                        {(currentDate <= item.close_date && item.is_reviewed == '1') ? (
                                             <p style={{ color: "red" }}>Open</p> // If current date < close_date and item is reviewed.. shows open. //
                                         ) : (currentDate > item.close_date && item.is_reviewed == '1') ? (
                                             <p style={{ color: "green" }}>Closed</p> // if current date > close_date and item is reviewed.. shows closed. //

@@ -16,8 +16,8 @@ function SurveyQuestions() {
         fetchData();
     }, []);
     /* grabs the title outside the map */
-    let surveytitle = survey.map(item => item.title)
-
+    let surveytitle = survey?.map(item => item.title)
+    console.log(survey)
     return (
         <>
             <div>
@@ -25,29 +25,25 @@ function SurveyQuestions() {
                 <table>
                     <tbody>
                         <tr>
-                            <th>Id</th>
                             <th>Antwoorden</th>
                             <th>Type</th>
                             <th>Tijd</th>
                             <th>User ID</th>
                         </tr>
                         {
-                            survey.map(item => (
+                            survey && survey?.map(item => (
                                 <tr key={item.Survey_ID}> {console.log(item)}
                                     <td>
-                                        <span>{item.Survey_ID}</span>
+                                        <span>placeholder</span>
                                     </td>
                                     <td className='question__grey'>
                                         <span>antwoorden place</span>
                                     </td>
                                     <td>
-                                        placeholder
+                                        <span>placeholder</span>
                                     </td>
                                     <td>
-                                        wewe
-                                    </td>
-                                    <td>
-                                        placeholder
+                                        <span>wewe</span>
                                     </td>
                                 </tr>
                             ))}
