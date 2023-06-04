@@ -3,17 +3,6 @@
     cursor: pointer;
 }
 
-.close_button {
-    background: transparent;
-    border-style: none;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.close_button:hover {
-    transform: scale(1.5)
-}
-
 .button:disabled {
     cursor: not-allowed;
     pointer-events: all !important;
@@ -59,4 +48,41 @@
 .textarea {
     width: 200px;
     height: 100px;
+}
+
+.changequestion_message {
+    position: absolute;
+    top: -10;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    border-style: ridge;
+    background-color: lightgreen;
+    font-size: 20px;
+    width: 250px;
+    height: 100px;
+    z-index: 2;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.Error_Message {
+    position: absolute;
+    top: -10;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    border-style: ridge;
+    background-color: #FF7276;
+    font-size: 20px;
+    width: 250px;
+    height: 100px;
+    z-index: 2;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.alert-hidden {
+    opacity: 0;
+    transition: linear 500ms;
 }

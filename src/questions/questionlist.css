@@ -6,6 +6,32 @@
     background-color: #fff;
 }
 
+/* Delete button that removes questions from questionlist */
+.Delete_button {
+    background: transparent;
+    border-style: ridge;
+    background: #FF7276;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.Delete_button:hover {
+    transform: scale(1.2)
+}
+
+/* Button that restores questions from questionlist */
+.restore_button {
+    background: transparent;
+    border-style: ridge;
+    background: #90EE90;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.restore_button:hover {
+    transform: scale(1.2)
+}
+
 .questionlist_filter_search input {
     width: 625px;
     margin-bottom: 10px;
@@ -15,6 +41,11 @@
     overflow: hidden;
     margin-right: 20px;
     margin-top: 70px;
+}
+
+.questionlist_data:hover {
+    cursor: pointer;
+    transform: scale(1.2)
 }
 
 .questionlist_title {

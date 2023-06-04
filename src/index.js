@@ -6,11 +6,11 @@ import Layout from './pages/layout';
 import ModifyQuestion from './questions/questionlist';
 import ChangeQuestion from './questions/changequestion';
 import OverView from './questions/overview';
-import { Home } from './pages/home';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
 import { SurveyList } from './survey/surveylist';
 import Survey from './survey/survey';
+import SurveyQuestion from './survey/SurveyQuestions';
 import CreateSurvey from "./create_survey/create_survey";
 import DbTest from './db_test/dbtest';
 import './css/App.css';
@@ -87,6 +87,7 @@ export let surveys = [
     }
 ]
 function App() {
+
     return (
         <>
             <div className='App'>
@@ -96,18 +97,18 @@ function App() {
                 <Layout>
                     <Routes>
                         <Route path='/' element={<Layout />} /> {/* Covers the entire website */}
-                        <Route index element={<Home />} />
-                        <Route path='/login' element={<Login />} />
-                        <Route path='/*' element={<NotFound />} />
-                        <Route path='/surveylist' element={<SurveyList CreateSurvey={surveys} />} /> {/* Covers the survey parts */}
                         <Route index element={<SurveyList />} />
                         {/* <Route path='/survey/:id' element={<Survey />} /> */}
                         <Route path={'/create'} element={<CreateSurvey endpoint={'saveNewSurvey'} />} />
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/*' element={<NotFound />} />
+                        <Route path='/surveylist' element={<SurveyList CreateSurvey={surveys} />} />
+                        <Route path='/surveyquestions/:id' element={<SurveyQuestion />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
                         <Route path='/overview/:id' element={< OverView question={questions} />} />
                         <Route path='/question' element={<ChangeQuestion question={survey} />} />
-                        <Route path='/question/:id' element={<ChangeQuestion question={questions} />} />
+                        <Route path='/question/:id' element={<ChangeQuestion />} />
                         <Route path={'/survey'} element={<Survey surveyArray={survey} />} />
                         <Route path='/dbtest' element={<DbTest />} />
                         <Route />

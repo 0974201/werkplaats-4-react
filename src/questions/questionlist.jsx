@@ -2,20 +2,16 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './questionlist.css';
 import { Link } from 'react-router-dom';
-import { GetDB, DeleteDB } from '../universal/manipulateDB.js'
-
 
 function ModifyQuestion() {
     const [question, setQuestion] = useState([]);
     const [search, setSearch] = useState('')
     const [message, showMessage] = React.useState(false)
 
-
-
     /* This should fetch the data asynchronously if you import GetDB */
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions?open=true');
+            const result = await fetch('http://localhost:81/api/questions?open=notdeleted');
             const data = await result.json();
             console.log(data);
             setQuestion(data)
@@ -23,6 +19,7 @@ function ModifyQuestion() {
         fetchData();
     }, []);
 
+    /* Timer for message.. 5000 is 5 seconds */
     useEffect(() => {
         if (message) {
             const timer = setTimeout(() => {
@@ -33,6 +30,7 @@ function ModifyQuestion() {
         }
     }, [message]);
 
+    /* Updates the is deleted column from questions to a 1, thus essentially 'deleting' it. */
     async function DeleteQuestion(questionId) {
         if (window.confirm(`Weet je zeker dat je vraag ${questionId} wil verwijderen?`)) {
             try {
@@ -59,6 +57,7 @@ function ModifyQuestion() {
         }
     };
 
+    /* Updates the is_deleted column from questions from 1 back to 0 thus restoring the question. */
     async function RetrieveQuestion(questionId) {
         if (window.confirm(`Weet je zeker dat je vraag ${questionId} wil herstellen?`)) {
             try {
@@ -85,28 +84,51 @@ function ModifyQuestion() {
         }
     };
 
-
+    /* Shows everything that is not deleted for questions */
     function showQuestions() {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions?open=true');
+            const result = await fetch('http://localhost:81/api/questions?open=notdeleted');
             const data = await result.json();
             setQuestion(data)
         };
         fetchData();
     };
 
+    /* Shows the deleted questions for questions */
     function showDeleted() {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions?open=false');
+            const result = await fetch('http://localhost:81/api/questions?open=isdeleted');
             const data = await result.json();
             setQuestion(data)
         };
         fetchData();
     };
-    function showFilter() {
-        let filter = document.getElementById('filter_choices');
-        filter.style.display = '';
-    }
+
+    /* Shows  Open Questions for questions */
+    function showOpenQuestions() {
+        try {
+            const fetchData = async () => {
+                const result = await fetch('http://localhost:81/api/questions?open=OpenQuestions');
+                const data = await result.json();
+                setQuestion(data)
+            };
+            fetchData();
+        } catch (error) {
+            console.error(error)
+        }
+    };
+
+    /* Shows multiple choice for questions */
+    function showMultipleChoice() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/questions?open=MultipleChoiceQuestions');
+            const data = await result.json();
+            setQuestion(data)
+        };
+        fetchData();
+    };
+
+    /* The sidebar that gets the queries. If clicked show the corresponding queries.*/
     function questionBox() {
         return (
             <>
@@ -115,6 +137,16 @@ function ModifyQuestion() {
                         <div className='questionlist_filter_item'>
                             <div className='questionlist_filter_content' onClick={showQuestions}>
                                 <span>Alle Vragen</span>
+                            </div>
+                        </div>
+                        <div className='questionlist_filter_item'>
+                            <div className='questionlist_filter_content' onClick={showOpenQuestions}>
+                                <span>Open Vragen</span>
+                            </div>
+                        </div>
+                        <div className='questionlist_filter_item'>
+                            <div className='questionlist_filter_content' onClick={showMultipleChoice}>
+                                <span>Multiple Choice</span>
                             </div>
                         </div>
                         <div className='questionlist_filter_item'>
@@ -130,7 +162,7 @@ function ModifyQuestion() {
 
     return (
         <div className="surveylist_container">
-            <div
+            <div // if message is true show alert, if false hide it//
                 className={`questionlist_message ${message ? 'alert-shown' : 'alert-hidden'}`}
             >
                 {message && (
@@ -143,50 +175,53 @@ function ModifyQuestion() {
                 <div className='questionlist_box2'>
                     <div className='questionlist_filter_search'>
                         <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
-                        <button onClick={showFilter}>Filter</button>
-                    </div>
-                    <div id='filter_choices'>
-
                     </div>
                     <table width='100%'>
                         <tbody>
                             <tr>
                                 <th>Id</th>
                                 <th>Vraag</th>
-                                <th>Deelnemers</th>
+                                <th>Type</th>
                                 <th>Overzicht</th>
                                 <th>Aanpassen</th>
                             </tr>
+                            {/* The ? behind open and multi question is a method called Optional Chaining.
+                            If the value is null Optional Chaining changes it to undefined, now we can search through the questionlist
+                            without mega null errors. */}
                             {question.filter((item) => {
                                 return search.toLowerCase() === ''
+
                                     ? item
-                                    : item.question.toLowerCase().includes(search)
+                                    : item.open_question?.toLowerCase().includes(search) || item.multi_question?.toLowerCase().includes(search)
+
                             }).map(item => (
                                 <tr key={item.Question_ID}>
                                     <td>
-                                        {item.Question_ID}
+                                        <span>{item.Question_ID}</span>
                                     </td>
                                     <td className='question__grey'> {console.log(item)}
-                                        <Link to={`/question/${item.Question_ID}`} className='link'>
-                                            {item.question}
-                                        </Link>
+                                        <span>{item.open_question}</span>
+                                        <span>{item.multi_question}</span>
                                     </td>
-                                    <td>
-                                        <span>Deelnemers</span>
+                                    <td> {(item.Open_Question_ID != null) ?
+                                        <span>Open</span>
+
+                                        : <span>Multiple Choice</span>
+                                    }
                                     </td>
                                     <td className='questionlist_data'>
                                         <span>
-                                            <Link to={`/overview/${item.Question_ID}`} className='link'>
-                                                <span>Antwoorden</span>
+                                            <Link to={`/question/${item.Question_ID}`} className='link'>
+                                                <span>Aanpassen</span>
                                             </Link>
                                         </span>
                                     </td>
                                     <td> {(item.is_deleted == '0') ?
-                                        <button className='close_button' onClick={() => DeleteQuestion(item.Question_ID)}
+                                        <button className='Delete_button' onClick={() => DeleteQuestion(item.Question_ID)}
                                         > <span>Verwijder</span>
                                         </button>
                                         /* shows different button if deleted*/
-                                        : <button className='close_button' onClick={() => RetrieveQuestion(item.Question_ID)}
+                                        : <button className='restore_button' onClick={() => RetrieveQuestion(item.Question_ID)}
                                         > <span>Herstel</span>
                                         </button>
                                     }
@@ -195,7 +230,7 @@ function ModifyQuestion() {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div> {/* box3 is just there to make our code in box2 stay in middle*/}
                 <div className='questionlist_box3'>
                 </div>
             </div>

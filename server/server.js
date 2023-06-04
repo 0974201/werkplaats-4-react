@@ -118,33 +118,33 @@ We first check if it's an open or multiple choice and then update the columns ar
 for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
   const { type, question, questionId, options } = req.body;
-  console.log('Question type is ' + type)
-  console.log('Question is ' + question)
-  console.log('Question Id is ' + questionId)
-  console.log('Req.body is ' + req.body)
   res.type('json');
+  console.log(type)
+  console.log(question)
+  console.log('dit is ' + questionId)
+
+  /* Checks if the type is open and if so updates open_question. */
   if (type === 'Open') {
-    db.run('UPDATE open_question SET question = ? WHERE open_question_id = ?', [question, questionId],
+    db.run('UPDATE open_question SET open_question = ? WHERE Open_Question_ID = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('question_id:', questionId),
-      console.log('question', question)
+      console.log('Open Question ' + [questionId] + ' has successfully updated to ' + [question]),
+
     )
-  }
+  } /* If not open then it updates multiple choice */
   else if (type === 'MultipleChoice') {
-    db.run('UPDATE multiple_choice SET question = ? WHERE multiple_choice_id = ?', [question, questionId],
+    db.run('UPDATE multiple_choice SET multi_question = ? WHERE Multiple_Choice_ID = ?', [question, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('question_id:', questionId),
-      console.log('question', question)
-    )
+      console.log('Multiple Choice Question ' + [questionId] + ' has successfully updated to ' + [question]),
+    ) /* Multiple choice also has to update options so we put that after it has ran the first query. */
     db.run('UPDATE option SET option = ? WHERE option_id = ?', [options, questionId],
       function (err) {
         console.log(err.message);
       },
-      console.log('')
+      console.log('Options from' + [questionId] + ' have been changed to ' + [options])
     )
   }
 });
@@ -152,16 +152,32 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
 /* GET function for fetching all questions. */
 app.get("/api/questions", function (req, res) {
 
-  const isOpen = req.query.open === 'true';
-  const isDeleted = req.query.open === 'false';
-  res.type('json');
-  sql = 'Select * FROM questions ';
+  /* query parameters so we can fetch them */
+  const isOpen = req.query.open === 'notdeleted'; /* For all questions that are not deleted */
+  const isDeleted = req.query.open === 'isdeleted'; /* For all questions that are deleted */
+  const showOpenQuestions = req.query.open === 'OpenQuestions'; /* Shows all Open Questions that are not deleted*/
+  const showMultipleChoice = req.query.open === 'MultipleChoiceQuestions'; /* Shows all Multi Choice questions that are not deleted*/
 
+  /* Base SQL query that joins the questions table question ID with open question and multi question */
+  res.type('json');
+  let sql = `SELECT questions.Question_ID, open_question.open_question, multiple_choice.multi_question, questions.is_deleted, questions.Open_Question_ID, questions.Multiple_Choice_ID
+  from questions
+  LEFT JOIN open_question on questions.Open_Question_ID = open_question.Open_Question_ID
+  LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID`;
+
+  /* Specifies the condition. if the query parameter is same as above query parameter then it will add
+  this additional piece of query condition.*/
   if (isOpen) {
-    sql += 'WHERE is_deleted = 0';
-  } else if (isDeleted)
-    sql += 'WHERE is_deleted = 1';
-  console.log(sql)
+    sql += ` WHERE questions.is_deleted = 0`
+  } else if (showOpenQuestions)
+    sql += ' WHERE multiple_choice.multiple_Choice_ID IS NULL AND questions.is_deleted = 0'
+  else if (showMultipleChoice)
+    sql += ` WHERE open_question.Open_question_ID IS NULL AND questions.is_deleted = 0`
+  else if (isDeleted)
+    sql += ` WHERE questions.is_deleted = 1`
+
+  /* Executes the database query and it takes one argument. 
+  sql is the base SQL query we have up there. */
   db.all(sql, (err, row) => {
     if (err) {
       console.log(err.message);
@@ -171,25 +187,6 @@ app.get("/api/questions", function (req, res) {
   });
 });
 
-/* Delete endpoint for questionlist.
-We use app.delete endpoint with res.type json to get the json information.
-*/
-// app.delete('/api/questions', bodyParser.json(), (req, res) => {
-//   res.type('json');
-
-//   /* questionId we sent through a const array to body (see questionlist.jsx DeleteQuestion function)*/
-//   const { questionId } = req.body.questionId;
-//   console.log('question ID is ' + questionId);
-//   console.log('req.body question id ' + req.body.questionId);
-
-//   /* We run a db.run query that deletes the question based on the question Id */
-//   db.run('DELETE FROM questions WHERE Question_ID = ?', [questionId]),
-//     function (err) {
-//       console.log(err.message);
-//     },
-//     console.log("DELETE Request Called for " + questionId)
-//   res.send("DELETE Request Called")
-// });
 
 /* Actually we might not need to delete route.. we have this we can use to switch to is_deleted to 1 */
 app.put('/api/questions', bodyParser.json(), (req, res) => {
@@ -213,15 +210,23 @@ app.put('/api/questions', bodyParser.json(), (req, res) => {
 
 /* GET endpoint for questions with question id parameters 
 the req.params.id gets the id from the URL and we pass this ID to the sql query. */
-app.get("/api/questions:id", function (req, res) {
+app.get("/api/questions/:id", function (req, res) {
   res.type('json');
 
-  const questionId = req.params.id
+  /* Gives a variable to the req.params. req.params gets the id from the JSON url*/
+  const questionId = req.params.id;
 
-  const sql = 'SELECT * FROM questions WHERE Question_ID = ?';
-  console.log('dit is ' + req.params.id)
-  console.log(questionId)
-  console.log(req.params['id'])
+  /* The Base Query that execute.
+  We select questions question_ID and have it joined by the open and multi choice questions and their id,
+  and as last we have the Question_ID which we will get from the second argument[questionId]
+  This allows us to fetch the questions per ID .*/
+  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID, multiple_choice.multi_question, multiple_Choice.Multiple_choice_ID, option.Option
+  FROM questions
+  LEFT JOIN open_question ON questions.Open_Question_ID = open_question.open_question_ID
+  LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID
+  LEFT JOIN option ON questions.Multiple_Choice_ID = option.Option_ID
+  WHERE Question_ID = ?`
+
 
   /* Calls the database with the sql query variable and the questionId as argument. */
   db.all(sql, [questionId], (err, row) => {
@@ -255,12 +260,16 @@ app.get("/api/surveys", function (req, res) {
   }).split('/').join('-'); // Convert slashes to dashes
 
 
-  console.log(isOpen)
-  console.log(isClosed)
-  console.log('req query ' + req.query.close_date)
-  console.log('req.query open ' + req.query.open_date)
-  console.log(req.query.open)
-  let sql = `SELECT * FROM survey`;
+  /* The base query that executes.
+  select survey.* gets us everything from survey.
+  We get the Length from table filled_in (User_ID) and give it an alias participants.
+  The IFNULL checks if it's a NULL Value(default value we will get from the length of the survey)
+  and replaces it with a 0. */
+  let sql = `select survey.*, IFNULL(LENGTH(filled_in.User_ID), 0) AS participants
+  from survey
+  LEFT JOIN filled_in ON survey.Survey_ID = filled_in.Survey_ID `;
+
+  /* Checks for the parameters and executes additional sql query if condition is met.*/
   if (isOpen) {
     sql += ` WHERE close_date > '${formattedDate}' AND is_reviewed = 1`;
   } else if (isClosed) {
@@ -268,9 +277,29 @@ app.get("/api/surveys", function (req, res) {
   } else if (beingReviewed) {
     sql += ` WHERE is_reviewed = 0`;
   }
+
+  /* Executes the query with the sql query as an argument. */
+  db.all(sql, (err, rows) => {
+    if (err) {
+      console.log(err.message);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    console.log(rows);
+    res.send(JSON.stringify(rows));
+  });
+});
+
+app.get("/api/surveys/:id", function (req, res) {
+  res.type('json');
+
+  const questionId = req.params.id;
+
+  let sql = 'SELECT * FROM survey WHERE Survey_ID = ? '
+
   console.log(sql)
   console.log('this is sql ' + sql)
-  db.all(sql, (err, rows) => {
+  db.all(sql, [questionId], (err, rows) => {
     if (err) {
       console.log(err.message);
       res.status(500).send('Internal Server Error');

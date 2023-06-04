@@ -26,6 +26,8 @@ export function SurveyList() {
     }, []);
 
     /* Handles the queries in surveybox on the left side */
+
+    // Shows every Survey that is under review (is_reviewed = 0)//
     function showBeingReviewed() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=reviewed');
@@ -35,6 +37,8 @@ export function SurveyList() {
         fetchData();
     };
 
+    // Shows all Open Surveys that passed review (is_reviewed = 1) (is_deleted = 0)
+    // And current date is not past the close_date. //
     function showOpenSurveys() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=true');
@@ -44,7 +48,8 @@ export function SurveyList() {
         fetchData();
     };
 
-
+    // Shows all Closed Surveys that passed review (is_reviewed = 1) (is_deleted = 0)
+    // And Current date is past the close_date. //
     function showClosedSurveys() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys?open=false');
@@ -54,6 +59,7 @@ export function SurveyList() {
         fetchData();
     };
 
+    // Shows everything. //
     function showAll() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys');
@@ -133,29 +139,32 @@ export function SurveyList() {
                                     <td>
                                         {item.Survey_ID}
                                     </td>
-                                    <td className='question__grey'>
-                                        <Link to={`/survey/${item.Survey_ID}`} className='link'>
+                                    <td className='question__grey'>  {/* links to corresponding Surveyquestion_ID page. */}
+                                        <Link to={`/surveyQuestions/${item.Survey_ID}`} className='link'>
                                             {item.title}
                                         </Link>
                                     </td>
-                                    <td>
+                                    <td> {/* Conditional checks for Status */}
                                         {(currentDate < item.close_date && item.is_reviewed == '1') ? (
-                                            <p style={{ color: "red" }}>Open</p>
+                                            <p style={{ color: "red" }}>Open</p> // If current date < close_date and item is reviewed.. shows open. //
                                         ) : (currentDate > item.close_date && item.is_reviewed == '1') ? (
-                                            <p style={{ color: "green" }}>Closed</p>
+                                            <p style={{ color: "green" }}>Closed</p> // if current date > close_date and item is reviewed.. shows closed. //
                                         ) : (item.is_reviewed == '0') ? (
-                                            <p style={{ color: "orange" }}>Being Reviewed</p>
+                                            <p style={{ color: "orange" }}>Being Reviewed</p> // if item is not yet reviewed.. shows this. //
                                         ) : (
-                                            <p>Unknown Status</p>
+                                            <p>Unknown Status</p> // If all else fails it becomes Unknown Status. Should not happen.. I hope. //
                                         )
                                         }
                                     </td>
                                     <td>
-                                        <p>{item.participants}</p>
+                                        <p>{item.participants}</p> {/* The amount of participants that answered survey*/}
                                     </td>
                                     <td>
                                         {item.is_reviewed == "0" ? (
-                                            <button className="edit_button">Aanpassen</button>
+                                            // {/* Change this Link to to aanpassen route .*/}
+                                            <Link to='/create'>
+                                                <button className="edit_button">Aanpassen</button>
+                                            </Link>
                                         ) :
                                             <p>Gesloten</p>
                                         }
