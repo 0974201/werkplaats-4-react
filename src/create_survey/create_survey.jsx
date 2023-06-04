@@ -3,12 +3,15 @@ import { useState } from "react";
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
-import { questions } from "../index";
+import { questionsTest } from "../index";
 import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
 
-export default function CreateSurvey({ endpoint }) {
+// this function is very big because if you split it up into different files en functions some function get a bug that when you
+// type in an input field the field loses focus, and you stop typing
+export default function CreateSurvey({endpoint}) {
+    console.log(endpoint)
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
@@ -171,6 +174,14 @@ export default function CreateSurvey({ endpoint }) {
     }
 
     function PopUp() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/questions?open=true')
+            const data = await result.json()
+            console.log(data)
+
+        }
+        fetchData()
+
         return (
             <div className={'pop_up_container'}>
                 <div className={'pop_up'}>
@@ -183,7 +194,7 @@ export default function CreateSurvey({ endpoint }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {questions.map((question) => (
+                                {questionsTest.map((question) => (
                                     <tr key={question.id}>
                                         <td>{question.question}</td>
                                         <td>{question.type}</td>
@@ -217,6 +228,7 @@ export default function CreateSurvey({ endpoint }) {
                         <input
                             type={'date'}
                             value={surveyArray.openDate}
+                            min={new Date().toJSON().slice(0, 10)}
                             onChange={e => replaceSurveyItem('openDate', e.target.value)}
                         />
                     </label>
@@ -235,13 +247,12 @@ export default function CreateSurvey({ endpoint }) {
                         ></textarea>
                     </label>
 
-                    <label>Deze enquête kan anoniem beantwoord worden
+                    <label>Deze enquête kan niet anoniem beantwoord worden
                         <input
                             type={'checkbox'}
                             onChange={e => replaceSurveyItem('anonymity', e.target.checked)}
                         />
                     </label>
-                    <button onClick={() => sessionStorage.removeItem("createSurvey")}>reset</button>
                 </div>
                 <AddButtons />
             </div>
@@ -260,8 +271,9 @@ export default function CreateSurvey({ endpoint }) {
                                     onChange={e => replaceQuestion(questionIndex, e.target.value)}
                                 />
 
+                                {/* delete question button*/}
                                 <button onClick={() => (
-                                    setQuestionArray(questionArray.filter(question =>
+                                    addToArray(questionArray.filter(question =>
                                         question.id !== questionArray[questionIndex].id)
                                     )
                                 )}>X</button>
