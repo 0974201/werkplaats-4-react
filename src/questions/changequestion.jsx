@@ -8,12 +8,13 @@ import { saveToDB } from '../universal/manipulateDB';
 export default function ChangeQuestion({ }) {
     const { id } = useParams();
     const [questionlist, setQuestion] = useState('');
-    const [question, showQuestion] = useState([])
+    const [question, showQuestion] = useState([]);
     const [questionvalue, setQuestionValue] = useState('');
-    const [options, setOptions] = useState('')
-    const [message, setMessage] = useState('')
-    const [errormessage, setErrorMessage] = useState(false)
-    const [showmessage, setShowMessage] = useState(false)
+    const [options, setOptions] = useState();
+    const [message, setMessage] = useState('');
+    const [errormessage, setErrorMessage] = useState(false);
+    const [showmessage, setShowMessage] = useState(false);
+    const [getoptionid, setoptionId] = useState('');
 
 
     /* Fetches the data from api. Conditionally checks whether the open_questionID in the data[0]
@@ -71,17 +72,25 @@ export default function ChangeQuestion({ }) {
     /* Saves the multiple choice question to the database.*/
     function SaveMultiQuestion() {
         if (questionvalue !== '') {
+            const optionIds = (options && options?.map(item => item.Option_ID))
+
+            const optionid1 = optionIds[0];
+            const optionid2 = optionIds[1];
+            const optionid3 = optionIds[2];
+            console.log(optionid1)
+            console.log(optionid2)
+            console.log(optionid3)
             const saveArray = {
                 question: questionvalue,
                 questionId: question.Multiple_Choice_ID,
                 option1: options[0],
                 option2: options[1],
                 option3: options[2],
-                optionid1: '1',
-                optionid2: '2',
-                optionid3: '3',
+                optionid1: optionid1,
+                optionid2: optionid2,
+                optionid3: optionid3,
                 type: 'MultipleChoice',
-            }; console.log('option value: ' + options[1])
+            }; console.log('option value: ' + optionid1)
             saveToDB(saveArray, 'questions');
             setMessage('Multi Vraag is succesvol opgeslagen!')
             setShowMessage(true);
@@ -99,11 +108,8 @@ export default function ChangeQuestion({ }) {
     }
 
 
-    console.log(question)
-    console.log(question.open_question)
-    console.log(question.option && question.option.split(','))
-    let splittedOption = question.option?.split(',');
-    console.log(splittedOption)
+
+
 
 
     /* Changes the option values of multiple choice questions */
@@ -118,7 +124,6 @@ export default function ChangeQuestion({ }) {
         })
         setOptions(newOption)
     }
-
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
 
@@ -136,13 +141,13 @@ export default function ChangeQuestion({ }) {
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
                     <p><b>{questionvalue}</b></p>
-                    {options.map((option, optionIndex) => {
+                    {options && options?.map((option, optionIndex) => {
                         return (
                             <div className='radio_box'>{console.log(option, optionIndex)}
                                 <div className='radio_div' key={optionIndex}>
                                     <input className='input'
                                         type='text'
-                                        defaultValue={option.option}
+                                        defaultValue={option}
                                         onChange={event => replaceOptions(optionIndex, event.target.value)}>
                                     </input>
                                     <button onClick={() => switchOptions(option.option, optionIndex, optionIndex - 1)}>Up</button>
@@ -155,7 +160,6 @@ export default function ChangeQuestion({ }) {
             )
         }
     }
-
     /* The main template of changeQuestion(). 
     We put in renderQuestion() on top to combine it. */
     return (
