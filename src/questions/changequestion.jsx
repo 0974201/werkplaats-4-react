@@ -86,9 +86,9 @@ export default function ChangeQuestion({ }) {
                 option1: options[0],
                 option2: options[1],
                 option3: options[2],
-                optionid1: optionid1,
-                optionid2: optionid2,
-                optionid3: optionid3,
+                optionid1: '1',
+                optionid2: '2',
+                optionid3: '3',
                 type: 'MultipleChoice',
             }; console.log('option value: ' + optionid1)
             saveToDB(saveArray, 'questions');
@@ -147,7 +147,7 @@ export default function ChangeQuestion({ }) {
                                 <div className='radio_div' key={optionIndex}>
                                     <input className='input'
                                         type='text'
-                                        defaultValue={option}
+                                        defaultValue={option.option}
                                         onChange={event => replaceOptions(optionIndex, event.target.value)}>
                                     </input>
                                     <button onClick={() => switchOptions(option.option, optionIndex, optionIndex - 1)}>Up</button>
