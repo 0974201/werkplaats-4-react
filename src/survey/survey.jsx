@@ -1,32 +1,41 @@
 import './survey.css'
 import React, {useState} from "react";
 import Progressbar from "../universal/progressbar";
-import {questions} from "../index";
+import {saveToDB} from "../universal/manipulateDB";
 
 export default function Survey({surveyArray}) {
-
+    const urlStart = window.location.pathname.split('/')
     const [answeredArray, setAnsweredArray] = useState(onLoadSurvey)
     const [questionShown, setQuestionShow] = useState(onLoadQuestionShown())
 
 
+    console.log(urlStart)
+
+
     console.log(answeredArray)
 
-    sessionStorage.setItem("survey", JSON.stringify(answeredArray))
+    if (urlStart[1] === 'survey'){
+        sessionStorage.setItem("survey", JSON.stringify(answeredArray))
+    }
     sessionStorage.setItem("questionShown", JSON.stringify(questionShown))
 
     function onLoadSurvey() {
-        if (JSON.parse(sessionStorage.getItem("survey")) === null) {
-            return surveyArray
-        } else {
-            const arrayToSurvey = JSON.parse(sessionStorage.getItem("survey"))
-            return(arrayToSurvey)
+        if (urlStart[1] === 'survey') {
+            if (JSON.parse(sessionStorage.getItem("survey")) === null) {
+                return surveyArray
+            } else {
+                return JSON.parse(sessionStorage.getItem("survey"))
+            }
+        } else if (urlStart[1] === 'create') {
+            return JSON.parse(sessionStorage.getItem("createSurvey"))
         }
+
     }
 
 
 
     function onLoadQuestionShown() {
-        if (JSON.parse(sessionStorage.getItem("questionShown")) === null) {
+        if (JSON.parse(sessionStorage.getItem("questionShown")) === null || urlStart[1] === 'create') {
             return 0
         } else {
             const questionShown = JSON.parse(sessionStorage.getItem("questionShown"))
@@ -43,30 +52,53 @@ export default function Survey({surveyArray}) {
                 return question
             }
         })
-        setAnsweredArray({answeredArray, questions: inBetweenArray})
+        setAnsweredArray({...answeredArray, questions: inBetweenArray})
     }
 
-    function checkAnswerd() {
-        let amountAnswerd = 0
+    function checkAnswered() {
+        let amountAnswered = 0
         answeredArray.questions.map(question => {
             if (question.answer !== '') {
-                amountAnswerd++
+                amountAnswered++
             }
         })
-        return amountAnswerd
+        return amountAnswered
+    }
+
+    function pageCheckMulti(question) {
+        if (urlStart[1] === 'survey') {
+            return question.multi_question !== null;
+        }else if(urlStart[1] === 'create') {
+            return question.type === 'MultipleChoice';
+        }
+    }
+
+    function pageCheckOpen(question) {
+        if (urlStart[1] === 'survey') {
+            return question.open_question !== null;
+        }else if(urlStart[1] === 'create') {
+            return question.type === 'Open';
+        }
     }
 
     const questionList = answeredArray.questions.map((question, questionIndex) => {
-            if (question.multi_question !== null) {
+        console.log(question)
+            if (pageCheckMulti(question)) {
+
                 return (
                     <div>
-                        <h3>{question.question}</h3>
+                        <h3>{question.multi_question}</h3>
                         <ul>
                             {question.options.map((option, optionIndex) =>
                                 <li key={optionIndex} onChange={e => replaceAnswer(questionIndex, e.target.value)}>
                                     <label>
-                                        <input type={"radio"} value={option} name={"question" + question.id}
-                                               defaultChecked={question.answer === option}/>
+                                        <input
+                                            type={"radio"}
+                                            value={option}
+                                            name={"question" + questionIndex}
+                                            checked={question.answer === option}
+
+                                        />
                                         {option}
                                     </label>
                                 </li>
@@ -74,10 +106,10 @@ export default function Survey({surveyArray}) {
                         </ul>
                     </div>
                 )
-            } else if(question.open_question !== null) {
+            } else if(pageCheckOpen(question)) {
                 return (
                     <div>
-                        <h3>{question.question}</h3>
+                        <h3>{question.open_question}</h3>
                         <textarea
                             maxLength={250}
                             value={answeredArray.questions[questionIndex].answer}
@@ -96,8 +128,13 @@ export default function Survey({surveyArray}) {
 
     return (
             <div className={"survey"}>
-                <Progressbar checkedAnswerd={checkAnswerd()} amountQuestion={questionList.length} />
-                <span>vragen beantwoord: {checkAnswerd()}/{questionList.length}</span>
+                {urlStart[1] === 'survey' &&
+                    <>
+                        <Progressbar checkedAnswerd={checkAnswered()} amountQuestion={questionList.length} />
+                        <span>vragen beantwoord: {checkAnswered()}/{questionList.length}</span>
+                    </>
+
+                }
                 <h1>{answeredArray.title}</h1>
                 {questionShown <= 0 &&
                     <p>{answeredArray.description}</p>
@@ -115,6 +152,9 @@ export default function Survey({surveyArray}) {
                     }
                     {questionShown < answeredArray.questions.length &&
                         <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende</button>
+                    }
+                    {checkAnswered() === questionList.length && urlStart[1] === 'survey' &&
+                        <button className={'submit'} onClick={() => saveToDB(answeredArray, 'saveAnswers')}>Lever in</button>
                     }
                 </div>
             </div>

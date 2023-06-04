@@ -126,7 +126,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
 app.get('/api/getSurvey/:surveyId', function (req, res) {
     const surveyId = parseInt(req.params['surveyId'])
 
-    db.get("SELECT title, description, open_date, close_date, can_be_anonymous FROM survey WHERE Survey_ID = ?",
+    db.get("SELECT Survey_ID, title, description, open_date, close_date, can_be_anonymous FROM survey WHERE Survey_ID = ?",
         [surveyId], function (error, rows) {
             if (error) {
                 console.log(error)
@@ -141,7 +141,7 @@ app.get('/api/getSurveyQuestions/:surveyId', function (req, res) {
     const surveyId = parseInt(req.params['surveyId'])
 
     db.all(
-        "SELECT filled_in.question_order, multiple_choice.multi_question, multiple_choice.Multiple_Choice_ID, open_question.open_question FROM filled_in " +
+        "SELECT filled_in.Question_ID, filled_in.question_order, multiple_choice.multi_question, multiple_choice.Multiple_Choice_ID, open_question.open_question FROM filled_in " +
         "LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID " +
         "LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID " +
         "LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID " +
@@ -173,6 +173,23 @@ app.get('/api/getSurveyOptions/:surveyId', function (req, res) {
                 res.send(JSON.stringify(rows))
             }
         })
+})
+
+app.post('/api/saveAnswers', bodyParser.json(), function (req, res) {
+    console.log(req.body)
+    try {
+
+        for (const [index, question] of req.body.questions.entries()) {
+            runQuery("INSERT INTO filled_in (Question_ID, Survey_ID, date_answered, answer, User_ID, question_order) VALUES (?, ?, datetime('now', 'localtime'), ?, ?, ?)",
+                [question.Question_ID, req.body.Survey_ID, question.answer, "", question.question_order]
+            )
+        }
+
+    }catch (error) {
+        // in case of an error rollback the SQL transaction
+        console.log(error)
+    }
+    res.send('saved')
 })
 
 app.get("/test", function (req, res) {

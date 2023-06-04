@@ -1,7 +1,6 @@
 import Group from "../universal/GroupBy";
 import {useEffect, useState} from "react";
 import Survey from "./survey";
-import {surveyTest} from "../index";
 import {useParams} from "react-router-dom";
 
 export default function SetUpSurvey() {
@@ -10,7 +9,6 @@ export default function SetUpSurvey() {
     const [loading, setLoading] = useState(true)
 
     console.log(survey)
-    console.log(surveyTest)
 
     async function fetchSurvey() {
         const rawSurvey = await fetch('http://localhost:81/api/getSurvey/' + id)
@@ -34,9 +32,8 @@ export default function SetUpSurvey() {
                 return {...question, answer: '', options: ''}
             }
         })
-        const test = {...survey, questions: newQuestions}
-        console.log(test)
-        setSurvey(test)
+        const completeSurvey = {...survey, questions: newQuestions}
+        setSurvey(completeSurvey)
         setLoading(false)
     }
 
