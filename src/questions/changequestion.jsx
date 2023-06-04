@@ -8,12 +8,13 @@ import { saveToDB } from '../universal/manipulateDB';
 export default function ChangeQuestion({ }) {
     const { id } = useParams();
     const [questionlist, setQuestion] = useState('');
-    const [question, showQuestion] = useState([])
+    const [question, showQuestion] = useState([]);
     const [questionvalue, setQuestionValue] = useState('');
-    const [options, setOptions] = useState('')
-    const [message, setMessage] = useState('')
-    const [errormessage, setErrorMessage] = useState(false)
-    const [showmessage, setShowMessage] = useState(false)
+    const [options, setOptions] = useState();
+    const [message, setMessage] = useState('');
+    const [errormessage, setErrorMessage] = useState(false);
+    const [showmessage, setShowMessage] = useState(false);
+    const [getoptionid, setoptionId] = useState('');
 
 
     /* Fetches the data from api. Conditionally checks whether the open_questionID in the data[0]
@@ -24,12 +25,12 @@ export default function ChangeQuestion({ }) {
             const data = await response.json();
             console.log(data[0]);
             showQuestion(data[0]);
-            setOptions(data);
 
             if (data[0].Open_Question_ID !== null) {
                 setQuestionValue(data[0].open_question)
             } else if (question.Open_Question_ID == null) {
                 setQuestionValue(data[0].multi_question)
+                setOptions(data);
             }
         }
             ;
@@ -37,7 +38,7 @@ export default function ChangeQuestion({ }) {
     }, []
     );
 
-
+    console.log(options)
     /* Timer for message... 5000 is 5 seconds */
     useEffect(() => {
         if (message || errormessage) {
@@ -71,12 +72,25 @@ export default function ChangeQuestion({ }) {
     /* Saves the multiple choice question to the database.*/
     function SaveMultiQuestion() {
         if (questionvalue !== '') {
+            const optionIds = (options && options?.map(item => item.Option_ID))
+
+            const optionid1 = optionIds[0];
+            const optionid2 = optionIds[1];
+            const optionid3 = optionIds[2];
+            console.log(optionid1)
+            console.log(optionid2)
+            console.log(optionid3)
             const saveArray = {
                 question: questionvalue,
                 questionId: question.Multiple_Choice_ID,
-                options: splittedOption,
+                option1: options[0],
+                option2: options[1],
+                option3: options[2],
+                optionid1: '1',
+                optionid2: '2',
+                optionid3: '3',
                 type: 'MultipleChoice',
-            };
+            }; console.log('option value: ' + optionid1)
             saveToDB(saveArray, 'questions');
             setMessage('Multi Vraag is succesvol opgeslagen!')
             setShowMessage(true);
@@ -93,23 +107,9 @@ export default function ChangeQuestion({ }) {
         setOptions(newList)
     }
 
-    /* Changes the question to the value that is put in the textarea element */
-    const handleModify = (id, newQuestion) => {
-        let updatedQuestion = question.map(question => {
-            if (question.id === id && newQuestion !== '') {
-                return { ...question, question: newQuestion };
-            } else {
-                return question;
-            }
-        });
-        setQuestion(updatedQuestion)
-        setShowMessage(true);
-    };
-    console.log(question)
-    console.log(question.open_question)
-    console.log(question.option && question.option.split(','))
-    let splittedOption = question.option?.split(',');
-    console.log(splittedOption)
+
+
+
 
 
     /* Changes the option values of multiple choice questions */
@@ -124,9 +124,9 @@ export default function ChangeQuestion({ }) {
         })
         setOptions(newOption)
     }
-    console.log(question.Open_Question_ID)
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
+
 
 
         if (question.Open_Question_ID !== null) {
@@ -141,17 +141,17 @@ export default function ChangeQuestion({ }) {
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
                     <p><b>{questionvalue}</b></p>
-                    {options && splittedOption?.map((option, optionIndex) => {
+                    {options && options?.map((option, optionIndex) => {
                         return (
                             <div className='radio_box'>{console.log(option, optionIndex)}
-                                <div className='radio_div' key={option}>
+                                <div className='radio_div' key={optionIndex}>
                                     <input className='input'
                                         type='text'
-                                        defaultValue={option}
+                                        defaultValue={option.option}
                                         onChange={event => replaceOptions(optionIndex, event.target.value)}>
                                     </input>
-                                    <button onClick={() => switchOptions(option, optionIndex, optionIndex - 1)}>Up</button>
-                                    <button onClick={() => switchOptions(option, optionIndex, optionIndex + 1)}>Down</button>
+                                    <button onClick={() => switchOptions(option.option, optionIndex, optionIndex - 1)}>Up</button>
+                                    <button onClick={() => switchOptions(option.option, optionIndex, optionIndex + 1)}>Down</button>
                                 </div>
                             </div>
                         )
@@ -160,7 +160,6 @@ export default function ChangeQuestion({ }) {
             )
         }
     }
-
     /* The main template of changeQuestion(). 
     We put in renderQuestion() on top to combine it. */
     return (
@@ -188,7 +187,6 @@ export default function ChangeQuestion({ }) {
             <div className='save_question_border'>
                 <div className='save_question_box'>
                     <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
-                    <button className='button' onClick={() => handleModify(id, questionvalue)}>Aanpassen</button>
                     {/* Checks if the open_question_ID is not null.. if not null show Function SaveOpenQuestion
                     else it will show SaveMultiQuestion. */}
                     {question.Open_Question_ID !== null ? (

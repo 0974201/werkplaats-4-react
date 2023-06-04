@@ -217,11 +217,14 @@ app.get("/api/test_question", function (req, res) {
 We first check if it's an open or multiple choice and then update the columns around it.
 for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
-  const { type, question, questionId, options } = req.body;
+  const { type, question, questionId, option1, option2, option3, option4, optionid1, optionid2, optionid3, optionid4 } = req.body;
   res.type('json');
   console.log(type)
   console.log(question)
   console.log('dit is ' + questionId)
+  console.log(option1)
+
+
 
   /* Checks if the type is open and if so updates open_question. */
   if (type === 'Open') {
@@ -229,7 +232,7 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
       function (err) {
         console.log(err.message);
       },
-      console.log('Open Question ' + [questionId] + ' has successfully updated to ' + [question]),
+      console.log('Open Question ' + questionId + ' has successfully updated to ' + question),
 
     )
   } /* If not open then it updates multiple choice */
@@ -238,16 +241,36 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
       function (err) {
         console.log(err.message);
       },
-      console.log('Multiple Choice Question ' + [questionId] + ' has successfully updated to ' + [question]),
+      console.log('Multiple Choice Question ' + questionId + ' has successfully updated to ' + question),
     ) /* Multiple choice also has to update options so we put that after it has ran the first query. */
-    db.run('UPDATE option SET option = ? WHERE option_id = ?', [options, questionId],
+    db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [option1, optionid1],
       function (err) {
         console.log(err.message);
       },
-      console.log('Options from' + [questionId] + ' have been changed to ' + [options])
+      console.log('Option have been changed to ' + option1 + ' at Option_ID ' + optionid1)
+    ),
+      db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [option2, optionid2],
+        function (err) {
+          console.log(err.message);
+        },
+        console.log('Options have been changed to ' + option2 + ' at Option_ID ' + optionid2)
+      )
+    if (option3)
+      db.run('UPDATE option SET option = ? WHERE Option_ID = ?', [option3, optionid3],
+        function (err) {
+          console.log(err.message);
+        },
+        console.log('Options have been changed to ' + option3 + ' at Option_ID ' + optionid3)
+      )
+  } if (option4)
+    db.run('UPDATE option SET option = ? WHERE Option_ID = ?', [option4, optionid4],
+      function (err) {
+        console.log(err.message);
+      },
+      console.log('Options have been changed to ' + option4 + ' at Option_ID ' + optionid4)
     )
-  }
-});
+},
+);
 
 /* GET function for fetching all questions. */
 app.get("/api/questions", function (req, res) {
@@ -320,22 +343,24 @@ app.get("/api/questions/:id", function (req, res) {
   We select questions question_ID and have it joined by the open and multi choice questions and their id,
   and as last we have the Question_ID which we will get from the second argument[questionId]
   This allows us to fetch the questions per ID .*/
-  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID, multiple_choice.multi_question, multiple_Choice.Multiple_choice_ID, option.Option
+  const sql = `SELECT questions.Question_ID, open_question.open_question, open_question.open_question_ID, multiple_choice.multi_question, multiple_Choice.Multiple_choice_ID, option_row.Option_order, option_row.Option_ID, option.option
   FROM questions
   LEFT JOIN open_question ON questions.Open_Question_ID = open_question.open_question_ID
   LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID
-  LEFT JOIN option ON questions.Multiple_Choice_ID = option.Option_ID
+  LEFT JOIN option_row ON multiple_choice.Multiple_Choice_ID = option_row.Multiple_Choice_ID
+  LEFT JOIN option ON option_row.Option_ID = option.Option_ID
   WHERE Question_ID = ?`
 
 
-    /* Calls the database with the sql query variable and the questionId as argument. */
-    db.all(sql, [questionId], (err, row) => {
-        if (err) {
-            console.log(err.message);
-        }
-        console.log(row);
-        res.send(JSON.stringify(row));
-    });
+
+  /* Calls the database with the sql query variable and the questionId as argument. */
+  db.all(sql, [questionId], (err, row) => {
+    if (err) {
+      console.log(err.message);
+    }
+    console.log(row);
+    res.send(JSON.stringify(row));
+  });
 });
 
 
