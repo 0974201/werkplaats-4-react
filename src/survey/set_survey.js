@@ -1,7 +1,7 @@
 import Group from "../universal/GroupBy";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Survey from "./survey";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function SetUpSurvey() {
     const { id } = useParams();
@@ -24,22 +24,22 @@ export default function SetUpSurvey() {
                 const matchGroup = Object.keys(groupedOptions).find(group => question.Multiple_Choice_ID === parseInt(group))
                 if (matchGroup) {
                     const onlyOptions = groupedOptions[matchGroup].map(optionPlusId => optionPlusId.option)
-                    return {...question, answer: '', options: onlyOptions}
+                    return { ...question, answer: '', options: onlyOptions }
                 } else {
-                    return {...question, answer: '', options: ''}
+                    return { ...question, answer: '', options: '' }
                 }
             } else {
-                return {...question, answer: '', options: ''}
+                return { ...question, answer: '', options: '' }
             }
         })
-        const completeSurvey = {...survey, questions: newQuestions}
+        const completeSurvey = { ...survey, questions: newQuestions }
         setSurvey(completeSurvey)
         setLoading(false)
     }
 
     useEffect(() => {
         fetchSurvey()
-    },[])
+    }, [])
 
     if (loading) {
         return <div>help</div>

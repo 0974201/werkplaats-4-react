@@ -33,17 +33,20 @@ function SurveyQuestions() {
                         {
                             survey && survey?.map(item => (
                                 <tr key={item.Survey_ID}> {console.log(item)}
-                                    <td>
-                                        <span>placeholder</span>
-                                    </td>
                                     <td className='question__grey'>
-                                        <span>antwoorden place</span>
+                                        <span>{item.answer}</span>
+                                    </td>
+                                    <td> {item.open_question !== null ?
+                                        <span>Open</span>
+                                        :
+                                        <span>Multiple Choice</span>
+                                    }
                                     </td>
                                     <td>
-                                        <span>placeholder</span>
+                                        <span>{item.date_answered}</span>
                                     </td>
                                     <td>
-                                        <span>wewe</span>
+                                        <span>{item.User_ID}</span>
                                     </td>
                                 </tr>
                             ))}

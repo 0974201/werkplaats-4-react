@@ -393,7 +393,7 @@ app.get("/api/surveys", function (req, res) {
   and replaces it with a 0. */
   let sql = `select survey.*, IFNULL(LENGTH(filled_in.User_ID), 0) AS participants
   from survey
-  LEFT JOIN filled_in  on survey.Survey_ID = filled_in.Question_ID`
+  LEFT JOIN filled_in on survey.Survey_ID = filled_in.Question_ID`
 
   /* Checks for the parameters and executes additional sql query if condition is met.*/
   if (isOpen) {
@@ -419,15 +419,14 @@ app.get("/api/surveys", function (req, res) {
 app.get("/api/surveys/:id", function (req, res) {
   res.type('json');
 
-  const SurveyId = req.params.id;
-
-  let sql = `SELECT filled_in.*, questions.Question_ID , open_question.open_question, multiple_choice.multi_question
+  const SurveyId = parseInt(req.params.id);
+  console.log('dit is survey id ' + SurveyId)
+  let sql = `SELECT filled_in.* , multiple_choice.multi_question, multiple_choice.Multiple_Choice_ID, open_question.open_question
   FROM filled_in
-  LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID
-  LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID
-  LEFT join multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID
- WHERE filled_in.Survey_ID = ?`;
-
+  LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID 
+  LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID 
+  LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID 
+  WHERE filled_in.Survey_ID = ? AND filled_in.answer is NOT null`;
 
   console.log(sql)
   console.log('this is sql ' + sql)

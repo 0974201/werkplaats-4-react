@@ -6,6 +6,7 @@ import Layout from './pages/layout';
 import ModifyQuestion from './questions/questionlist';
 import ChangeQuestion from './questions/changequestion';
 import OverView from './questions/overview';
+import ChangeSurvey from './survey/changesurvey';
 import { Login } from './pages/login';
 import { NotFound } from './pages/NotFound';
 import { SurveyList } from './survey/surveylist';
@@ -134,6 +135,7 @@ function App() {
                         <Route path='/login' element={<Login />} />
                         <Route path='/*' element={<NotFound />} />
                         <Route path='/surveylist' element={<SurveyList CreateSurvey={surveys} />} />
+                        <Route path='/changesurvey' element={<ChangeSurvey />} />
                         <Route path='/surveyquestions/:id' element={<SurveyQuestion />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
