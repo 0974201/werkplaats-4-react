@@ -154,7 +154,10 @@ export default function Survey({surveyArray}) {
                         <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende</button>
                     }
                     {checkAnswered() === questionList.length && urlStart[1] === 'survey' &&
-                        <button className={'submit'} onClick={() => saveToDB(answeredArray, 'saveAnswers')}>Lever in</button>
+                        <button className={'submit'} onClick={() => {
+                            saveToDB(answeredArray, 'saveAnswers')
+                            sessionStorage.removeItem("survey")
+                        }}>Lever in</button>
                     }
                 </div>
             </div>

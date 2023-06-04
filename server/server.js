@@ -145,7 +145,7 @@ app.get('/api/getSurveyQuestions/:surveyId', function (req, res) {
         "LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID " +
         "LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID " +
         "LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID " +
-        "WHERE filled_in.Survey_ID = ?",
+        "WHERE filled_in.Survey_ID = ? AND filled_in.answer is null",
         [surveyId], function (error, rows) {
             if (error) {
                 console.log(error)
