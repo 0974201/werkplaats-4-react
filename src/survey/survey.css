@@ -23,3 +23,7 @@
 .navigation .next {
     float: right;
 }
+
+.navigation .submit {
+    margin-left: 25%;
+}

@@ -11,6 +11,7 @@ import { NotFound } from './pages/NotFound';
 import { SurveyList } from './survey/surveylist';
 import Survey from './survey/survey';
 import SurveyQuestion from './survey/SurveyQuestions';
+import SetUpSurvey from "./survey/set_survey";
 import CreateSurvey from "./create_survey/create_survey";
 import DbTest from './db_test/dbtest';
 import './css/App.css';
@@ -18,6 +19,37 @@ import './css/App.css';
 /* The App is what we throw everything inside. 
 The Header in line 23 is imported from header.js.
 The <Layout> is wrapped around the Routes so that they all have the same layout.*/
+
+export let questionsTest = [
+    {
+        type: "MultipleChoice",
+        id: 0,
+        question: "Wat is de naam van je vis?",
+        options: ['Bubbles', 'John', 'Speedy', 'The drowned one'],
+        order: 0
+    },
+    {
+        type: "Open",
+        id: 1,
+        question: "Hoe heet je huis spin?",
+        options: null,
+        order: 1
+    },
+    {
+        type: "MultipleChoice",
+        id: 2,
+        question: "Wat is de naam van je kat?",
+        options: ['Scratch', 'Tiger', 'Spot', 'Nigel'],
+        order: 2
+    },
+    {
+        type: "Open",
+        id: 3,
+        question: "Van welke saus hou je?",
+        options: null,
+        order: 3
+    }
+]
 
 export let questions = [
     {
@@ -50,10 +82,10 @@ export let questions = [
     }
 ]
 
-export let survey = {
+export let surveyTest = {
     title: "Waar hou je van?",
     description: "Dit is een vragen lijst waar in we je vragen gaan stellen over dingen waar je van houd.",
-    questions: questions,
+    questions: questionsTest,
     anonymity: true
 }
 
@@ -87,7 +119,6 @@ export let surveys = [
     }
 ]
 function App() {
-
     return (
         <>
             <div className='App'>
@@ -106,10 +137,10 @@ function App() {
                         <Route path='/surveyquestions/:id' element={<SurveyQuestion />} />
                         <Route index element={<ModifyQuestion />} />
                         <Route path='/questionlist' element={<ModifyQuestion />} />
-                        <Route path='/overview/:id' element={< OverView question={questions} />} />
-                        <Route path='/question' element={<ChangeQuestion question={survey} />} />
+                        <Route path='/overview/:id' element={< OverView question={questionsTest} />} />
+                        <Route path='/question' element={<ChangeQuestion question={surveyTest} />} />
                         <Route path='/question/:id' element={<ChangeQuestion />} />
-                        <Route path={'/survey'} element={<Survey surveyArray={survey} />} />
+                        <Route path={'/survey/:id'} element={<SetUpSurvey />} />
                         <Route path='/dbtest' element={<DbTest />} />
                         <Route />
                         <Route />
