@@ -8,40 +8,41 @@ function SurveyQuestions() {
     const [showanswer, setShowAnswer] = useState(false)
     const [answer, setAnswer] = useState('')
 
-    function FetchAnswers() {
-        useEffect(() => {
-            const fetchData = async () => {
-                const result = await fetch(`http://localhost:81/api/filled_in/15`);
-                const data = await result.json();
-                setAnswer(data)
-                console.log(data)
-            }
-            fetchData();
-        }, [])
+    function FetchAnswers(questionId) {
+
+        const fetchData = async () => {
+            const result = await fetch(`http://localhost:81/api/filled_surveys/` + questionId);
+            const data = await result.json();
+            setAnswer(data)
+            console.log(data)
+        }
+        fetchData();
         setShowAnswer(true)
-        return (<>
-            <table>
-                <tbody>
-                    <tr>
-                        <th>Antwoorden</th>
-                        <th>Tijd</th>
-                        <th>User ID</th>
-                    </tr>
-                    {answer && answer?.map((item, index) =>
-                        <tr key={index}>
-                            <td>
-                                <span>{item.answer}</span>
-                            </td>
-                            <td>
-                                <span>{item.date_answered}</span>
-                            </td>
-                            <td>
-                                <span>{item.User_ID}</span>
-                            </td>
-                        </tr>)}
-                </tbody>
-            </table>
-        </>)
+        return (
+            <>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Antwoorden</th>
+                            <th>Tijd</th>
+                            <th>User ID</th>
+                        </tr>
+                        {answer && answer?.map((item, index) =>
+                            <tr key={index}>
+                                <td>
+                                    <span>{item.answer}</span>
+                                </td>
+                                <td>
+                                    <span>{item.date_answered}</span>
+                                </td>
+                                <td>
+                                    <span>{item.User_ID}</span>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </>)
     };
 
     /* fetches the data from api surveys:ID*/
@@ -58,7 +59,6 @@ function SurveyQuestions() {
     console.log(survey)
     return (
         <>
-            <FetchAnswers />
             <div>
                 <h1 className='surveyquestion_title'> {surveytitle}</h1>
                 <table>
@@ -74,10 +74,9 @@ function SurveyQuestions() {
                                         <span>{item.open_question}</span>
                                         <span>{item.multi_question}</span>
                                     </td>
-                                    <td> {item.open_question !== null ?
+                                    <td> {(item.open_question !== null) ?
                                         <span>Open</span>
-                                        :
-                                        <span>Multiple Choice</span>
+                                        : <span>Multiple Choice</span>
                                     }
                                     </td>
                                 </tr>
@@ -85,6 +84,7 @@ function SurveyQuestions() {
                     </tbody>
                 </table>
             </div>
+            {showanswer && <FetchAnswers />}
         </>
     )
 }
