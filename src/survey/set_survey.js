@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Survey from "./survey";
 import { useParams } from "react-router-dom";
 import getCurrentDate from "../universal/get_date";
-import CreateSurvey from '../create_survey/create_survey'
 
 export default function SetUpSurvey({ page }) {
     const { id } = useParams();
@@ -49,6 +48,11 @@ export default function SetUpSurvey({ page }) {
     if (page === 'create') {
         sessionStorage.setItem("createSurvey", JSON.stringify(survey))
     }
+
+
+    console.log(new Date(survey.open_date))
+    console.log(new Date(getCurrentDate()))
+
     return (
         <>
             {page === 'survey' &&
@@ -57,6 +61,10 @@ export default function SetUpSurvey({ page }) {
                         <Survey surveyArray={survey} /> : <div>De enquête is gesloten</div>
                     }
                 </>
+
+            }
+            {page === 'create' &&
+                <Survey surveyArray={survey} />
             }
             {page === 'create' &&
                 <CreateSurvey />
