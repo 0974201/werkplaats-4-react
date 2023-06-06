@@ -31,7 +31,7 @@ function SurveyQuestions() {
     function ShowAnswers() {
         return (
             <>
-                <table>
+                <table className='fetchedanswers_table'>
                     <tbody>
                         <tr>
                             <th>Antwoorden</th>
@@ -63,7 +63,7 @@ function SurveyQuestions() {
         <>
             <div>
                 <h1 className='surveyquestion_title'> {surveytitle}</h1>
-                <table>
+                <table className='surveyquestion_table'>
                     <tbody>
                         <tr>
                             <th>Vraag</th>
@@ -86,9 +86,11 @@ function SurveyQuestions() {
                     </tbody>
                 </table>
             </div>
-            {showanswer &&
-                <ShowAnswers />
-            }
+            <div className='fetchanswers_box'>
+                {showanswer &&
+                    <ShowAnswers />
+                }
+            </div>
         </>
     )
 }

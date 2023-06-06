@@ -3,3 +3,48 @@
     justify-content: center;
     align-items: center;
 }
+
+/* De box rond de table van fetchedanswers. */
+.fetchanswers_box {
+    display: flex;
+    justify-content: center;
+    margin-left: 400px;
+    margin-top: 50px;
+}
+
+/* Alles voor de tables van de questions zelf in SurveyQuestions.jsx*/
+.surveyquestion_table th:nth-child(1),
+.surveyquestion_table td:nth-child(1) {
+    border: solid black;
+    border-width: 1px 1px 1px 1px;
+    padding: 0;
+}
+
+.surveyquestion_table th:nth-child(2),
+.surveyquestion_table td:nth-child(2) {
+    border: solid black;
+    border-width: 1px 1px 1px 1px;
+    padding: 10px 10px;
+}
+
+/* Alles voor de tables van fetched answers in SurveyQuestions.jsx */
+.fetchedanswers_table th:nth-child(1),
+.fetchedanswers_table td:nth-child(1) {
+    border: solid black;
+    border-width: 1px 1px 1px 1px;
+    padding: 0;
+}
+
+.fetchedanswers_table th:nth-child(2),
+.fetchedanswers_table td:nth-child(2) {
+    border: solid black;
+    border-width: 1px 1px 1px 1px;
+    padding: 10px 10px;
+}
+
+.fetchedanswers_table th:nth-child(3),
+.fetchedanswers_table td:nth-child(3) {
+    border: solid black;
+    border-width: 1px 1px 1px 1px;
+    padding: 0;
+}
