@@ -2,6 +2,7 @@ import Group from "../universal/GroupBy";
 import { useEffect, useState } from "react";
 import Survey from "./survey";
 import { useParams } from "react-router-dom";
+import getCurrentDate from "../universal/get_date";
 
 export default function SetUpSurvey() {
     const { id } = useParams();
@@ -47,10 +48,11 @@ export default function SetUpSurvey() {
 
     return (
         <>
-            <Survey surveyArray={survey} />
+            {new Date(survey.open_date) < new Date(getCurrentDate()) && new Date(survey.close_date) > new Date(getCurrentDate()) ?
+                <Survey surveyArray={survey} /> : <div>De enquête is gesloten</div>
+            }
+
+
         </>
-
-
-
     )
 }
