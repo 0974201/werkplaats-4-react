@@ -1,16 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useState } from "react";
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
-import { questionsTest } from "../index";
 import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
 
 // this function is very big because if you split it up into different files en functions some function get a bug that when you
 // type in an input field the field loses focus, and you stop typing
-export default function CreateSurvey({endpoint}) {
+export default function CreateSurvey(endpoint) {
     console.log(endpoint)
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
@@ -174,33 +173,130 @@ export default function CreateSurvey({endpoint}) {
     }
 
     function PopUp() {
-        const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions?open=true')
-            const data = await result.json()
-            console.log(data)
+        const [question, setQuestion] = useState([]);
+        const [search, setSearch] = useState('')
+        const [message, showMessage] = React.useState(false)
 
+        /* This should fetch the data asynchronously if you import GetDB */
+        useEffect(() => {
+            const fetchData = async () => {
+                const result = await fetch('http://localhost:81/api/questions?open=notdeleted');
+                const data = await result.json()
+                console.log(data)
+                setQuestion(data)
+            };
+            fetchData();
+        }, []);
+
+        /* Timer for message.. 5000 is 5 seconds */
+        useEffect(() => {
+            if (message) {
+                const timer = setTimeout(() => {
+                    showMessage('')
+                }, 5000)
+
+                return () => clearTimeout(timer)
+            }
+        }, [message])
+
+        /* Shows everything that is not deleted for questions */
+        function showQuestions() {
+            const fetchData = async () => {
+                const result = await fetch('http://localhost:81/api/questions?open=notdeleted')
+                const data = await result.json()
+                setQuestion(data)
+            };
+            fetchData();
         }
-        fetchData()
+
+        /* Shows  Open Questions for questions */
+        function showOpenQuestions() {
+            try {
+                const fetchData = async () => {
+                    const result = await fetch('http://localhost:81/api/questions?open=OpenQuestions')
+                    const data = await result.json()
+                    setQuestion(data)
+                };
+                fetchData();
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        /* Shows multiple choice for questions */
+        function showMultipleChoice() {
+            const fetchData = async () => {
+                const result = await fetch('http://localhost:81/api/questions?open=MultipleChoiceQuestions')
+                const data = await result.json()
+                setQuestion(data)
+            }
+            fetchData()
+        }
+
+        /* The sidebar that gets the queries. If clicked show the corresponding queries.*/
+        function questionBox() {
+            return (
+                <>
+                    <div className="questionlist_box1">
+                        <div className="questionlist_filter_box">
+                            <div className='questionlist_filter_item'>
+                                <div className='questionlist_filter_content' onClick={showQuestions}>
+                                    <span>Alle Vragen</span>
+                                </div>
+                            </div>
+                            <div className='questionlist_filter_item'>
+                                <div className='questionlist_filter_content' onClick={showOpenQuestions}>
+                                    <span>Open Vragen</span>
+                                </div>
+                            </div>
+                            <div className='questionlist_filter_item'>
+                                <div className='questionlist_filter_content' onClick={showMultipleChoice}>
+                                    <span>Multiple Choice</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )
+        }
 
         return (
             <div className={'pop_up_container'}>
                 <div className={'pop_up'}>
                     <div className={'pop_up_content'}>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Vraag</th>
-                                    <th>Type</th>
-                                </tr>
-                            </thead>
+                        {questionBox()}
+                        <div className='questionlist_filter_search'>
+                            <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
+                        </div>
+                        <table width='100%'>
                             <tbody>
-                                {questionsTest.map((question) => (
-                                    <tr key={question.id}>
-                                        <td>{question.question}</td>
-                                        <td>{question.type}</td>
-                                        <td><button onClick={() => addQuestion(question)}>Selecteer</button></td>
-                                    </tr>
-                                ))}
+                            <tr>
+                                <th>Vraag</th>
+                                <th>Type</th>
+                            </tr>
+                            {/* The ? behind open and multi question is a method called Optional Chaining.
+                            If the value is null Optional Chaining changes it to undefined, now we can search through the questionlist
+                            without mega null errors. */}
+                            {question.filter((item) => {
+                                return search.toLowerCase() === ''
+
+                                    ? item
+                                    : item.open_question?.toLowerCase().includes(search) || item.multi_question?.toLowerCase().includes(search)
+
+                            }).map(item => (
+                                <tr key={item.Question_ID}>
+                                    <td className='question__grey'>
+                                        <span>{item.open_question}</span>
+                                        <span>{item.multi_question}</span>
+                                    </td>
+                                    <td>{(item.Open_Question_ID != null) ? <span>Open</span> : <span>Multiple Choice</span>}</td>
+                                    <td className='questionlist_data'>
+                                    <span>
+                                        <td><button onClick={() => addQuestion(item)}>Selecteer</button></td>
+                                    </span>
+                                    </td>
+                                </tr>
+                            ))}
                             </tbody>
                         </table>
                     </div>
@@ -305,7 +401,10 @@ export default function CreateSurvey({endpoint}) {
                     ))}
                 </div>
                 <div className={'create'}>
-                    <button onClick={() => saveToDB(surveyArray, endpoint)}>Opslaan</button>
+                    <button onClick={() => {
+                        saveToDB(surveyArray, endpoint)
+                        sessionStorage.removeItem("createSurvey")
+                    }}>Opslaan</button>
                 </div>
             </div>
 

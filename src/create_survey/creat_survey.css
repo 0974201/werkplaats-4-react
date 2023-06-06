@@ -61,29 +61,6 @@
     width: fit-content;
 }
 
-.pop_up_container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.pop_up {
-    position: absolute;
-    display:flex;
-    top: 25%;
-    left: 25%;
-    height: 50%;
-    width: 50%;
-    background-color: lightsteelblue;
-}
-
-.pop_up_content {
-    width: 95%;
-}
-
 .close {
     height: fit-content;
     width: fit-content;
