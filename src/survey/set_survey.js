@@ -2,6 +2,7 @@ import Group from "../universal/GroupBy";
 import { useEffect, useState } from "react";
 import Survey from "./survey";
 import { useParams } from "react-router-dom";
+import getCurrentDate from "../universal/get_date";
 import CreateSurvey from '../create_survey/create_survey'
 
 export default function SetUpSurvey({ page }) {
@@ -43,7 +44,7 @@ export default function SetUpSurvey({ page }) {
     }, [])
 
     if (loading) {
-        return <div>help</div>
+        return <div>Loading...</div>
     }
     if (page === 'create') {
         sessionStorage.setItem("createSurvey", JSON.stringify(survey))
@@ -54,7 +55,11 @@ export default function SetUpSurvey({ page }) {
                 <Survey surveyArray={survey} />
             }
             {page === 'create' &&
-                <CreateSurvey endpoint={''} />
+                <>
+                    {new Date(survey.open_date) < new Date(getCurrentDate()) && new Date(survey.close_date) > new Date(getCurrentDate()) ?
+                        <Survey surveyArray={survey} /> : <div>De enquête is gesloten</div>
+                    }
+                </>
             }
         </>
     )

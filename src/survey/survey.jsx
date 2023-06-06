@@ -1,13 +1,18 @@
 import './survey.css'
 import React, { useState } from "react";
 import Progressbar from "../universal/progressbar";
+import {saveToDB} from "../universal/manipulateDB";
+import ShowMassage from "../universal/message/message";
+import {useNavigate} from "react-router-dom";
 import { saveToDB } from "../universal/manipulateDB";
 
 export default function Survey({ surveyArray }) {
     const urlStart = window.location.pathname.split('/')
+    const navigate = useNavigate()
     const [answeredArray, setAnsweredArray] = useState(onLoadSurvey)
     const [questionShown, setQuestionShow] = useState(onLoadQuestionShown())
-
+    const [showConfirmMessage, setShowConfirmMessage] = useState(false)
+    const [showWarningMessage, setShowWarningMessage] = useState(false)
 
     console.log(urlStart)
 
@@ -52,7 +57,7 @@ export default function Survey({ surveyArray }) {
                 return question
             }
         })
-        setAnsweredArray({ ...answeredArray, questions: inBetweenArray })
+        setAnsweredArray({...answeredArray, questions: inBetweenArray})
     }
 
     function checkAnswered() {
@@ -81,85 +86,94 @@ export default function Survey({ surveyArray }) {
         }
     }
 
-    const questionList = answeredArray && answeredArray.questions.map((question, questionIndex) => {
+    const questionList = answeredArray.questions.map((question, questionIndex) => {
         console.log(question)
         if (pageCheckMulti(question)) {
 
-            return (
-                <div>
-                    <h3>{question.multi_question}</h3>
-                    <ul>
-                        {question.options.map((option, optionIndex) =>
-                            <li key={optionIndex} onChange={e => replaceAnswer(questionIndex, e.target.value)}>
-                                <label>
-                                    <input
-                                        type={"radio"}
-                                        value={option}
-                                        name={"question" + questionIndex}
-                                        checked={question.answer === option}
+                return (
+                    <div>
+                        <h3>{question.multi_question}</h3>
+                        <ul>
+                            {question.options.map((option, optionIndex) =>
+                                <li key={optionIndex} onChange={e => replaceAnswer(questionIndex, e.target.value)}>
+                                    <label>
+                                        <input
+                                            type={"radio"}
+                                            value={option}
+                                            name={"question" + questionIndex}
+                                            checked={question.answer === option}
 
-                                    />
-                                    {option}
-                                </label>
-                            </li>
-                        )}
-                    </ul>
-                </div>
-            )
-        } else if (pageCheckOpen(question)) {
-            return (
-                <div>
-                    <h3>{question.open_question}</h3>
-                    <textarea
-                        maxLength={250}
-                        value={answeredArray.questions[questionIndex].answer}
-                        onChange={e => replaceAnswer(questionIndex, e.target.value)}
-                    />
-                </div>
-            )
-        } else {
-            console.log("Wrong type")
-            return (
-                <div><h3>Wrong type</h3></div>
-            )
+                                        />
+                                        {option}
+                                    </label>
+                                </li>
+                            )}
+                        </ul>
+                    </div>
+                )
+            } else if(pageCheckOpen(question)) {
+                return (
+                    <div>
+                        <h3>{question.open_question}</h3>
+                        <textarea
+                            maxLength={250}
+                            value={answeredArray.questions[questionIndex].answer}
+                            onChange={e => replaceAnswer(questionIndex, e.target.value)}
+                        />
+                    </div>
+                )
+            } else {
+                console.log("Wrong type")
+                return (
+                    <div><h3>Wrong type</h3></div>
+                )
+            }
         }
-    }
     )
 
     return (
-        <div className={"survey"}>
-            {urlStart[1] === 'survey' &&
-                <>
-                    <Progressbar checkedAnswerd={checkAnswered()} amountQuestion={questionList.length} />
-                    <span>vragen beantwoord: {checkAnswered()}/{questionList.length}</span>
-                </>
+            <div className={"survey"}>
+                { showConfirmMessage &&
+                    <ShowMassage message={'Enquête opgeslagen'} type={'confirm'} onClick={() => setShowConfirmMessage(false)} />
+                }
+                { showWarningMessage &&
+                    <ShowMassage message={'Niet alles in de enquête is ingevuld'} type={'warning'} onClick={() => setShowWarningMessage(false)} />
+                }
+                {urlStart[1] === 'survey' &&
+                    <>
+                        <Progressbar checkedAnswerd={checkAnswered()} amountQuestion={questionList.length} />
+                        <span>vragen beantwoord: {checkAnswered()}/{questionList.length}</span>
+                    </>
 
-            }
-            <h1>{answeredArray.title}</h1>
-            {questionShown <= 0 &&
-                <p>{answeredArray.description}</p>
-            }
-            {questionShown > 0 &&
-                <>
-                    <h3>Vraag {questionShown}/{questionList.length}</h3>
-                    {questionList[questionShown - 1]}
-                </>
-            }
-
-            <div className={'navigation'}>
+                }
+                <h1>{answeredArray.title}</h1>
+                {questionShown <= 0 &&
+                    <p>{answeredArray.description}</p>
+                }
                 {questionShown > 0 &&
-                    <button className={'prev'} onClick={() => setQuestionShow(questionShown - 1)}>Vorige</button>
+                    <>
+                        <h3>Vraag {questionShown}/{questionList.length}</h3>
+                        {questionList[questionShown-1]}
+                    </>
                 }
-                {questionShown < answeredArray.questions.length &&
-                    <button className={'next'} onClick={() => setQuestionShow(questionShown + 1)}>Volgende</button>
-                }
-                {checkAnswered() === questionList.length && urlStart[1] === 'survey' &&
-                    <button className={'submit'} onClick={() => {
-                        saveToDB(answeredArray, 'saveAnswers')
-                        sessionStorage.removeItem("survey")
-                    }}>Lever in</button>
-                }
+
+                <div className={'navigation'}>
+                    {questionShown > 0 &&
+                        <button className={'prev'} onClick={() => setQuestionShow(questionShown-1)}>Vorige</button>
+                    }
+                    {questionShown < answeredArray.questions.length &&
+                        <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende</button>
+                    }
+                    {checkAnswered() === questionList.length && urlStart[1] === 'survey' &&
+                        <button className={'submit'} onClick={() => {
+                            saveToDB(answeredArray, 'saveAnswers')
+                            setShowConfirmMessage(true)
+                            sessionStorage.removeItem("survey")
+                            navigate('/')
+                        }}>Lever in</button>
+                    }
+                </div>
             </div>
-        </div>
+
     )
 }
