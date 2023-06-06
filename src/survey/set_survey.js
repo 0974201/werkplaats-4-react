@@ -52,15 +52,15 @@ export default function SetUpSurvey({ page }) {
     return (
         <>
             {page === 'survey' &&
-                <Survey surveyArray={survey} />
-            }
-            {page === 'create' &&
                 <>
                     {new Date(survey.open_date) < new Date(getCurrentDate()) && new Date(survey.close_date) > new Date(getCurrentDate()) ?
                         <Survey surveyArray={survey} /> : <div>De enquête is gesloten</div>
                     }
                 </>
             }
+            {page === 'create' &&
+                <CreateSurvey />
+            }
         </>
     )
-}
+}  
