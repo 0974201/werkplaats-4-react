@@ -6,18 +6,18 @@
 
 /* De box rond de table van fetchedanswers. */
 .fetchanswers_box {
-    display: flex;
-    justify-content: center;
-    margin-left: 400px;
-    margin-top: 50px;
+    width: 500px;
+    margin-left: 500px;
 }
+
+
 
 /* Alles voor de tables van de questions zelf in SurveyQuestions.jsx*/
 .surveyquestion_table th:nth-child(1),
 .surveyquestion_table td:nth-child(1) {
     border: solid black;
     border-width: 1px 1px 1px 1px;
-    padding: 0;
+    text-align: center;
 }
 
 .surveyquestion_table th:nth-child(2),
@@ -32,7 +32,8 @@
 .fetchedanswers_table td:nth-child(1) {
     border: solid black;
     border-width: 1px 1px 1px 1px;
-    padding: 0;
+    padding: 0px;
+    text-align: center;
 }
 
 .fetchedanswers_table th:nth-child(2),
@@ -47,4 +48,18 @@
     border: solid black;
     border-width: 1px 1px 1px 1px;
     padding: 0;
+}
+
+.boxx1 {
+    width: 300px;
+}
+
+.boxx3 {
+    margin-top: 50px;
+    width: 10px;
+}
+
+.boxx2 {
+    margin-top: 50px;
+    width: available;
 }

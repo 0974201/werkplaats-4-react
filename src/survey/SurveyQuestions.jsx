@@ -36,7 +36,7 @@ function SurveyQuestions() {
                         <tr>
                             <th>Antwoorden</th>
                             <th>Tijd</th>
-                            <th>User ID</th>
+                            <th>UID</th>
                         </tr>
                         {answer && answer.map((item, index) =>
                             <tr key={index}>
@@ -57,12 +57,11 @@ function SurveyQuestions() {
     }
 
     /* grabs the title outside the map */
-    let surveytitle = survey?.map(item => item.title)
     console.log(survey)
     return (
         <>
-            <div>
-                <h1 className='surveyquestion_title'> {surveytitle}</h1>
+            <div className='boxx1'></div>
+            <div className='boxx2'>
                 <table className='surveyquestion_table'>
                     <tbody>
                         <tr>
@@ -85,11 +84,13 @@ function SurveyQuestions() {
                             ))}
                     </tbody>
                 </table>
+                <div className='fetchanswers_box'>
+                    {showanswer &&
+                        <ShowAnswers />
+                    }
+                </div>
             </div>
-            <div className='fetchanswers_box'>
-                {showanswer &&
-                    <ShowAnswers />
-                }
+            <div className='boxx3'>
             </div>
         </>
     )

@@ -48,7 +48,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
     await runQuery('BEGIN')
     // inserting a survey and getting the inserted id back
     const surveyId = await insertAndGetLastId("INSERT INTO survey (title, description, open_date, close_date, can_be_anonymous) VALUES (?, ?, ?, ?, ?)",
-      [req.body.title, req.body.description, req.body.openDate, req.body.closeDate, req.body.anonymity])
+      [req.body.title, req.body.description, req.body.open_date, req.body.close_date, req.body.anonymity])
     // commit the started SQL transaction
     await runQuery('COMMIT');
     try {
@@ -421,11 +421,12 @@ app.get("/api/surveys/:id", function (req, res) {
 
   const SurveyId = parseInt(req.params.id);
   console.log('dit is survey id ' + SurveyId)
-  let sql = `SELECT filled_in.* , multiple_choice.multi_question, multiple_choice.Multiple_Choice_ID, open_question.open_question
+  let sql = `SELECT filled_in.* , multiple_choice.multi_question, multiple_choice.Multiple_Choice_ID, open_question.open_question, survey.title, survey.description
   FROM filled_in
   LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID 
   LEFT JOIN multiple_choice ON questions.Multiple_Choice_ID = multiple_choice.Multiple_Choice_ID 
   LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID 
+  LEFT JOIN survey ON filled_in.Survey_ID = survey.Survey_ID
   WHERE filled_in.Survey_ID = ? AND filled_in.answer is null`;
 
   console.log(sql)
