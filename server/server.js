@@ -461,7 +461,7 @@ app.get('/api/filled_surveys/:questionId', function (req, res) {
   console.log('dit is ' + questionId)
 
   let sql = `SELECT * from filled_in
-  WHERE filled_in.answer is not null AND Question_ID = ?`;
+  WHERE answer is not null AND Question_ID = ?`;
 
   db.all(sql, [questionId], (err, row) => {
     if (err) {

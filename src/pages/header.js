@@ -13,7 +13,6 @@ function Header() {
                         <img className="SVG" alt={"Logo"} width="208" height="50" src="https://www.dyflexis.com/wp-content/uploads/2019/04/logo-dyflexis-2.svg"></img>
                     </Link>
                     <div className='header_links'>
-                        <Link to='./survey' className='link'>Enquête</Link>
                         <Link to='./surveylist' className='link'>Enquêtelijst</Link>
                         <Link to='./questionlist' className='link'>Vragenlijst</Link>
                     </div>
