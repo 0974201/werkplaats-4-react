@@ -51,8 +51,6 @@ export default function SetUpSurvey() {
             {new Date(survey.open_date) < new Date(getCurrentDate()) && new Date(survey.close_date) > new Date(getCurrentDate()) ?
                 <Survey surveyArray={survey} /> : <div>De enquête is gesloten</div>
             }
-
-
         </>
     )
 }
