@@ -4,7 +4,6 @@ import Progressbar from "../universal/progressbar";
 import {saveToDB} from "../universal/manipulateDB";
 import ShowMassage from "../universal/message/message";
 import {useNavigate} from "react-router-dom";
-import { saveToDB } from "../universal/manipulateDB";
 
 export default function Survey({ surveyArray }) {
     const urlStart = window.location.pathname.split('/')
@@ -15,9 +14,18 @@ export default function Survey({ surveyArray }) {
     const [showWarningMessage, setShowWarningMessage] = useState(false)
 
     console.log(urlStart)
-
-
+    console.log(surveyArray)
     console.log(answeredArray)
+
+    if (answeredArray.Survey_ID !== surveyArray.Survey_ID) {
+        console.log("h")
+        sessionStorage.setItem("survey", surveyArray)
+        setAnsweredArray(surveyArray)
+        setQuestionShow(0)
+    }
+    sessionStorage.removeItem("surveyNum")
+    sessionStorage.setItem("surveyNum", urlStart[2])
+
 
     if (urlStart[1] === 'survey') {
         sessionStorage.setItem("survey", JSON.stringify(answeredArray))
@@ -102,7 +110,6 @@ export default function Survey({ surveyArray }) {
                                             value={option}
                                             name={"question" + questionIndex}
                                             checked={question.answer === option}
-
                                         />
                                         {option}
                                     </label>

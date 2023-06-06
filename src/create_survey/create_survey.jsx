@@ -12,7 +12,6 @@ let nextOrder = 0
 
 // this function is very big because if you split it up into different files en functions some function get a bug that when you
 // type in an input field the field loses focus, and you stop typing
-export default function CreateSurvey(endpoint) {
 export default function CreateSurvey({ endpoint }) {
     console.log(endpoint)
     const [questionArray, setQuestionArray] = useState(onLoadArray())
@@ -27,8 +26,8 @@ export default function CreateSurvey({ endpoint }) {
     function onLoadSurvey() {
         if (JSON.parse(sessionStorage.getItem("createSurvey")) === null) {
             const arrayToSurvey = {
-                title: "Titel",
-                description: "Beschrijving",
+                title: "",
+                description: "",
                 open_date: "",
                 close_date: "",
                 questions: questionArray,
@@ -43,7 +42,7 @@ export default function CreateSurvey({ endpoint }) {
 
     function onLoadArray() {
         if (JSON.parse(sessionStorage.getItem("createSurvey")) === null) {
-            const arrayToSurvey = [{ type: "Open", id: nextOrder++, question: 'maak open vraag', options: null, order: null }]
+            const arrayToSurvey = [{ type: "Open", id: nextOrder++, question: '', options: null, order: null }]
             return (arrayToSurvey)
         } else {
             const arrayToSurvey = JSON.parse(sessionStorage.getItem("createSurvey"))
@@ -135,7 +134,7 @@ export default function CreateSurvey({ endpoint }) {
     function addOption(questionIndex) {
         const inBetweenArray = questionArray.map((question, i) => {
             if (i === questionIndex) {
-                question.options = [...question.options, 'maak optie']
+                question.options = [...question.options, '']
                 return question
             } else {
                 return question
@@ -160,8 +159,8 @@ export default function CreateSurvey({ endpoint }) {
         return (
             <div className={'create'}>
                 <h2>Selecteer vraag type</h2>
-                <button onClick={() => addQuestion({ type: "Open", id: nextOrder++, question: 'maak open vraag', options: null, order: null })}>Maak open vraag</button>
-                <button onClick={() => addQuestion({ type: "MultipleChoice", id: nextOrder++, question: 'maak multiple choice vraag', options: ['1', '2'], order: null })}>Maak multiple choice vraag</button>
+                <button onClick={() => addQuestion({ type: "Open", id: nextOrder++, question: '', options: null, order: null })}>Maak open vraag</button>
+                <button onClick={() => addQuestion({ type: "MultipleChoice", id: nextOrder++, question: '', options: ['', ''], order: null })}>Maak multiple choice vraag</button>
                 <button onClick={() => setButtonState(true)}>Kies bestaande vraag</button>
             </div>
         )
@@ -415,7 +414,7 @@ export default function CreateSurvey({ endpoint }) {
                 <div className={'create'}>
                     <button onClick={() => {
                         if (
-                            surveyArray.openDate === '' ||
+                            surveyArray.open_date === '' ||
                             surveyArray.title === '' ||
                             surveyArray.description === '' ||
                             surveyArray.questions === ''
