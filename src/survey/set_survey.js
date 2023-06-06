@@ -42,14 +42,12 @@ export default function SetUpSurvey(page) {
     },[])
 
     if (loading) {
-        return <div>help</div>
+        return <div>Loading...</div>
     }
 
     return (
         <>
-            {page === 'surver' &&
                 <Survey surveyArray={survey} />
-            }
         </>
 
 
