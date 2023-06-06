@@ -48,7 +48,7 @@ app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
     await runQuery('BEGIN')
     // inserting a survey and getting the inserted id back
     const surveyId = await insertAndGetLastId("INSERT INTO survey (title, description, open_date, close_date, can_be_anonymous) VALUES (?, ?, ?, ?, ?)",
-      [req.body.title, req.body.description, req.body.openDate, req.body.closeDate, req.body.anonymity])
+      [req.body.title, req.body.description, req.body.open_date, req.body.close_date, req.body.anonymity])
     // commit the started SQL transaction
     await runQuery('COMMIT');
     try {
