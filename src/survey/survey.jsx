@@ -2,12 +2,16 @@ import './survey.css'
 import React, {useState} from "react";
 import Progressbar from "../universal/progressbar";
 import {saveToDB} from "../universal/manipulateDB";
+import ShowMassage from "../universal/message/message";
+import {useNavigate} from "react-router-dom";
 
 export default function Survey({surveyArray}) {
     const urlStart = window.location.pathname.split('/')
+    const navigate = useNavigate()
     const [answeredArray, setAnsweredArray] = useState(onLoadSurvey)
     const [questionShown, setQuestionShow] = useState(onLoadQuestionShown())
-
+    const [showConfirmMessage, setShowConfirmMessage] = useState(false)
+    const [showWarningMessage, setShowWarningMessage] = useState(false)
 
     console.log(urlStart)
 
@@ -128,6 +132,12 @@ export default function Survey({surveyArray}) {
 
     return (
             <div className={"survey"}>
+                { showConfirmMessage &&
+                    <ShowMassage message={'Enquête opgeslagen'} type={'confirm'} onClick={() => setShowConfirmMessage(false)} />
+                }
+                { showWarningMessage &&
+                    <ShowMassage message={'Niet alles in de enquête is ingevuld'} type={'warning'} onClick={() => setShowWarningMessage(false)} />
+                }
                 {urlStart[1] === 'survey' &&
                     <>
                         <Progressbar checkedAnswerd={checkAnswered()} amountQuestion={questionList.length} />
@@ -156,10 +166,13 @@ export default function Survey({surveyArray}) {
                     {checkAnswered() === questionList.length && urlStart[1] === 'survey' &&
                         <button className={'submit'} onClick={() => {
                             saveToDB(answeredArray, 'saveAnswers')
+                            setShowConfirmMessage(true)
                             sessionStorage.removeItem("survey")
+                            navigate('/')
                         }}>Lever in</button>
                     }
                 </div>
             </div>
+
     )
 }

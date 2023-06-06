@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Survey from "./survey";
 import { useParams } from "react-router-dom";
 
-export default function SetUpSurvey(page) {
+export default function SetUpSurvey() {
     const { id } = useParams();
     const [survey, setSurvey] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -47,7 +47,7 @@ export default function SetUpSurvey(page) {
 
     return (
         <>
-                <Survey surveyArray={survey} />
+            <Survey surveyArray={survey} />
         </>
 
 

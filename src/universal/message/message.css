@@ -1,0 +1,29 @@
+.messageBox {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: opacity 0.5s ease-out;
+}
+
+.messageBox.fade-out {
+    opacity: 0;
+}
+
+#confirm {
+    background-color: #2fe32f;
+    border: #178317 2px solid;
+}
+
+#warning {
+    background-color: red;
+    border: darkred 2px solid;
+}
+
+#normal {
+    background-color: #008fde;
+    border: #001e48 2px solid;
+}

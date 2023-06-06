@@ -4,7 +4,9 @@ import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
 import './pop_up.css'
+import '../universal/message/message.css'
 import { saveToDB } from "../universal/manipulateDB";
+import ShowMassage from "../universal/message/message";
 
 let nextOrder = 0
 
@@ -14,6 +16,8 @@ export default function CreateSurvey(endpoint) {
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
+    const [showConfirmMessage, setShowConfirmMessage] = useState(false)
+    const [showWarningMessage, setShowWarningMessage] = useState(false)
     console.log(surveyArray)
 
     sessionStorage.setItem("createSurvey", JSON.stringify(surveyArray))
@@ -408,8 +412,19 @@ export default function CreateSurvey(endpoint) {
                 </div>
                 <div className={'create'}>
                     <button onClick={() => {
-                        saveToDB(surveyArray, endpoint)
-                        sessionStorage.removeItem("createSurvey")
+                        if (
+                            surveyArray.openDate === '' ||
+                            surveyArray.title === '' ||
+                            surveyArray.description === '' ||
+                            surveyArray.questions === ''
+                        ) {
+                            setShowWarningMessage(true)
+                        } else {
+                            saveToDB(surveyArray, endpoint)
+                            setShowConfirmMessage(true)
+                            sessionStorage.removeItem("createSurvey")
+                        }
+
                     }}>Opslaan</button>
                 </div>
             </div>
@@ -419,6 +434,12 @@ export default function CreateSurvey(endpoint) {
             </div>
             {buttonState &&
                 <PopUp />
+            }
+            { showConfirmMessage &&
+                <ShowMassage message={'Enquête opgeslagen'} type={'confirm'} onClick={() => setShowConfirmMessage(false)} />
+            }
+            { showWarningMessage &&
+                <ShowMassage message={'Niet alles in de enquête is ingevuld'} type={'warning'} onClick={() => setShowWarningMessage(false)} />
             }
         </div>
     )
