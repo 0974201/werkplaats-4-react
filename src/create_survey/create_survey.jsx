@@ -3,6 +3,7 @@ import { useState } from "react";
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
+import './pop_up.css'
 import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
@@ -10,7 +11,6 @@ let nextOrder = 0
 // this function is very big because if you split it up into different files en functions some function get a bug that when you
 // type in an input field the field loses focus, and you stop typing
 export default function CreateSurvey(endpoint) {
-    console.log(endpoint)
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
@@ -182,7 +182,6 @@ export default function CreateSurvey(endpoint) {
             const fetchData = async () => {
                 const result = await fetch('http://localhost:81/api/questions?open=notdeleted');
                 const data = await result.json()
-                console.log(data)
                 setQuestion(data)
             };
             fetchData();
@@ -236,72 +235,79 @@ export default function CreateSurvey(endpoint) {
         /* The sidebar that gets the queries. If clicked show the corresponding queries.*/
         function questionBox() {
             return (
-                <>
-                    <div className="questionlist_box1">
-                        <div className="questionlist_filter_box">
-                            <div className='questionlist_filter_item'>
-                                <div className='questionlist_filter_content' onClick={showQuestions}>
-                                    <span>Alle Vragen</span>
-                                </div>
-                            </div>
-                            <div className='questionlist_filter_item'>
-                                <div className='questionlist_filter_content' onClick={showOpenQuestions}>
-                                    <span>Open Vragen</span>
-                                </div>
-                            </div>
-                            <div className='questionlist_filter_item'>
-                                <div className='questionlist_filter_content' onClick={showMultipleChoice}>
-                                    <span>Multiple Choice</span>
-                                </div>
-                            </div>
-                        </div>
+                <div className={'filter'}>
+                    <span>Filters</span>
+                    <div onClick={showQuestions}>
+                        <span>Alle Vragen</span>
                     </div>
-                </>
+                    <div onClick={showOpenQuestions}>
+                        <span>Open Vragen</span>
+                    </div>
+                    <div onClick={showMultipleChoice}>
+                        <span>Multiple Choice</span>
+                    </div>
+                </div>
             )
+        }
+
+        function convertQuestion(item) {
+            if (item.multi_question !== null) {
+                return {
+                    type: 'MultipleChoice',
+                    question: item.multi_question,
+                    options: ['1', '2'],
+                }
+            } else {
+                return {
+                    type: 'Open',
+                    question: item.open_question,
+                    options: null,
+                }
+            }
         }
 
         return (
             <div className={'pop_up_container'}>
                 <div className={'pop_up'}>
                     <div className={'pop_up_content'}>
-                        {questionBox()}
-                        <div className='questionlist_filter_search'>
-                            <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
+                        <div>
+                            <div className={'search'}>
+                                <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
+                                <button className={'close'} onClick={() => setButtonState(false)}>X</button>
+                            </div>
+                            <div className={'qBox'}>
+                                {questionBox()}
+                                <table width='100%'>
+                                    <tbody>
+                                    <tr>
+                                        <th>Vraag</th>
+                                        <th>Type</th>
+                                    </tr>
+                                    {question.filter((item) => {
+                                        return search.toLowerCase() === ''
+                                            ? item
+                                            : item.open_question?.toLowerCase().includes(search) || item.multi_question?.toLowerCase().includes(search)
+                                    }).map(item => (
+                                        <tr key={item.Question_ID}>
+                                            <td>
+                                                <span>{item.open_question}</span>
+                                                <span>{item.multi_question}</span>
+                                            </td>
+                                            <td>{(item.Open_Question_ID != null) ? <span>Open</span> : <span>Multiple Choice</span>}</td>
+                                            <td>
+                                                <span>
+                                                    <button onClick={() => {
+
+                                                        addQuestion(convertQuestion(item))
+                                                    }}>Selecteer</button>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <table width='100%'>
-                            <tbody>
-                            <tr>
-                                <th>Vraag</th>
-                                <th>Type</th>
-                            </tr>
-                            {/* The ? behind open and multi question is a method called Optional Chaining.
-                            If the value is null Optional Chaining changes it to undefined, now we can search through the questionlist
-                            without mega null errors. */}
-                            {question.filter((item) => {
-                                return search.toLowerCase() === ''
-
-                                    ? item
-                                    : item.open_question?.toLowerCase().includes(search) || item.multi_question?.toLowerCase().includes(search)
-
-                            }).map(item => (
-                                <tr key={item.Question_ID}>
-                                    <td className='question__grey'>
-                                        <span>{item.open_question}</span>
-                                        <span>{item.multi_question}</span>
-                                    </td>
-                                    <td>{(item.Open_Question_ID != null) ? <span>Open</span> : <span>Multiple Choice</span>}</td>
-                                    <td className='questionlist_data'>
-                                    <span>
-                                        <td><button onClick={() => addQuestion(item)}>Selecteer</button></td>
-                                    </span>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className={'close'}>
-                        <button onClick={() => setButtonState(false)}>X</button>
                     </div>
                 </div>
             </div>
