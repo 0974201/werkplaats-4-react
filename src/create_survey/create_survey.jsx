@@ -1,17 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useState } from "react";
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
-import { questionsTest } from "../index";
+import './pop_up.css'
 import { saveToDB } from "../universal/manipulateDB";
 
 let nextOrder = 0
 
 // this function is very big because if you split it up into different files en functions some function get a bug that when you
 // type in an input field the field loses focus, and you stop typing
-export default function CreateSurvey({endpoint}) {
-    console.log(endpoint)
+export default function CreateSurvey(endpoint) {
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
@@ -174,38 +173,141 @@ export default function CreateSurvey({endpoint}) {
     }
 
     function PopUp() {
-        const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/questions?open=true')
-            const data = await result.json()
-            console.log(data)
+        const [question, setQuestion] = useState([]);
+        const [search, setSearch] = useState('')
+        const [message, showMessage] = React.useState(false)
 
+        /* This should fetch the data asynchronously if you import GetDB */
+        useEffect(() => {
+            const fetchData = async () => {
+                const result = await fetch('http://localhost:81/api/questions?open=notdeleted');
+                const data = await result.json()
+                setQuestion(data)
+            };
+            fetchData();
+        }, []);
+
+        /* Timer for message.. 5000 is 5 seconds */
+        useEffect(() => {
+            if (message) {
+                const timer = setTimeout(() => {
+                    showMessage('')
+                }, 5000)
+
+                return () => clearTimeout(timer)
+            }
+        }, [message])
+
+        /* Shows everything that is not deleted for questions */
+        function showQuestions() {
+            const fetchData = async () => {
+                const result = await fetch('http://localhost:81/api/questions?open=notdeleted')
+                const data = await result.json()
+                setQuestion(data)
+            };
+            fetchData();
         }
-        fetchData()
+
+        /* Shows  Open Questions for questions */
+        function showOpenQuestions() {
+            try {
+                const fetchData = async () => {
+                    const result = await fetch('http://localhost:81/api/questions?open=OpenQuestions')
+                    const data = await result.json()
+                    setQuestion(data)
+                };
+                fetchData();
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        /* Shows multiple choice for questions */
+        function showMultipleChoice() {
+            const fetchData = async () => {
+                const result = await fetch('http://localhost:81/api/questions?open=MultipleChoiceQuestions')
+                const data = await result.json()
+                setQuestion(data)
+            }
+            fetchData()
+        }
+
+        /* The sidebar that gets the queries. If clicked show the corresponding queries.*/
+        function questionBox() {
+            return (
+                <div className={'filter'}>
+                    <span>Filters</span>
+                    <div onClick={showQuestions}>
+                        <span>Alle Vragen</span>
+                    </div>
+                    <div onClick={showOpenQuestions}>
+                        <span>Open Vragen</span>
+                    </div>
+                    <div onClick={showMultipleChoice}>
+                        <span>Multiple Choice</span>
+                    </div>
+                </div>
+            )
+        }
+
+        function convertQuestion(item) {
+            if (item.multi_question !== null) {
+                return {
+                    type: 'MultipleChoice',
+                    question: item.multi_question,
+                    options: ['1', '2'],
+                }
+            } else {
+                return {
+                    type: 'Open',
+                    question: item.open_question,
+                    options: null,
+                }
+            }
+        }
 
         return (
             <div className={'pop_up_container'}>
                 <div className={'pop_up'}>
                     <div className={'pop_up_content'}>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Vraag</th>
-                                    <th>Type</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {questionsTest.map((question) => (
-                                    <tr key={question.id}>
-                                        <td>{question.question}</td>
-                                        <td>{question.type}</td>
-                                        <td><button onClick={() => addQuestion(question)}>Selecteer</button></td>
+                        <div>
+                            <div className={'search'}>
+                                <input type='text' placeholder='Zoek Vraag..' onChange={(e) => setSearch(e.target.value)}></input>
+                                <button className={'close'} onClick={() => setButtonState(false)}>X</button>
+                            </div>
+                            <div className={'qBox'}>
+                                {questionBox()}
+                                <table width='100%'>
+                                    <tbody>
+                                    <tr>
+                                        <th>Vraag</th>
+                                        <th>Type</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className={'close'}>
-                        <button onClick={() => setButtonState(false)}>X</button>
+                                    {question.filter((item) => {
+                                        return search.toLowerCase() === ''
+                                            ? item
+                                            : item.open_question?.toLowerCase().includes(search) || item.multi_question?.toLowerCase().includes(search)
+                                    }).map(item => (
+                                        <tr key={item.Question_ID}>
+                                            <td>
+                                                <span>{item.open_question}</span>
+                                                <span>{item.multi_question}</span>
+                                            </td>
+                                            <td>{(item.Open_Question_ID != null) ? <span>Open</span> : <span>Multiple Choice</span>}</td>
+                                            <td>
+                                                <span>
+                                                    <button onClick={() => {
+
+                                                        addQuestion(convertQuestion(item))
+                                                    }}>Selecteer</button>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -305,7 +407,10 @@ export default function CreateSurvey({endpoint}) {
                     ))}
                 </div>
                 <div className={'create'}>
-                    <button onClick={() => saveToDB(surveyArray, endpoint)}>Opslaan</button>
+                    <button onClick={() => {
+                        saveToDB(surveyArray, endpoint)
+                        sessionStorage.removeItem("createSurvey")
+                    }}>Opslaan</button>
                 </div>
             </div>
 
