@@ -164,7 +164,7 @@ export function SurveyList() {
                                     <td>
                                         {item.is_reviewed == "0" ? (
                                             // {/* Change this Link to to aanpassen route .*/}
-                                            <Link to='/create'>
+                                            <Link to={`/changesurvey/${item.Survey_ID}`}>
                                                 <button className="edit_button">Aanpassen</button>
                                             </Link>
                                         ) :

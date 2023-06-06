@@ -7,17 +7,28 @@ function SurveyQuestions() {
     const { id } = useParams();
     const [showanswer, setShowAnswer] = useState(false)
     const [answer, setAnswer] = useState('')
+    const [data, setData] = useState(null);
 
-    function FetchAnswers(questionId) {
 
+    /* fetches the data from api surveys:ID*/
+    useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch(`http://localhost:81/api/filled_surveys/` + questionId);
+            const result = await fetch(`http://localhost:81/api/surveys/${id}`);
             const data = await result.json();
-            setAnswer(data)
-            console.log(data)
-        }
+            setSurvey(data)
+        };
         fetchData();
+    }, []);
+
+    async function fetchAnswers(questionId) {
+        const result = await fetch(`http://localhost:81/api/filled_surveys/${questionId}`);
+        const data = await result.json();
+        setAnswer(data)
+        console.log(data)
         setShowAnswer(true)
+    }
+
+    function ShowAnswers() {
         return (
             <>
                 <table>
@@ -27,7 +38,7 @@ function SurveyQuestions() {
                             <th>Tijd</th>
                             <th>User ID</th>
                         </tr>
-                        {answer && answer?.map((item, index) =>
+                        {answer && answer.map((item, index) =>
                             <tr key={index}>
                                 <td>
                                     <span>{item.answer}</span>
@@ -43,17 +54,8 @@ function SurveyQuestions() {
                     </tbody>
                 </table>
             </>)
-    };
+    }
 
-    /* fetches the data from api surveys:ID*/
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await fetch(`http://localhost:81/api/surveys/${id}`);
-            const data = await result.json();
-            setSurvey(data)
-        };
-        fetchData();
-    }, []);
     /* grabs the title outside the map */
     let surveytitle = survey?.map(item => item.title)
     console.log(survey)
@@ -70,7 +72,7 @@ function SurveyQuestions() {
                         {
                             survey && survey?.map(item => (
                                 <tr key={item.Survey_ID}> {console.log(item.Question_ID)}
-                                    <td className='question__grey' onClick={() => FetchAnswers(item.Question_ID)}>
+                                    <td className='question__grey' onClick={() => fetchAnswers(item.Question_ID)}>
                                         <span>{item.open_question}</span>
                                         <span>{item.multi_question}</span>
                                     </td>
@@ -84,7 +86,9 @@ function SurveyQuestions() {
                     </tbody>
                 </table>
             </div>
-            {showanswer && <FetchAnswers />}
+            {showanswer &&
+                <ShowAnswers />
+            }
         </>
     )
 }

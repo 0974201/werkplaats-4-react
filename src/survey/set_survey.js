@@ -66,6 +66,9 @@ export default function SetUpSurvey({ page }) {
             {page === 'create' &&
                 <Survey surveyArray={survey} />
             }
+            {page === 'create' &&
+                <CreateSurvey />
+            }
         </>
     )
-}
+}  
