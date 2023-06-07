@@ -1,9 +1,11 @@
 const express = require('express'); // server shit
 const cors = require('cors');
 const bodyParser = require('body-parser')
-const db = require('./db.js') // connectie met db
+const db = require('./db.js'); // connectie met db
+const { redirect } = require('react-router-dom');
 
 const app = express();
+let returned_user;
 
 app.use(cors()); // allow cross orgin req
 app.use(bodyParser.json()) // for parsing application/json
@@ -235,12 +237,12 @@ app.get("/handle_login", function(req, res){
   res.send('post');
 });
 
-user = [{// temp user, moet nog users aanmaken kek
+/*user = [{// temp user, moet nog users aanmaken kek
   email:"eeee@gmail.com",
   password:"eeeeeee"
 }];
 
-app.post("/handle_login", bodyParser.json(), function(req, res, next){
+app.post("/handlelogin", bodyParser.json(), function(req, res, next){
   console.log(req.body.email, req.body.password); // kijken of hij login gegevens door stuurt
   const { email, password } = req.body;
 
@@ -251,11 +253,42 @@ app.post("/handle_login", bodyParser.json(), function(req, res, next){
   res.redirect('/post_login') : res.sendStatus(451); // check of inlog overeenkomt anders gooit ie status error
 
   //res.send('post');
+});*/
+
+app.post("/handle_login", bodyParser.json(), function(req, res, next){
+  console.log(req.body.email, req.body.password); // kijken of hij login gegevens door stuurt
+  const { email, password } = req.body;
+
+  db.get('SELECT * FROM login WHERE email = ? AND password = ?', [email, password], (err, row) => {
+    if (err){
+       console.log(err.message);
+    } else if(row === undefined) {//als combi niet klopt geeft hij undefined terug
+      res.status(451).json({
+        message: "451 Unavailable For Legal Reasons"
+      }); 
+      console.log(row); //kijken of ie ook undefined teruggeeft
+    } else {
+      console.log(row); //geeft hij een row terug?
+      console.log(typeof row); //object
+      console.log(Object.entries(row)[1]); //k:v van obj
+      returned_user = Object.values(row)[1]; //maar ik wil alleen de value van de ingelogde user
+      console.log(returned_user); //hoe krijgen we dit in react terug
+      
+      req.body.user = returned_user;
+      console.log(req.body);
+
+      res.redirect("/post_login");
+    }
+    console.log(returned_user);
+  });
 });
 
 app.get("/post_login", function(req, res){
   console.log("ingelogd") //als t goed gaat zou ik dit moeten zien in console
-  res.send("hoi");
+  res.status(200).json({
+    user: returned_user
+  });
+  console.log(returned_user);
 });
 
 app.listen(81); // start server
