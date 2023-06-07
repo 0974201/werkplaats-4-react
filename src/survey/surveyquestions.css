@@ -6,8 +6,8 @@
 
 /* De box rond de table van fetchedanswers. */
 .fetchanswers_box {
-    width: 500px;
-    margin-left: 500px;
+    width: 200px;
+    margin-left: 100px;
 }
 
 
@@ -51,7 +51,7 @@
 }
 
 .boxx1 {
-    width: 300px;
+    width: 10px;
 }
 
 .boxx3 {
@@ -61,5 +61,14 @@
 
 .boxx2 {
     margin-top: 50px;
-    width: available;
+
+}
+
+.surveyquestion_container {
+    display: flex;
+    justify-content: center;
+    align-content: space-between;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: flex-start;
 }

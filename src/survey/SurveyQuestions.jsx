@@ -60,37 +60,39 @@ function SurveyQuestions() {
     console.log(survey)
     return (
         <>
-            <div className='boxx1'></div>
-            <div className='boxx2'>
-                <table className='surveyquestion_table'>
-                    <tbody>
-                        <tr>
-                            <th>Vraag</th>
-                            <th>Type</th>
-                        </tr>
-                        {
-                            survey && survey?.map(item => (
-                                <tr key={item.Survey_ID}> {console.log(item.Question_ID)}
-                                    <td className='question__grey' onClick={() => fetchAnswers(item.Question_ID)}>
-                                        <span>{item.open_question}</span>
-                                        <span>{item.multi_question}</span>
-                                    </td>
-                                    <td> {(item.open_question !== null) ?
-                                        <span>Open</span>
-                                        : <span>Multiple Choice</span>
-                                    }
-                                    </td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
-                <div className='fetchanswers_box'>
-                    {showanswer &&
-                        <ShowAnswers />
-                    }
+            <div className='surveyquestion_container'>
+                <div className='boxx1'></div>
+                <div className='boxx2'>
+                    <table className='surveyquestion_table'>
+                        <tbody>
+                            <tr>
+                                <th>Vraag</th>
+                                <th>Type</th>
+                            </tr>
+                            {
+                                survey && survey?.map(item => (
+                                    <tr key={item.Survey_ID}> {console.log(item.Question_ID)}
+                                        <td className='question__grey' onClick={() => fetchAnswers(item.Question_ID)}>
+                                            <span>{item.open_question}</span>
+                                            <span>{item.multi_question}</span>
+                                        </td>
+                                        <td> {(item.open_question !== null) ?
+                                            <span>Open</span>
+                                            : <span>Multiple Choice</span>
+                                        }
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <div className='boxx3'>
+                <div className='boxx3'>
+                    <div className='fetchanswers_box'>
+                        {showanswer &&
+                            <ShowAnswers />
+                        }
+                    </div>
+                </div>
             </div>
         </>
     )

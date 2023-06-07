@@ -159,7 +159,7 @@ export function SurveyList() {
                                         }
                                     </td>
                                     <td>
-                                        <p>{item.participants}</p> {/* The amount of participants that answered survey*/}
+                                        <p>0</p> {/* The amount of participants that answered survey*/}
                                     </td>
                                     <td>
                                         {item.is_reviewed == "0" ? (
