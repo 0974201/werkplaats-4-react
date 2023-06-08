@@ -1,0 +1,172 @@
+.outside {
+    display: flex;
+    align-content: row;
+    margin-top: -25px;
+    z-index: 1;
+    background-color: #fff;
+}
+
+/* Delete button that removes questions from questionlist */
+.Delete_button {
+    background: transparent;
+    border-style: ridge;
+    background: #FF7276;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.Delete_button:hover {
+    transform: scale(1.2)
+}
+
+/* Button that restores questions from questionlist */
+.restore_button {
+    background: transparent;
+    border-style: ridge;
+    background: #90EE90;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.restore_button:hover {
+    transform: scale(1.2)
+}
+
+.questionlist_filter_search input {
+    width: 625px;
+    margin-bottom: 10px;
+}
+
+.questionlist_filter_box {
+    overflow: hidden;
+    margin-right: 20px;
+    margin-top: 70px;
+}
+
+.questionlist_data:hover {
+    cursor: pointer;
+    transform: scale(1.2)
+}
+
+.questionlist_title {
+    display: flex;
+    justify-content: center;
+}
+
+.questionlist_filter_content:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.questionlist_search {
+    margin-bottom: 10px;
+}
+
+/* box 1 / 3 */
+.questionlist_box1,
+.questionlist_box3 {
+    width: 500px;
+}
+
+.questionlist_box2 {
+    width: available;
+}
+
+.questionlist_filterbox {
+    cursor: pointer;
+}
+
+.questionlist.filter_item:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, .1)
+}
+
+.questionlist_filter_item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 0;
+    padding: 0px 10px;
+}
+
+#filter_choices {
+    display: none;
+}
+
+.questionlist_message {
+    position: absolute;
+    top: -10;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    border-style: ridge;
+    background-color: lightgreen;
+    font-size: 20px;
+    width: 250px;
+    height: 100px;
+    z-index: 2;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.alert-hidden {
+    opacity: 0;
+    transition: linear 500ms;
+}
+
+
+
+
+/* Everything below this is table related for questionlist.jsx */
+
+th {
+    font-size: 25px;
+    padding: 0 10px;
+    font-weight: 600;
+}
+
+td {
+    font-weight: 600;
+    padding: 0 3px;
+}
+
+.questionlist_table table {
+    border-collapse: collapse;
+}
+
+.questionlist_table th {
+    font-size: 25px;
+}
+
+.questionlist_table th:nth-child(1),
+.questionlist_table td:nth-child(1) {
+    border: solid black;
+    border-width: 1px 0px 1px 1px;
+    padding: 0;
+}
+
+.questionlist_table th:nth-child(2),
+.questionlist_table td:nth-child(2) {
+    border: solid black;
+    border-width: 1px 0px 1px 0px;
+    padding: 10px 10px;
+}
+
+.questionlist_table th:nth-child(3),
+.questionlist_table td:nth-child(3) {
+    border: solid black;
+    border-width: 1px 0px 1px 0px
+}
+
+.questionlist_table th:nth-child(4),
+.questionlist_table td:nth-child(4) {
+    border: solid black;
+    border-width: 1px 0px 1px 0px
+}
+
+.questionlist_table th:nth-child(5),
+.questionlist_table td:nth-child(5) {
+    border: solid black;
+    border-width: 1px 1px 1px 0px
+}

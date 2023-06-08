@@ -2,14 +2,14 @@ require('dotenv').config();
 const sqlite3 = require("sqlite3").verbose();
 const db_file = process.env.DB_PATH;
 
-function db(){
+function db() {
   const db = new sqlite3.Database(db_file, sqlite3.OPEN_READWRITE, (error) => {
-    if(error && error.code === "SQLITE_CANTOPEN") {
+    if (error && error.code === "SQLITE_CANTOPEN") {
       console.info("creating new database");
       createDB();
       return;
-    } else if(error) {
-      return console.error(error.message);  
+    } else if (error) {
+      return console.error(error.message);
     } else {
       console.info("database zegt hoi :)");
     }
@@ -20,14 +20,14 @@ function db(){
 function createDB(){
   const new_file = process.env.NEW_DB;
   let new_db = new sqlite3.Database(new_file, (error) => {
-    if(error) {
+    if (error) {
       return console.error(error);
     }
     createTables(new_db);
   });
 }
 
-function createTables(new_db){
+function createTables(new_db) {
   let question = `
   CREATE TABLE questions(
     Question_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,13 +39,13 @@ function createTables(new_db){
   let open_question = `
   CREATE TABLE open_question(
     Open_Question_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    question TEXT (255)
+    open_question TEXT (255)
   );`;
 
-  let multiple_choice =  `
+  let multiple_choice = `
   CREATE TABLE multiple_choice(
     Multiple_Choice_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    question TEXT (255)
+    multi_question TEXT (255)
   );`;
 
   let option = `
@@ -96,7 +96,7 @@ function createTables(new_db){
     email TEXT (255),
     password VARCHAR (255)
   );`;
-  
+
   new_db.exec(open_question);
   new_db.exec(option);
   new_db.exec(multiple_choice);

@@ -13,7 +13,7 @@ export default function Progressbar({checkedAnswerd, amountQuestion}) {
     const barStyle = {
         height: '100%',
         width: progress,
-        backgroundColor: 'lightsteelblue',
+        backgroundColor: 'green',
         borderRadius: 'inherit',
         textAlign: 'right',
         transition: 'width 1s ease-in-out'

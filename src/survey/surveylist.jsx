@@ -1,57 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { surveys } from '../index.js'
 import { GetDB } from '../universal/manipulateDB.js'
 import './surveylist.css'
 
 
 export function SurveyList() {
-
     const [survey, setSurvey] = useState([]);
+    const [search, setSearch] = useState('')
 
-    console.log(survey)
+
+    /* formats the current date to YYYY-MM-DD format.*/
+    const nowDate = new Date();
+    const year = nowDate.getFullYear();
+    const month = String(nowDate.getMonth() + 1).padStart(2, '0');
+    const day = String(nowDate.getDate()).padStart(2, '0');
+    const currentDate = `${year}-${month}-${day}`;
+
+
     /* Fetches the API endpoint from surveys in server.js */
     useEffect(() => {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys');
             const data = await result.json();
-            console.log(data);
             setSurvey(data)
         };
         fetchData();
     }, []);
 
     /* Handles the queries in surveybox on the left side */
-    function showClosedSurveys() {
 
-        const surveys = [...survey];
-        const closedSurveys = surveys.filter(survey => {
-            const closeDate = new Date(survey.close_date);
-            const currentDate = new Date();
-            return closeDate < currentDate;
-        });
-        console.log(surveys)
-        console.log(closedSurveys);
-        setSurvey(closedSurveys)
+    // Shows every Survey that is under review (is_reviewed = 0)//
+    function showBeingReviewed() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/surveys?open=reviewed');
+            const data = await result.json();
+            setSurvey(data)
+        };
+        fetchData();
     };
 
+    // Shows all Open Surveys that passed review (is_reviewed = 1) (is_deleted = 0)
+    // And current date is not past the close_date. //
     function showOpenSurveys() {
-        const surveys = [...survey];
-        const OpenSurveys = surveys.filter(survey => {
-            const closeDate = new Date(survey.close_date);
-            const currentDate = new Date();
-            return closeDate > currentDate;
-        });
-        console.log(surveys)
-        console.log(OpenSurveys);
-        setSurvey(OpenSurveys)
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/surveys?open=true');
+            const data = await result.json();
+            setSurvey(data)
+        };
+        fetchData();
     };
 
+    // Shows all Closed Surveys that passed review (is_reviewed = 1) (is_deleted = 0)
+    // And Current date is past the close_date. //
+    function showClosedSurveys() {
+        const fetchData = async () => {
+            const result = await fetch('http://localhost:81/api/surveys?open=false');
+            const data = await result.json();
+            setSurvey(data)
+        };
+        fetchData();
+    };
+
+    // Shows everything. //
     function showAll() {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/surveys');
             const data = await result.json();
-            console.log(data);
             setSurvey(data)
         };
         fetchData();
@@ -73,7 +87,7 @@ export function SurveyList() {
                         </Link>
                     </div>
                     <div className="survey_item">
-                        <span className="surveybox_content" onClick={showOpenSurveys}>
+                        <span className="surveybox_content" onClick={showBeingReviewed}>
                             <img className="survey_img" src="https://i.imgur.com/5JQGokB.png" alt='Stickman inspecting'></img>
                             <span>Under Review</span>
                         </span>
@@ -95,6 +109,7 @@ export function SurveyList() {
                             <img className='Survey_icon' src="https://i.imgur.com/W9sbCv6.png" alt='Survey List'></img>
                             <span>Show All</span>
                         </span>
+                        <input type="text" placeholder='Zoek Enquête..' onChange={(e) => setSearch(e.target.value)}></input>
                     </div>
                 </div>
             </div>
@@ -108,46 +123,57 @@ export function SurveyList() {
             <div className="outside">
                 {surveyBox()}
                 <div className="box2">
-                    <table width='100%'>
-                        <tr>
-                            <th>Id</th>
-                            <th>Titel</th>
-                            <th>Status</th>
-                            <th>Deelnemers</th>
-                            <th>Aanpassen</th>
-                        </tr>
-                        {survey.map(item => (
-                            <tr key={item.Survey_ID}>
-                                <td>
-                                    {item.Survey_ID}
-                                </td>
-                                <td className='question__grey'>
-                                    <Link to={`/survey/${item.Survey_ID}`} className='link'>
-                                        {item.description}
-                                    </Link>
-                                </td>
-                                <td>
-                                    {item.status === "Open" ? (
-                                        <p style={{ color: "red" }}>{item.status}</p>
-                                    ) : item.status === "Closed" ? (
-                                        <p style={{ color: "green" }}>{item.status}</p>
-                                    ) : (
-                                        <p style={{ color: "orange" }}>{item.status}</p>
-                                    )
-                                    }
-                                </td>
-                                <td>
-                                    <p>{item.participants}</p>
-                                </td>
-                                <td>
-                                    {item.status === "Being reviewed" ? (
-                                        <button className="edit_button">Aanpassen</button>
-                                    ) :
-                                        <p>Gesloten</p>
-                                    }
-                                </td>
+                    <table className='surveylist_table'>
+                        <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <th>Titel</th>
+                                <th>Status</th>
+                                <th>Deelnemers</th>
+                                <th>Aanpassen</th>
                             </tr>
-                        ))}
+                            {survey?.filter((item) => {
+                                return search.toLowerCase() === ''
+                                    ? item
+                                    : item.title.toLowerCase().includes(search);
+                            }).map(item => (
+                                <tr key={item.Survey_ID}>
+                                    <td>
+                                        {item.Survey_ID}
+                                    </td>
+                                    <td className='question__grey'>  {/* links to corresponding Surveyquestion_ID page. */}
+                                        <Link to={`/surveyQuestions/${item.Survey_ID}`} className='link'>
+                                            {item.title}
+                                        </Link>
+                                    </td>
+                                    <td> {/* Conditional checks for Status */} {console.log()}
+                                        {(currentDate <= item.close_date && item.is_reviewed == '1') ? (
+                                            <p style={{ color: "green" }}>Open</p> // If current date < close_date and item is reviewed.. shows open. //
+                                        ) : (currentDate > item.close_date && item.is_reviewed == '1') ? (
+                                            <p style={{ color: "red" }}>Closed</p> // if current date > close_date and item is reviewed.. shows closed. //
+                                        ) : (item.is_reviewed == '0') ? (
+                                            <p style={{ color: "orange" }}>Being Reviewed</p> // if item is not yet reviewed.. shows this. //
+                                        ) : (
+                                            <p>Unknown Status</p> // If all else fails it becomes Unknown Status. Should not happen.. I hope. //
+                                        )
+                                        }
+                                    </td>
+                                    <td>
+                                        <p>{item.participants}</p> {/* The amount of participants that answered survey*/}
+                                    </td>
+                                    <td>
+                                        {item.is_reviewed == "0" ? (
+                                            // {/* Change this Link to to aanpassen route .*/}
+                                            <Link to={`/changesurvey/${item.Survey_ID}`}>
+                                                <button className="edit_button">Aanpassen</button>
+                                            </Link>
+                                        ) :
+                                            <p>Gesloten</p>
+                                        }
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
                 </div>
                 <div className="box3">

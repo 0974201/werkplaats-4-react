@@ -1,0 +1,115 @@
+
+.pop_up_container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pop_up {
+    position: absolute;
+    display:flex;
+    top: 20%;
+    left: 20%;
+    height:60%;
+    width: 60%;
+    padding: 5px;
+    background-color: lightsteelblue;
+}
+
+.pop_up_content {
+    display: flex;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: unset;
+    -ms-overflow-style: none;  /* hide scrollbar for IE and Edge */
+    scrollbar-width: none;  /* hide scrollbar for Firefox */
+}
+
+.pop_up_content::-webkit-scrollbar {
+    width: 10px;
+
+}
+
+.pop_up_content::-webkit-scrollbar-track {
+    background: lightsteelblue;
+    border-radius: 5px;
+}
+
+.pop_up_content::-webkit-scrollbar-thumb {
+    background: #8dafe2;
+    border-radius: 5px;
+}
+
+.pop_up_content .search {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 30px;
+    background-color: lightsteelblue;
+    margin: 0;
+    padding: 5px 0;
+}
+
+.pop_up_content .search input {
+    width: 90%;
+    height: 20px;
+    margin: 0 5%;
+}
+
+.pop_up_content .search button {
+    margin: 0;
+}
+
+.pop_up .filter {
+    background-color: #8dafe2;
+    height: fit-content;
+    border-radius: 5px;
+    width: 180px;
+    margin: 0 5px;
+    padding: 5px;
+}
+
+.pop_up .filter > span {
+    font-weight: bold;
+}
+
+.pop_up .filter >div:hover {
+    background-color: lightsteelblue;
+    border-radius: 5px;
+}
+
+.pop_up .qBox {
+    display: flex;
+    margin-top: 40px;
+}
+
+.pop_up_content table {
+    border: none;
+    width: 100%;
+}
+
+.pop_up_content table tr {
+    border: #001e48 1px solid;
+}
+
+.pop_up_content table th {
+    border: none;
+}
+
+.pop_up_content table td {
+    border: none;
+}
+
+.pop_up_content table td:first-child {
+    width: 700px;
+}
+
+.pop_up_content table td:last-child {
+    width: fit-content;
+}

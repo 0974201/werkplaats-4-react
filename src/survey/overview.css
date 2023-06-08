@@ -1,0 +1,46 @@
+.overview_title {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* table related for overview.jsx */
+.overview_table th:nth-child(1),
+.overview_table td:nth-child(1) {
+    border: solid black;
+    border-width: 1px 0px 1px 1px;
+    padding: 0;
+}
+
+.overview_table th:nth-child(2),
+.overview_table td:nth-child(2) {
+    border: solid black;
+    border-width: 1px 0px 1px 0px;
+    padding: 10px 10px;
+}
+
+.overview_table th:nth-child(3),
+.overview_table td:nth-child(3) {
+    border: solid black;
+    border-width: 1px 0px 1px 0px
+}
+
+.overview_table th:nth-child(1),
+.overview_table td:nth-child(1) {
+    border: solid black;
+    border-width: 1px 0px 1px 1px;
+    padding: 0;
+}
+
+.overview_table th:nth-child(2),
+.overview_table td:nth-child(2) {
+    border: solid black;
+    border-width: 1px 1px 1px 0px;
+    padding: 10px 10px;
+}
+
+.overview_table th:nth-child(3),
+.overview_table td:nth-child(3) {
+    border: solid black;
+    border-width: 1px 1px 1px 0px
+}

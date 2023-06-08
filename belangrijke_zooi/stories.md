@@ -34,18 +34,6 @@ zou ik graag een link willen hebben naar de tool
 
 zodat ik gebruik kan maken van de applicatie.
 
-### [25] Delete vraag uit array
-
-**Created:** 5/22/2023 7:43:04 PM
-
-**Created by:** Zasha Stigt
-
-
-
-**Description:**
-
-Als je een vraag verwijdert dan wordt deze niet verwijdert uit de array in de session storage
-
 ### [26] Laten zien welke vraag niet ingevuld
 
 **Created:** 5/24/2023 4:02:38 PM
@@ -59,6 +47,22 @@ Als je een vraag verwijdert dan wordt deze niet verwijdert uit de array in de se
 Als een gebruiker,
 
 wil ik graag zien welke vraag ik nog moet invullen.
+
+### [37] bevestiging toevoegen wanneer je de gemaakte survey opslaad
+
+**Created:** 6/3/2023 4:33:19 PM
+
+**Created by:** Zasha Stigt
+
+
+
+### [38] een survey alleen laten zien als de tijden kloppen
+
+**Created:** 6/3/2023 5:19:52 PM
+
+**Created by:** Zasha Stigt
+
+
 
 ## Bezig
 
@@ -78,6 +82,48 @@ zou ik graag willen inloggen met een E-mail.
 
 Zodat ik kan inloggen in het systeem
 
+### [31] Antwoorden pagina van Vragen
+
+**Created:** 5/28/2023 5:40:16 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een admin,
+
+wil ik graag de antwoorden zien bij de vraag,
+
+zodat ik kan zien hoeveel en welke antwoorden er zijn ingevuld bij de vraag.
+
+### [5] Eerder aangemaakte vragen uitkiezen
+
+**Created:** 4/12/2023 1:14:03 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een Admin,
+
+zou ik graag de optie hebben om eerder aangemaakte vragen uit een pool te kiezen.
+
+Zodat ik vragen kan hergebruiken en niet opnieuw hoef in te typen.
+
+## Klaar
+
+### [29] Connectie met Node.JS server naar React
+
+**Created:** 5/24/2023 4:06:46 PM
+
+**Created by:** 
+
+
+
 ### [4] Vragen verwijderen
 
 **Created:** 4/12/2023 1:13:38 PM
@@ -93,22 +139,6 @@ Als een Admin,
 wil ik graag vragen kunnen verwijderen,
 
 zodat ik vragen kan verwijderen die niet meer nodig zijn.
-
-### [24] Overzichtslijst voor Surveys
-
-**Created:** 5/10/2023 1:35:13 PM
-
-**Created by:** Yong Pok Low (1053079)
-
-
-
-**Description:**
-
-Als een admin,
-
-wil ik een overzichtslijst voor de surveys,
-
-zodat ik een overzicht heb over alle surveys.
 
 ### [8] Vragen beantwoorden
 
@@ -142,16 +172,6 @@ zou ik graag hebben dat de vragen tussentijds opgeslagen wordt
 
 zodat ik niet elke keer opnieuw moet typen.
 
-## Klaar
-
-### [29] Connectie met Node.JS server naar React
-
-**Created:** 5/24/2023 4:06:46 PM
-
-**Created by:** 
-
-
-
 ### [3] Vragen aanpassen
 
 **Created:** 4/12/2023 1:13:36 PM
@@ -168,6 +188,82 @@ wil ik graag vragen kunnen aanpassen
 
 zodat ik op elke moment de vraag kan veranderen.
 
+### [33] Zoek Functie
+
+**Created:** 6/2/2023 11:27:03 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als gebruiker
+
+wil ik graag een zoekfunctie
+
+om bepaalde surveys of vragen te kunnen zoeken in de lijst.
+
+### [35] preview op create survey fixen
+
+**Created:** 6/3/2023 3:35:11 PM
+
+**Created by:** Zasha Stigt
+
+
+
+### [36] ervoor zorgen dat tijdens het maken van een survey alle velden zijn ingevuldt. gesloten datum magde enege zijn die leeg is
+
+**Created:** 6/3/2023 3:36:23 PM
+
+**Created by:** Zasha Stigt
+
+
+
+### [32] Queries for Survey  Questions
+
+**Created:** 6/2/2023 11:21:27 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een gebruiker,
+
+wil ik graag query knoppen bij de SurveyList / Questionlist
+
+om dingen te kunnen zien zoals alleen open vragen
+
+### [30] Overzicht voor vragenlijst
+
+**Created:** 5/28/2023 5:36:37 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een admin,
+
+wil ik graag een overzicht van de vragenlijst
+
+zodat ik elke vraag goed kan overzien
+
+### [34] meer dan 1 groep van opties voor multiple choice vraag ophalen
+
+**Created:** 6/3/2023 3:34:38 PM
+
+**Created by:** Zasha Stigt
+
+
+
+**Description:**
+
+hij pakt alleen de eerste
+
 ### [7] Overzicht bekijken (hoeveel mensen)
 
 **Created:** 4/12/2023 2:37:07 PM
@@ -183,6 +279,34 @@ Als een Admin,
 zou ik graag de overzicht willen hebben over hoeveel mensen de 360 Graden Feedback Tool hebben doorlopen
 
 zodat ik weet hoeveel mensen de tool gebruikt hebben.
+
+### [25] Delete vraag uit array
+
+**Created:** 5/22/2023 7:43:04 PM
+
+**Created by:** Zasha Stigt
+
+
+
+**Description:**
+
+Als je een vraag verwijdert dan wordt deze niet verwijdert uit de array in de session storage
+
+### [24] Overzichtslijst voor Surveys
+
+**Created:** 5/10/2023 1:35:13 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een admin,
+
+wil ik een overzichtslijst voor de surveys,
+
+zodat ik een overzicht heb over alle surveys.
 
 ### [27] Node.JS server connectie maken met DB
 
@@ -291,22 +415,6 @@ Als een admin,
 wil ik graag een closed en open date voor de surveys,
 
 zodat ik weet wanneer het aangemaakt/beantwoord kan worden en wanneer die gesloten moet zijn.
-
-### [5] Eerder aangemaakte vragen uitkiezen
-
-**Created:** 4/12/2023 1:14:03 PM
-
-**Created by:** Yong Pok Low (1053079)
-
-
-
-**Description:**
-
-Als een Admin,
-
-zou ik graag de optie hebben om eerder aangemaakte vragen uit een pool te kiezen.
-
-Zodat ik vragen kan hergebruiken en niet opnieuw hoef in te typen.
 
 ### [11] Zien hoeveel vragen beantwoord zijn en hoeveel nog moet
 

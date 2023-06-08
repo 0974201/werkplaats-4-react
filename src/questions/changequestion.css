@@ -1,0 +1,88 @@
+.button {
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    pointer-events: all !important;
+}
+
+.input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 20px;
+    width: 100%
+}
+
+.modify_button {
+    display: flex;
+}
+
+.radio_box {
+    border-style: ridge;
+}
+
+.radio_div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 20px;
+
+}
+
+.save_question_border {
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+}
+
+.save_question_box {
+    padding: 10px;
+    border-style: ridge;
+    background-color: purple;
+    margin-bottom: 10px;
+}
+
+.textarea {
+    width: 200px;
+    height: 100px;
+}
+
+.changequestion_message {
+    position: absolute;
+    top: -10;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    border-style: ridge;
+    background-color: lightgreen;
+    font-size: 20px;
+    width: 250px;
+    height: 100px;
+    z-index: 2;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.Error_Message {
+    position: absolute;
+    top: -10;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    border-style: ridge;
+    background-color: #FF7276;
+    font-size: 20px;
+    width: 250px;
+    height: 100px;
+    z-index: 2;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.alert-hidden {
+    opacity: 0;
+    transition: linear 500ms;
+}

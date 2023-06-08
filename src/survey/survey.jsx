@@ -1,36 +1,63 @@
 import './survey.css'
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Progressbar from "../universal/progressbar";
+import {saveToDB} from "../universal/manipulateDB";
+import ShowMassage from "../universal/message/message";
+import {useNavigate} from "react-router-dom";
 
-export default function Survey({surveyArray}) {
-    const [answeredArray, setAnsweredArray] = useState(onLoadSurvey())
+export default function Survey({ surveyArray }) {
+    const urlStart = window.location.pathname.split('/')
+    const navigate = useNavigate()
+    const [answeredArray, setAnsweredArray] = useState(onLoadSurvey)
     const [questionShown, setQuestionShow] = useState(onLoadQuestionShown())
+    const [showConfirmMessage, setShowConfirmMessage] = useState(false)
+    const [showWarningMessage, setShowWarningMessage] = useState(false)
 
+    console.log(urlStart)
+    console.log(surveyArray)
     console.log(answeredArray)
 
-    sessionStorage.setItem("survey", JSON.stringify(answeredArray))
+    if (answeredArray.Survey_ID !== surveyArray.Survey_ID) {
+        console.log("h")
+        sessionStorage.setItem("survey", surveyArray)
+        setAnsweredArray(surveyArray)
+        setQuestionShow(0)
+    }
+    sessionStorage.removeItem("surveyNum")
+    sessionStorage.setItem("surveyNum", urlStart[2])
+
+
+    if (urlStart[1] === 'survey') {
+        sessionStorage.setItem("survey", JSON.stringify(answeredArray))
+    }
     sessionStorage.setItem("questionShown", JSON.stringify(questionShown))
 
     function onLoadSurvey() {
-        if (JSON.parse(sessionStorage.getItem("survey")) === null) {
-            return surveyArray.questions.map(question => {return {...question, answer: ''}})
-        } else {
-            const arrayToSurvey = JSON.parse(sessionStorage.getItem("survey"))
-            return(arrayToSurvey)
+        if (urlStart[1] === 'survey') {
+            if (JSON.parse(sessionStorage.getItem("survey")) === null) {
+                return surveyArray
+            } else {
+                return JSON.parse(sessionStorage.getItem("survey"))
+            }
+        } else if (urlStart[1] === 'create' || urlStart[1] === 'changesurvey') {
+            return JSON.parse(sessionStorage.getItem("createSurvey"))
         }
+
     }
 
+
+
     function onLoadQuestionShown() {
-        if (JSON.parse(sessionStorage.getItem("questionShown")) === null) {
+        if (JSON.parse(sessionStorage.getItem("questionShown")) === null || urlStart[1] === 'create' || urlStart[1] === 'changesurvey') {
             return 0
         } else {
             const questionShown = JSON.parse(sessionStorage.getItem("questionShown"))
-            return(questionShown)
+            return (questionShown)
         }
     }
 
     function replaceAnswer(questionIndex, value) {
-        const inBetweenArray = answeredArray.map((question, i) => {
+        const inBetweenArray = answeredArray.questions.map((question, i) => {
             if (i === questionIndex) {
                 question.answer = value
                 return question
@@ -38,64 +65,97 @@ export default function Survey({surveyArray}) {
                 return question
             }
         })
-        setAnsweredArray(inBetweenArray)
+        setAnsweredArray({...answeredArray, questions: inBetweenArray})
     }
 
-    function checkAnswerd() {
-        let amountAnswerd = 0
-        answeredArray.map(question => {
+    function checkAnswered() {
+        let amountAnswered = 0
+        answeredArray.questions.map(question => {
             if (question.answer !== '') {
-                amountAnswerd++
+                amountAnswered++
             }
         })
-        return amountAnswerd
+        return amountAnswered
     }
 
-    const questionList = answeredArray.map((question, questionIndex) => {
-            switch (question.type) {
-                case 'MultipleChoice':
-                    return (
-                        <div>
-                            <h3>{question.question}</h3>
-                            <ul>
-                                {question.options.map((option, optionIndex) =>
-                                    <li key={optionIndex} onChange={e => replaceAnswer(questionIndex, e.target.value)}>
-                                        <label>
-                                            <input type={"radio"} value={option} name={"question" + question.id} defaultChecked={question.answer === option} />
-                                            {option}
-                                        </label>
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
-                    )
-                case 'Open':
-                    return (
-                        <div>
-                            <h3>{question.question}</h3>
-                            <textarea
-                                maxLength={250}
-                                value={answeredArray[questionIndex].answer}
-                                onChange={e => replaceAnswer(questionIndex, e.target.value)}
-                            />
-                        </div>
-                    )
-                default:
-                    console.log("Wrong type")
-                    return (
-                        <div><h3>Wrong type</h3></div>
-                    )
+    function pageCheckMulti(question) {
+        if (urlStart[1] === 'survey') {
+            return question.multi_question !== null;
+        } else if (urlStart[1] === 'create' || urlStart[1] === 'changesurvey') {
+            return question.type === 'MultipleChoice';
+        }
+    }
+
+    function pageCheckOpen(question) {
+        if (urlStart[1] === 'survey') {
+            return question.open_question !== null;
+        } else if (urlStart[1] === 'create' || urlStart[1] === 'changesurvey') {
+            return question.type === 'Open';
+        }
+    }
+
+    const questionList = answeredArray.questions.map((question, questionIndex) => {
+        console.log(question)
+        if (pageCheckMulti(question)) {
+
+                return (
+                    <div>
+                        <h3>{question.multi_question}</h3>
+                        <ul>
+                            {question.options.map((option, optionIndex) =>
+                                <li key={optionIndex} onChange={e => replaceAnswer(questionIndex, e.target.value)}>
+                                    <label>
+                                        <input
+                                            type={"radio"}
+                                            value={option}
+                                            name={"question" + questionIndex}
+                                            checked={question.answer === option}
+                                        />
+                                        {option}
+                                    </label>
+                                </li>
+                            )}
+                        </ul>
+                    </div>
+                )
+            } else if(pageCheckOpen(question)) {
+                return (
+                    <div>
+                        <h3>{question.open_question}</h3>
+                        <textarea
+                            maxLength={250}
+                            value={answeredArray.questions[questionIndex].answer}
+                            onChange={e => replaceAnswer(questionIndex, e.target.value)}
+                        />
+                    </div>
+                )
+            } else {
+                console.log("Wrong type")
+                return (
+                    <div><h3>Wrong type</h3></div>
+                )
             }
         }
     )
 
     return (
             <div className={"survey"}>
-                <Progressbar checkedAnswerd={checkAnswerd()} amountQuestion={questionList.length} />
-                <span>vragen beantwoord: {checkAnswerd()}/{questionList.length}</span>
-                <h1>{surveyArray.title}</h1>
+                { showConfirmMessage &&
+                    <ShowMassage message={'Enquête opgeslagen'} type={'confirm'} onClick={() => setShowConfirmMessage(false)} />
+                }
+                { showWarningMessage &&
+                    <ShowMassage message={'Niet alles in de enquête is ingevuld'} type={'warning'} onClick={() => setShowWarningMessage(false)} />
+                }
+                {urlStart[1] === 'survey' &&
+                    <>
+                        <Progressbar checkedAnswerd={checkAnswered()} amountQuestion={questionList.length} />
+                        <span>vragen beantwoord: {checkAnswered()}/{questionList.length}</span>
+                    </>
+
+                }
+                <h1>{answeredArray.title}</h1>
                 {questionShown <= 0 &&
-                    <p>{surveyArray.description}</p>
+                    <p>{answeredArray.description}</p>
                 }
                 {questionShown > 0 &&
                     <>
@@ -108,10 +168,19 @@ export default function Survey({surveyArray}) {
                     {questionShown > 0 &&
                         <button className={'prev'} onClick={() => setQuestionShow(questionShown-1)}>Vorige</button>
                     }
-                    {questionShown < answeredArray.length &&
+                    {questionShown < answeredArray.questions.length &&
                         <button className={'next'} onClick={() => setQuestionShow(questionShown+1)}>Volgende</button>
+                    }
+                    {checkAnswered() === questionList.length && urlStart[1] === 'survey' &&
+                        <button className={'submit'} onClick={() => {
+                            saveToDB(answeredArray, 'saveAnswers')
+                            setShowConfirmMessage(true)
+                            sessionStorage.removeItem("survey")
+                            navigate('/')
+                        }}>Lever in</button>
                     }
                 </div>
             </div>
+
     )
 }
