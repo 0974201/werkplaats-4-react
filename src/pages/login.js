@@ -1,30 +1,44 @@
 import React from 'react';
-
-/* No idea if forms still work the same here.. 
-   <br> by itself does not work for React
-    Try <br></br> and for input fields they require a /> at the end */
+import { useForm } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import { UserLogin } from "../universal/manipulateDB";
 
 export function Login() {
-    return (
-        <>
-            <div className='login_container'>
-                <form action="/handle_login" method="POST" class="login-form">
-                    <p class="login_header"><h1><b>Log in</b></h1></p>
-                    <p class="username-field">
-                        <label for="username"><b>Username or Email</b></label><br></br>
-                        <input id="username" type="text" name="username" class="login-field" />
-                    </p>
-                    <p class="password-field">
-                        <label for="password"><b>Password</b></label><br></br>
-                        <input id="password" type="password" name="password" class="login-field" />
-                    </p>
-                    <p class="submit-btn5">
-                        <input id="submit" type="submit" value="Login" class="submit" />
-                    </p>
-                </form>
-            </div>
 
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const onSubmit = data => UserLogin(data);
+  //const onSubmit = data => console.log(data);
+  //console.log(errors);
 
-        </>
-    )
+  const [user, setUser] = useState([]);
+  
+  useEffect(() => {
+    fetch('http://127.0.0.1:81/post_login',{
+      'methods':'GET',
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(response => setUser(response))
+    .catch(error => console.error(error));
+  },[]); // uh, okay dus we hebben nu de user.. wat nu?
+
+  console.log(user);
+
+  let test = ({user}) => (<p>{JSON.stringify(user)}</p>);
+  
+  return (
+    <div className='login_container'>
+      <h1><p className="login_header"><b>Log in</b></p></h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+          <label htmlFor="email">E-mail:</label> <br/>
+          <input type="email" placeholder="E-mail" {...register("email", {})} /> <br/>
+          <label htmlFor="password">Password:</label> <br/>
+          <input type="password" placeholder="Password" {...register("password", {})} /> <br/><br/>
+          <input type="submit" className="submit-btn5"/>
+      </form>
+      <div>{test}</div>
+    </div>
+  );
 }

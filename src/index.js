@@ -11,7 +11,7 @@ import { NotFound } from './pages/NotFound';
 import { SurveyList } from './survey/surveylist';
 import Survey from './survey/survey';
 import CreateSurvey from "./create_survey/create_survey";
-import DbTest from './db_test/dbtest';
+import GetData from './db_test/getdata';
 import './css/App.css';
 
 /* The App is what we throw everything inside. 
@@ -107,7 +107,7 @@ function App() {
                         <Route path='/question' element={<ChangeQuestion question={survey} />} />
                         <Route path='/question/:id' element={<ChangeQuestion question={questions} />} />
                         <Route path={'/survey'} element={<Survey surveyArray={survey} />} />
-                        <Route path='/dbtest' element={<DbTest />} />
+                        <Route path='/dbtest' element={<GetData />} />
                         <Route />
                         <Route />
                     </Routes>

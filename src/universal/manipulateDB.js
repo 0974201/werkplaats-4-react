@@ -1,14 +1,12 @@
-
-
 function saveToDB(array, path) {
-    fetch('http://localhost:81/api/' + path, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(array)
-    })
+	fetch('http://localhost:81/api/' + path, {
+		method: 'POST',
+		mode: 'cors',
+		headers: {
+			 'Content-Type': 'application/json'
+			},
+		body: JSON.stringify(array)
+	})
 }
 
 /* GET request fetch function
@@ -18,12 +16,24 @@ We get a response object  from the API that we convert to json and then we put t
 (This is assuming you have a const [posts, setPosts] = useState([]) defined )
 P.S I am not sure if this is even functional!*/
 async function GetDB(path) {
-    const result = await fetch('http://localhost:81/api/' + path);
-    const data = await result.json();
-    console.log(data);
+	const result = await fetch('http://localhost:81/api/' + path);
+	const data = await result.json();
+	console.log(data);
 }
 
-export { saveToDB, GetDB }
+function UserLogin(user){
+	fetch('http://localhost:81/handle_login', {
+		method: 'POST',
+		mode: 'cors',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(user)
+	});
+	console.log(user);
+}
+
+export { saveToDB, GetDB, UserLogin }
 
 // useEffect(() => {
 //     GetDB('test_question')
