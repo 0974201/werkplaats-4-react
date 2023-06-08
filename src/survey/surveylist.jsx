@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GetDB } from '../universal/manipulateDB.js'
+//import { GetDB } from '../universal/manipulateDB.js'
 import './surveylist.css'
 
 
@@ -147,11 +147,11 @@ export function SurveyList() {
                                         </Link>
                                     </td>
                                     <td> {/* Conditional checks for Status */} {console.log()}
-                                        {(currentDate <= item.close_date && item.is_reviewed == '1') ? (
+                                        {(currentDate <= item.close_date && item.is_reviewed === '1') ? (
                                             <p style={{ color: "green" }}>Open</p> // If current date < close_date and item is reviewed.. shows open. //
-                                        ) : (currentDate > item.close_date && item.is_reviewed == '1') ? (
+                                        ) : (currentDate > item.close_date && item.is_reviewed === '1') ? (
                                             <p style={{ color: "red" }}>Closed</p> // if current date > close_date and item is reviewed.. shows closed. //
-                                        ) : (item.is_reviewed == '0') ? (
+                                        ) : (item.is_reviewed === '0') ? (
                                             <p style={{ color: "orange" }}>Being Reviewed</p> // if item is not yet reviewed.. shows this. //
                                         ) : (
                                             <p>Unknown Status</p> // If all else fails it becomes Unknown Status. Should not happen.. I hope. //
@@ -162,7 +162,7 @@ export function SurveyList() {
                                         <p>{item.participants}</p> {/* The amount of participants that answered survey*/}
                                     </td>
                                     <td>
-                                        {item.is_reviewed == "0" ? (
+                                        {item.is_reviewed === "0" ? (
                                             // {/* Change this Link to to aanpassen route .*/}
                                             <Link to={`/changesurvey/${item.Survey_ID}`}>
                                                 <button className="edit_button">Aanpassen</button>

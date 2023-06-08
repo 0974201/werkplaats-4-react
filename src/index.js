@@ -143,7 +143,7 @@ function App() {
                         <Route path='/question' element={<ChangeQuestion question={surveyTest} />} />
                         <Route path='/question/:id' element={<ChangeQuestion />} />
                         <Route path={'/survey/:id'} element={<SetUpSurvey page={'survey'} />} />
-                        <Route path='/dbtest' element={<DbTest />} />
+                        <Route path='/dbtest' element={<GetData />} />
                         <Route />
                         <Route />
                     </Routes>

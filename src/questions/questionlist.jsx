@@ -216,7 +216,7 @@ function ModifyQuestion() {
                                             </Link>
                                         </span>
                                     </td>
-                                    <td> {(item.is_deleted == '0') ?
+                                    <td> {(item.is_deleted === '0') ?
                                         <button className='Delete_button' onClick={() => DeleteQuestion(item.Question_ID)}
                                         > <span>Verwijder</span>
                                         </button>
