@@ -474,60 +474,9 @@ app.get('/api/filled_surveys/:questionId', function (req, res) {
   });
 });
 
-app.get("/test_birb", function(req, res){
-  res.type('json');
-  db.all('SELECT * FROM vogels', (err, row) => {
-    if (err){
-      throw new Error(err.message);
-    }
-    console.log(row);
-    res.json(row);
-  });
-});
-
-app.get("/test_games", function(req, res){
-  res.type('json');
-  db.all('SELECT * FROM games', (err, row) => {
-    if (err){
-      throw new Error(err.message);
-    }
-    res.json(row);
-    console.log(row);
-  });
-});
-
-app.get("/test_random", function(req, res){
-  res.type('json');
-  db.all('SELECT * FROM random', (err, row) => {
-    if (err){
-      throw new Error(err.message);
-    }
-    res.json(row);
-    console.log(row);
-  });
-});
-
 app.get("/handle_login", function(req, res){
   res.send('post');
 });
-
-/*user = [{// temp user, moet nog users aanmaken kek
-  email:"eeee@gmail.com",
-  password:"eeeeeee"
-}];
-
-app.post("/handlelogin", bodyParser.json(), function(req, res, next){
-  console.log(req.body.email, req.body.password); // kijken of hij login gegevens door stuurt
-  const { email, password } = req.body;
-
-  const login = (email, password) => user.some(user => user.email === email && user.password === password);
-  // whack manier om te checken of doorgestuurde inlog klopt met array
-
-  login(email, password) ?
-  res.redirect('/post_login') : res.sendStatus(451); // check of inlog overeenkomt anders gooit ie status error
-
-  //res.send('post');
-});*/
 
 app.post("/handle_login", bodyParser.json(), function(req, res, next){
   console.log(req.body.email, req.body.password); // kijken of hij login gegevens door stuurt

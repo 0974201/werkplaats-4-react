@@ -9,12 +9,12 @@ function saveToDB(array, path) {
 	})
 }
 
-function DeleteDB(path) {
+function DeleteFromDB(path) {
     fetch('http//localhost:81/api' + path, {
         method: 'DELETE',
         mode: 'cors',
         headers: {
-            'Çontent-Type': 'application/json'
+            'Content-Type': 'application/json'
         },
     })
 }
@@ -43,7 +43,7 @@ function UserLogin(user){
 	console.log(user);
 }
 
-export { saveToDB, GetDB, UserLogin, DeleteDB }
+export { saveToDB, GetDB, UserLogin, DeleteFromDB }
 
 // useEffect(() => {
 //     GetDB('test_question')
