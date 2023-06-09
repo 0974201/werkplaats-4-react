@@ -15,7 +15,6 @@ let nextOrder = 0
 // type in an input field the field loses focus, and you stop typing
 export default function CreateSurvey({ endpoint }) {
     console.log(endpoint)
-    const [getSession, setSession] = useState(null);
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
@@ -25,15 +24,8 @@ export default function CreateSurvey({ endpoint }) {
 
     sessionStorage.setItem("createSurvey", JSON.stringify(surveyArray))
 
-    //checks if user is in sess storage, if not redirect to login page.
-    useEffect(() => {
-        const user = sessionStorage.getItem("user");
-        if(user){
-            setSession(user);
-        }
-    })
-
-    if(!getSession){
+     //checks if user is in sess storage, if not redirect to login page.
+     if(localStorage.getItem("user") === null){
         return <Navigate replace to="/login" />;
     }
 

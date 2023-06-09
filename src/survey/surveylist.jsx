@@ -4,7 +4,6 @@ import './surveylist.css'
 
 
 export function SurveyList() {
-    const [getSession, setSession] = useState(null);
     const [survey, setSurvey] = useState([])
     const [search, setSearch] = useState('')
 
@@ -29,14 +28,7 @@ export function SurveyList() {
     }, [])
 
     //checks if user is in sess storage, if not redirect to login page.
-    useEffect(() => {
-        const user = sessionStorage.getItem("user");
-        if(user){
-            setSession(user);
-        }
-    })
-
-    if(!getSession){
+    if(localStorage.getItem("user") === null){
         return <Navigate replace to="/login" />;
     }
 

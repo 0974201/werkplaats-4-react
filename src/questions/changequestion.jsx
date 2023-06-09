@@ -7,7 +7,6 @@ import { saveToDB } from '../universal/manipulateDB';
 
 
 export default function ChangeQuestion({ }) {
-    const [getSession, setSession] = useState(null);
     const { id } = useParams();
     const [question, showQuestion] = useState([]);
     const [questionvalue, setQuestionValue] = useState('');
@@ -49,15 +48,8 @@ export default function ChangeQuestion({ }) {
         }
     }, [message, errormessage])
 
-    //checks if user is in sess storage, if not redirect to login page.
-    useEffect(() => {
-        const user = sessionStorage.getItem("user");
-        if(user){
-            setSession(user);
-        }
-    })
-
-    if(!getSession){
+     //checks if user is in sess storage, if not redirect to login page.
+     if(localStorage.getItem("user") === null){
         return <Navigate replace to="/login" />;
     }
 

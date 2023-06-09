@@ -5,7 +5,6 @@ import './questionlist.css';
 import { Link } from 'react-router-dom';
 
 function ModifyQuestion() {
-    const [getSession, setSession] = useState(null);
     const [question, setQuestion] = useState([]);
     const [search, setSearch] = useState('')
     const [message, showMessage] = useState(false)
@@ -30,15 +29,8 @@ function ModifyQuestion() {
         }
     }, [message]);
 
-    //checks if user is in sess storage, if not redirect to login page.
-    useEffect(() => {
-        const user = sessionStorage.getItem("user");
-        if(user){
-            setSession(user);
-        }
-    })
-
-    if(!getSession){
+     //checks if user is in sess storage, if not redirect to login page.
+     if(localStorage.getItem("user") === null){
         return <Navigate replace to="/login" />;
     }
 

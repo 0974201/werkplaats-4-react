@@ -16,7 +16,6 @@ async function getUser(login){
 
 export function Login() {
   const navigate = useNavigate();
-
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -27,11 +26,11 @@ export function Login() {
       password
     });
     console.log(user);
-    sessionStorage.setItem('user', JSON.stringify(user));
-
+    
     if(user !== null){
       console.log('yo');
-      navigate('/survey');
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate('/surveylist');
     }
   }
 
