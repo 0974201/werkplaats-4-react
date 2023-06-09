@@ -29,8 +29,8 @@ function ModifyQuestion() {
         }
     }, [message]);
 
-     //checks if user is in sess storage, if not redirect to login page.
-     if(localStorage.getItem("user") === null){
+    //checks if user is in sess storage, if not redirect to login page.
+    if (localStorage.getItem("user") === null) {
         return <Navigate replace to="/login" />;
     }
 
@@ -215,7 +215,7 @@ function ModifyQuestion() {
                                             </Link>
                                         </span>
                                     </td>
-                                    <td> {(item.is_deleted === '0') ?
+                                    <td> {(item.is_deleted == '0') ?
                                         <button className='Delete_button' onClick={() => DeleteQuestion(item.Question_ID)}
                                         > <span>Verwijder</span>
                                         </button>
