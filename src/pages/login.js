@@ -29,7 +29,7 @@ export function Login(derp) {
   derp = user;
   console.log(derp);
 
-  if(!derp === null){
+  if(user === null){
     redirect('/surveylist')
   }
   
