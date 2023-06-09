@@ -22,6 +22,7 @@ function createDB(){
       return console.error(error);
     }
     createTables(new_db);
+    populateTables(new_db);
   });
 }
 
@@ -104,6 +105,30 @@ function createTables(new_db) {
   new_db.exec(login);
   new_db.exec(user);
   new_db.exec(filled_in);
+}
+
+function populateTables(new_db){
+  let openq = `INSERT INTO open_question (open_question) VALUES ("avocado?")`;
+  let openq_ID = `INSERT INTO questions (Open_Question_ID, is_deleted) VALUES (1, 0)`;
+  let multiq = `INSERT INTO multiple_choice (multi_question) VALUES ("dit is een vraag")`;
+  let multiq_Option = `INSERT INTO option (option) VALUES ("256")`;
+  let optionrow = `INSERT INTO option_row (Multiple_Choice_ID, Option_ID, option_order) VALUES (1, 1, 1)`;
+  let multiq_ID = `INSERT INTO questions (Multiple_Choice_ID, is_deleted) VALUES (1, 0)`;
+  let survey_birb = `INSERT INTO survey (title, description, open_date, close_date, can_be_anonymous, is_reviewed) VALUES ("vogels zijn gaaf", "fluffy birb", 2023-04-30, 2023-06-17, 0, 0)`;
+  let survey = `INSERT INTO survey (title, description, open_date, close_date, can_be_anonymous, is_reviewed) VALUES ("bepis", "", 2023-06-17, 2023-07-14, 1, 1)`;
+  let login1 = `INSERT INTO login (email, password) VALUES ("phoenixwright@hotmail.com", "objection!")`;
+  let login2 = `INSERT INTO login (email, password) VALUES ("efsefse@hotmail.com", "aaaaa")`;
+
+  new_db.exec(openq);
+  new_db.exec(openq_ID);
+  new_db.exec(multiq);
+  new_db.exec(multiq_Option);
+  new_db.exec(optionrow);
+  new_db.exec(multiq_ID);
+  new_db.exec(survey_birb);
+  new_db.exec(survey);
+  new_db.exec(login1);
+  new_db.exec(login2);
 }
 
 module.exports = db();
