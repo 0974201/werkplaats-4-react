@@ -13,12 +13,7 @@ export default function Survey({ surveyArray }) {
     const [showConfirmMessage, setShowConfirmMessage] = useState(false)
     const [showWarningMessage, setShowWarningMessage] = useState(false)
 
-    console.log(urlStart)
-    console.log(surveyArray)
-    console.log(answeredArray)
-
     if (answeredArray.Survey_ID !== surveyArray.Survey_ID) {
-        console.log("h")
         sessionStorage.setItem("survey", surveyArray)
         setAnsweredArray(surveyArray)
         setQuestionShow(0)
@@ -44,8 +39,6 @@ export default function Survey({ surveyArray }) {
         }
 
     }
-
-
 
     function onLoadQuestionShown() {
         if (JSON.parse(sessionStorage.getItem("questionShown")) === null || urlStart[1] === 'create' || urlStart[1] === 'changesurvey') {
@@ -95,9 +88,7 @@ export default function Survey({ surveyArray }) {
     }
 
     const questionList = answeredArray.questions.map((question, questionIndex) => {
-        console.log(question)
         if (pageCheckMulti(question)) {
-
                 return (
                     <div>
                         <h3>{question.multi_question}</h3>
@@ -130,7 +121,6 @@ export default function Survey({ surveyArray }) {
                     </div>
                 )
             } else {
-                console.log("Wrong type")
                 return (
                     <div><h3>Wrong type</h3></div>
                 )

@@ -18,29 +18,29 @@ function getLastInsertedId() {
   return new Promise((resolve, reject) => {
     db.get('SELECT last_insert_rowid() as id', (error, row) => {
       if (error) {
-        reject(error);
+        reject(error)
       } else {
-        resolve(row.id);
+        resolve(row.id)
       }
-    });
-  });
+    })
+  })
 }
 // Helper function to run a query with parameters
 function runQuery(sql, params) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (error) {
       if (error) {
-        reject(error);
+        reject(error)
       } else {
-        resolve(this);
+        resolve(this)
       }
-    });
-  });
+    })
+  })
 }
 
 app.get("/", function (req, res) {
-  res.send('nothing to see here');
-});
+  res.send('nothing to see here')
+})
 
 app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
   try {
@@ -129,7 +129,6 @@ app.get('/api/getSurvey/:surveyId', function (req, res) {
       if (error) {
         console.log(error)
       } else {
-        console.log(rows)
         res.send(JSON.stringify(rows))
       }
     })
@@ -148,7 +147,6 @@ app.get('/api/getSurveyQuestions/:surveyId', function (req, res) {
       if (error) {
         console.log(error)
       } else {
-        console.log(rows)
         res.send(JSON.stringify(rows))
       }
     })
@@ -167,14 +165,12 @@ app.get('/api/getSurveyOptions/:surveyId', function (req, res) {
       if (error) {
         console.log(error)
       } else {
-        console.log(rows)
         res.send(JSON.stringify(rows))
       }
     })
 })
 
 app.post('/api/saveAnswers', bodyParser.json(), function (req, res) {
-  console.log(req.body)
   try {
 
     for (const [index, question] of req.body.questions.entries()) {
@@ -189,50 +185,19 @@ app.post('/api/saveAnswers', bodyParser.json(), function (req, res) {
   res.send('saved')
 })
 
-app.get("/test", function (req, res) {
-  //res.send('test'); < dit zorgde er voor dat het de hele tijd borkte. je kan maar 1x een send of json dingetje hebben.
-  res.type('json');
-  db.all('SELECT name FROM sqlite_schema', (err, row) => {
-    if (err) {
-      console.log(err.message);
-    }
-    console.log(row);
-    res.send(JSON.stringify(row));
-  });
-});
-
-/* dummy test api endpoint */
-app.get("/api/test_question", function (req, res) {
-  res.type('json');
-  db.all('Select * FROM questions', (err, row) => {
-    if (err) {
-      console.log(err.message);
-    }
-    console.log(row);
-    res.send(JSON.stringify(row));
-  });
-});
-
 /* this endpoint is for changing questions.
 We first check if it's an open or multiple choice and then update the columns around it.
 for multiple choice we will also have to update the options. */
 app.post('/api/questions', bodyParser.json(), function (req, res) {
   const { type, question, questionId, option1, option2, option3, option4, optionid1, optionid2, optionid3, optionid4 } = req.body;
   res.type('json');
-  console.log(type)
-  console.log(question)
-  console.log('dit is ' + questionId)
-  console.log(option1)
-
-
 
   /* Checks if the type is open and if so updates open_question. */
   if (type === 'Open') {
     db.run('UPDATE open_question SET open_question = ? WHERE Open_Question_ID = ?', [question, questionId],
       function (err) {
         console.log(err.message);
-      },
-      console.log('Open Question ' + questionId + ' has successfully updated to ' + question),
+      }
 
     )
   } /* If not open then it updates multiple choice */
@@ -240,34 +205,29 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
     db.run('UPDATE multiple_choice SET multi_question = ? WHERE Multiple_Choice_ID = ?', [question, questionId],
       function (err) {
         console.log(err.message);
-      },
-      console.log('Multiple Choice Question ' + questionId + ' has successfully updated to ' + question),
+      }
     ) /* Multiple choice also has to update options so we put that after it has ran the first query. */
     db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [option1, optionid1],
       function (err) {
         console.log(err.message);
-      },
-      console.log('Option have been changed to ' + option1 + ' at Option_ID ' + optionid1)
-    ),
+      }
+    )
       db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [option2, optionid2],
         function (err) {
           console.log(err.message);
-        },
-        console.log('Options have been changed to ' + option2 + ' at Option_ID ' + optionid2)
+        }
       )
     if (option3)
       db.run('UPDATE option SET option = ? WHERE Option_ID = ?', [option3, optionid3],
         function (err) {
           console.log(err.message);
-        },
-        console.log('Options have been changed to ' + option3 + ' at Option_ID ' + optionid3)
+        }
       )
   } if (option4)
     db.run('UPDATE option SET option = ? WHERE Option_ID = ?', [option4, optionid4],
       function (err) {
         console.log(err.message);
-      },
-      console.log('Options have been changed to ' + option4 + ' at Option_ID ' + optionid4)
+      }
     )
 },
 );
@@ -305,7 +265,6 @@ app.get("/api/questions", function (req, res) {
     if (err) {
       console.log(err.message);
     }
-    console.log(row);
     res.send(JSON.stringify(row));
   });
 });
@@ -317,16 +276,12 @@ app.put('/api/questions', bodyParser.json(), (req, res) => {
 
   /* questionId we sent through a const array to body (see questionlist.jsx DeleteQuestion function)*/
   const { is_deleted, questionId } = req.body;
-  console.log('question ID is ' + questionId);
-  console.log('req.body question id ' + req.body.questionId);
-  console.log('is_deleted ' + is_deleted)
 
   /* We run a db.run query that deletes the question based on the question Id */
   db.run('UPDATE questions SET is_deleted = ? WHERE Question_ID = ?', [is_deleted, questionId]),
     function (err) {
       console.log(err.message);
-    },
-    console.log("DELETE Request Called for " + questionId)
+    }
   res.send("DELETE Request Called")
 });
 
@@ -358,11 +313,9 @@ app.get("/api/questions/:id", function (req, res) {
     if (err) {
       console.log(err.message);
     }
-    console.log(row);
     res.send(JSON.stringify(row));
   });
 });
-
 
 /* GET function for fetching all surveys.
  We give the API endpoint a query parameter with req.query.open which allows us to
@@ -382,9 +335,6 @@ app.get("/api/surveys", function (req, res) {
   const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
   const day = String(currentDate.getDate()).padStart(2, '0');
   const formattedDate = `${year}-${month}-${day}`;
-  console.log(formattedDate)
-
-
 
   /* The base query that executes.
   select survey.* gets us everything from survey. Distinct makes it so every row is unique and thus no duplicates.
@@ -411,7 +361,6 @@ app.get("/api/surveys", function (req, res) {
       res.status(500).send('Internal Server Error');
       return;
     }
-    console.log(rows);
     res.send(JSON.stringify(rows));
   });
 });
@@ -420,7 +369,6 @@ app.get("/api/surveys/:id", function (req, res) {
   res.type('json');
 
   const SurveyId = parseInt(req.params.id);
-  console.log('dit is survey id ' + SurveyId)
   let sql = `SELECT filled_in.* , multiple_choice.multi_question, multiple_choice.Multiple_Choice_ID, open_question.open_question
   FROM filled_in
   LEFT JOIN questions ON filled_in.Question_ID = questions.Question_ID 
@@ -428,15 +376,12 @@ app.get("/api/surveys/:id", function (req, res) {
   LEFT JOIN open_question ON questions.Open_Question_ID = open_question.Open_Question_ID 
   WHERE filled_in.Survey_ID = ? AND filled_in.answer is null`;
 
-  console.log(sql)
-  console.log('this is sql ' + sql)
   db.all(sql, [SurveyId], (err, rows) => {
     if (err) {
       console.log(err.message);
       res.status(500).send('Internal Server Error');
       return;
     }
-    console.log(rows);
     res.send(JSON.stringify(rows));
   });
 });
@@ -448,7 +393,6 @@ app.get('/api/users', function (req, res) {
     if (err) {
       console.log(err.message);
     }
-    console.log(row)
     res.send(JSON.stringify(row));
   });
 });
@@ -458,8 +402,6 @@ app.get('/api/filled_surveys/:questionId', function (req, res) {
   res.type('json');
   const questionId = parseInt(req.params['questionId']);
 
-  console.log('dit is ' + questionId)
-
   let sql = `SELECT * from filled_in
   WHERE answer is not null AND Question_ID = ?`;
 
@@ -467,44 +409,8 @@ app.get('/api/filled_surveys/:questionId', function (req, res) {
     if (err) {
       console.log(err.message);
     }
-    console.log(row)
     res.send(JSON.stringify(row));
   });
 });
-
-
-
-/*app.get("/test_birb", function(req, res){
-  res.type('json');
-  db.all('SELECT * FROM vogels', (err, row) => {
-    if (err){
-      throw new Error(err.message);
-    }
-    console.log(row);
-    res.json(row);
-  });
-});
-
-app.get("/test_games", function(req, res){
-  res.type('json');
-  db.all('SELECT * FROM games', (err, row) => {
-    if (err){
-      throw new Error(err.message);
-    }
-    res.json(row);
-    console.log(row);
-  });
-});
-
-app.get("/test_random", function(req, res){
-  res.type('json');
-  db.all('SELECT * FROM random', (err, row) => {
-    if (err){
-      throw new Error(err.message);
-    }
-    res.json(row);
-    console.log(row);
-  });
-});*/
 
 app.listen(81); // start server

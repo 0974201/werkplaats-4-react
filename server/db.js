@@ -4,18 +4,16 @@ const path = require('node:path');
 const db_file = path.resolve(__dirname, "./database/test_data.db"); // dit is voor de vragen
 
 function db() {
-  const db = new sqlite3.Database(db_file, sqlite3.OPEN_READWRITE, (error) => {
+  return new sqlite3.Database(db_file, sqlite3.OPEN_READWRITE, (error) => {
     if (error && error.code === "SQLITE_CANTOPEN") {
       console.info("creating new database");
-      createDB();
-      return;
+      createDB()
     } else if (error) {
       return console.error(error.message);
     } else {
       console.info("database zegt hoi :)");
     }
   });
-  return db;
 }
 
 function createDB() {

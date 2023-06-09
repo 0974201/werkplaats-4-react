@@ -6,14 +6,13 @@ import { Link } from 'react-router-dom';
 function ModifyQuestion() {
     const [question, setQuestion] = useState([]);
     const [search, setSearch] = useState('')
-    const [message, showMessage] = React.useState(false)
+    const [message, showMessage] = useState(false)
 
     /* This should fetch the data asynchronously if you import GetDB */
     useEffect(() => {
         const fetchData = async () => {
             const result = await fetch('http://localhost:81/api/questions?open=notdeleted');
             const data = await result.json();
-            console.log(data);
             setQuestion(data)
         };
         fetchData();
@@ -25,7 +24,6 @@ function ModifyQuestion() {
             const timer = setTimeout(() => {
                 showMessage('');
             }, 5000);
-
             return () => clearTimeout(timer);
         }
     }, [message]);
@@ -53,9 +51,8 @@ function ModifyQuestion() {
             } catch (error) {
                 console.log('error!!', error)
             }
-
         }
-    };
+    }
 
     /* Updates the is_deleted column from questions from 1 back to 0 thus restoring the question. */
     async function RetrieveQuestion(questionId) {
@@ -82,7 +79,7 @@ function ModifyQuestion() {
             }
 
         }
-    };
+    }
 
     /* Shows everything that is not deleted for questions */
     function showQuestions() {
@@ -92,7 +89,7 @@ function ModifyQuestion() {
             setQuestion(data)
         };
         fetchData();
-    };
+    }
 
     /* Shows the deleted questions for questions */
     function showDeleted() {
@@ -102,7 +99,7 @@ function ModifyQuestion() {
             setQuestion(data)
         };
         fetchData();
-    };
+    }
 
     /* Shows  Open Questions for questions */
     function showOpenQuestions() {
@@ -116,7 +113,7 @@ function ModifyQuestion() {
         } catch (error) {
             console.error(error)
         }
-    };
+    }
 
     /* Shows multiple choice for questions */
     function showMultipleChoice() {
@@ -126,37 +123,35 @@ function ModifyQuestion() {
             setQuestion(data)
         };
         fetchData();
-    };
+    }
 
     /* The sidebar that gets the queries. If clicked show the corresponding queries.*/
     function questionBox() {
         return (
-            <>
-                <div className="questionlist_box1">
-                    <div className="questionlist_filter_box">
-                        <div className='questionlist_filter_item'>
-                            <div className='questionlist_filter_content' onClick={showQuestions}>
-                                <span>Alle Vragen</span>
-                            </div>
+            <div className="questionlist_box1">
+                <div className="questionlist_filter_box">
+                    <div className='questionlist_filter_item'>
+                        <div className='questionlist_filter_content' onClick={showQuestions}>
+                            <span>Alle Vragen</span>
                         </div>
-                        <div className='questionlist_filter_item'>
-                            <div className='questionlist_filter_content' onClick={showOpenQuestions}>
-                                <span>Open Vragen</span>
-                            </div>
+                    </div>
+                    <div className='questionlist_filter_item'>
+                        <div className='questionlist_filter_content' onClick={showOpenQuestions}>
+                            <span>Open Vragen</span>
                         </div>
-                        <div className='questionlist_filter_item'>
-                            <div className='questionlist_filter_content' onClick={showMultipleChoice}>
-                                <span>Multiple Choice</span>
-                            </div>
+                    </div>
+                    <div className='questionlist_filter_item'>
+                        <div className='questionlist_filter_content' onClick={showMultipleChoice}>
+                            <span>Multiple Choice</span>
                         </div>
-                        <div className='questionlist_filter_item'>
-                            <div className='questionlist_filter_content' onClick={showDeleted}>
-                                <span>Prullenbak</span>
-                            </div>
+                    </div>
+                    <div className='questionlist_filter_item'>
+                        <div className='questionlist_filter_content' onClick={showDeleted}>
+                            <span>Prullenbak</span>
                         </div>
                     </div>
                 </div>
-            </>
+            </div>
         )
     }
 
@@ -190,16 +185,14 @@ function ModifyQuestion() {
                             without mega null errors. */}
                             {question.filter((item) => {
                                 return search.toLowerCase() === ''
-
                                     ? item
                                     : item.open_question?.toLowerCase().includes(search) || item.multi_question?.toLowerCase().includes(search)
-
                             }).map(item => (
                                 <tr key={item.Question_ID}>
                                     <td>
                                         <span>{item.Question_ID}</span>
                                     </td>
-                                    <td className='question__grey'> {console.log(item)}
+                                    <td className='question__grey'>
                                         <span>{item.open_question}</span>
                                         <span>{item.multi_question}</span>
                                     </td>
@@ -217,12 +210,12 @@ function ModifyQuestion() {
                                         </span>
                                     </td>
                                     <td> {(item.is_deleted == '0') ?
-                                        <button className='Delete_button' onClick={() => DeleteQuestion(item.Question_ID)}
-                                        > <span>Verwijder</span>
+                                        <button className='Delete_button' onClick={() => DeleteQuestion(item.Question_ID)}>
+                                            <span>Verwijder</span>
                                         </button>
                                         /* shows different button if deleted*/
-                                        : <button className='restore_button' onClick={() => RetrieveQuestion(item.Question_ID)}
-                                        > <span>Herstel</span>
+                                        : <button className='restore_button' onClick={() => RetrieveQuestion(item.Question_ID)}>
+                                            <span>Herstel</span>
                                         </button>
                                     }
                                     </td>

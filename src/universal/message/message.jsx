@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-
 export default function ShowMassage({message, type, onClick}) {
     // asked ChatGPT for a way to move the timer to the component itself. dit not know that you can pass an onClick
     useEffect(() => {
@@ -29,5 +28,4 @@ export default function ShowMassage({message, type, onClick}) {
             </div>
         )
     }
-
 }

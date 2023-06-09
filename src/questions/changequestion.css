@@ -3,11 +3,6 @@
     cursor: pointer;
 }
 
-.button:disabled {
-    cursor: not-allowed;
-    pointer-events: all !important;
-}
-
 .input {
     display: flex;
     flex-direction: row;
@@ -52,7 +47,7 @@
 
 .changequestion_message {
     position: absolute;
-    top: -10;
+    top: 0;
     left: 0;
     display: flex;
     justify-content: center;
@@ -68,7 +63,7 @@
 
 .Error_Message {
     position: absolute;
-    top: -10;
+    top: 0;
     left: 0;
     display: flex;
     justify-content: center;

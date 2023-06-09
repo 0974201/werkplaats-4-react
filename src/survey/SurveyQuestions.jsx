@@ -5,10 +5,8 @@ import './surveyquestions.css'
 function SurveyQuestions() {
     const [survey, setSurvey] = useState([])
     const { id } = useParams();
-    const [showanswer, setShowAnswer] = useState(false)
+    const [showAnswer, setShowAnswer] = useState(false)
     const [answer, setAnswer] = useState('')
-    const [data, setData] = useState(null);
-
 
     /* fetches the data from api surveys:ID*/
     useEffect(() => {
@@ -24,7 +22,6 @@ function SurveyQuestions() {
         const result = await fetch(`http://localhost:81/api/filled_surveys/${questionId}`);
         const data = await result.json();
         setAnswer(data)
-        console.log(data)
         setShowAnswer(true)
     }
 
@@ -53,11 +50,10 @@ function SurveyQuestions() {
                         )}
                     </tbody>
                 </table>
-            </>)
+            </>
+        )
     }
 
-    /* grabs the title outside the map */
-    console.log(survey)
     return (
         <>
             <div className='surveyquestion_container'>
@@ -71,7 +67,7 @@ function SurveyQuestions() {
                             </tr>
                             {
                                 survey && survey?.map(item => (
-                                    <tr key={item.Survey_ID}> {console.log(item.Question_ID)}
+                                    <tr key={item.Survey_ID}>
                                         <td className='question__grey' onClick={() => fetchAnswers(item.Question_ID)}>
                                             <span>{item.open_question}</span>
                                             <span>{item.multi_question}</span>
@@ -88,7 +84,7 @@ function SurveyQuestions() {
                 </div>
                 <div className='boxx3'>
                     <div className='fetchanswers_box'>
-                        {showanswer &&
+                        {showAnswer &&
                             <ShowAnswers />
                         }
                     </div>

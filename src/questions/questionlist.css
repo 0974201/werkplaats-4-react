@@ -1,6 +1,5 @@
 .outside {
     display: flex;
-    align-content: row;
     margin-top: -25px;
     z-index: 1;
     background-color: #fff;
@@ -8,7 +7,6 @@
 
 /* Delete button that removes questions from questionlist */
 .Delete_button {
-    background: transparent;
     border-style: ridge;
     background: #FF7276;
     cursor: pointer;
@@ -21,7 +19,6 @@
 
 /* Button that restores questions from questionlist */
 .restore_button {
-    background: transparent;
     border-style: ridge;
     background: #90EE90;
     cursor: pointer;
@@ -87,16 +84,12 @@
     flex-direction: column;
     align-items: flex-end;
     margin: 0;
-    padding: 0px 10px;
-}
-
-#filter_choices {
-    display: none;
+    padding: 0 10px;
 }
 
 .questionlist_message {
     position: absolute;
-    top: -10;
+    top: 0;
     left: 0;
     display: flex;
     justify-content: center;
@@ -114,9 +107,6 @@
     opacity: 0;
     transition: linear 500ms;
 }
-
-
-
 
 /* Everything below this is table related for questionlist.jsx */
 
@@ -142,31 +132,31 @@ td {
 .questionlist_table th:nth-child(1),
 .questionlist_table td:nth-child(1) {
     border: solid black;
-    border-width: 1px 0px 1px 1px;
+    border-width: 1px 0 1px 1px;
     padding: 0;
 }
 
 .questionlist_table th:nth-child(2),
 .questionlist_table td:nth-child(2) {
     border: solid black;
-    border-width: 1px 0px 1px 0px;
+    border-width: 1px 0 1px 0;
     padding: 10px 10px;
 }
 
 .questionlist_table th:nth-child(3),
 .questionlist_table td:nth-child(3) {
     border: solid black;
-    border-width: 1px 0px 1px 0px
+    border-width: 1px 0 1px 0
 }
 
 .questionlist_table th:nth-child(4),
 .questionlist_table td:nth-child(4) {
     border: solid black;
-    border-width: 1px 0px 1px 0px
+    border-width: 1px 0 1px 0
 }
 
 .questionlist_table th:nth-child(5),
 .questionlist_table td:nth-child(5) {
     border: solid black;
-    border-width: 1px 1px 1px 0px
+    border-width: 1px 1px 1px 0
 }

@@ -10,8 +10,6 @@ export default function SetUpSurvey({ page }) {
     const [survey, setSurvey] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    console.log(survey)
-    console.log(page)
     async function fetchSurvey() {
         const rawSurvey = await fetch('http://localhost:81/api/getSurvey/' + id)
         const survey = await rawSurvey.json()
@@ -49,10 +47,6 @@ export default function SetUpSurvey({ page }) {
     if (page === 'create') {
         sessionStorage.setItem("createSurvey", JSON.stringify(survey))
     }
-
-
-    console.log(new Date(survey.open_date))
-    console.log(new Date(getCurrentDate()))
 
     return (
         <>
