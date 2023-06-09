@@ -1,14 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from "react";
-import { UserLogin } from "../universal/manipulateDB";
+import { UserLogin } from "../universal/loginDB";
+import { redirect } from 'react-router';
 
-export function Login() {
+export function Login(derp) {
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = data => UserLogin(data);
-  //const onSubmit = data => console.log(data);
-  //console.log(errors);
 
   const [user, setUser] = useState([]);
   
@@ -25,8 +24,14 @@ export function Login() {
   },[]); // uh, okay dus we hebben nu de user.. wat nu?
 
   console.log(user);
+  console.log(typeof user);
 
-  let test = ({user}) => (<p>{JSON.stringify(user)}</p>);
+  derp = user;
+  console.log(derp);
+
+  if(!derp === null){
+    redirect('/surveylist')
+  }
   
   return (
     <div className='login_container'>
@@ -38,7 +43,6 @@ export function Login() {
           <input type="password" placeholder="Password" {...register("password", {})} /> <br/><br/>
           <input type="submit" className="submit-btn5"/>
       </form>
-      <div>{test}</div>
     </div>
   );
 }

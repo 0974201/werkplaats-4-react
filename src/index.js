@@ -16,6 +16,7 @@ import SetUpSurvey from "./survey/set_survey";
 import CreateSurvey from "./create_survey/create_survey";
 import GetData from './db_test/getdata';
 import './css/App.css';
+import { func } from 'prop-types';
 
 /* The App is what we throw everything inside. 
 The Header in line 23 is imported from header.js.
@@ -119,7 +120,9 @@ export let surveys = [
         participants: "322"
     }
 ]
+
 function App() {
+
     return (
         <>
             <div className='App'>
