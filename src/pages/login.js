@@ -1,18 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from "react";
-import { redirect } from "react-router-dom";
-import { UserLogin } from "../universal/manipulateDB";
+import { UserLogin } from "../universal/loginDB";
+import { redirect } from 'react-router';
 
-export function Login() {
+export function Login(derp) {
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = data => UserLogin(data);
-  //const onSubmit = data => console.log(data);
-  //console.log(errors);
 
   const [user, setUser] = useState([]);
-  let shit;
   
   useEffect(() => {
     fetch('http://127.0.0.1:81/post_login',{
@@ -23,29 +20,19 @@ export function Login() {
     })
     .then(response => response.json())
     .then(response => setUser(response))
-    .then(sessionStorage.setItem("user", user))
     .catch(error => console.error(error));
   },[]); // uh, okay dus we hebben nu de user.. wat nu?
+
   console.log(user);
-  
-  
   console.log(typeof user);
-  console.log(Object.entries(user)[0]);
 
-  shit = sessionStorage.getItem("user");
+  derp = user;
+  console.log(derp);
 
-  console.log(shit);
-  console.log(JSON.stringify(user));
-
-  function getUser(){
-    const userString = sessionStorage.getItem("user");
-    const ding = JSON.stringify(userString);
-    console.log(ding);
-    return ding?.user;
-}
-
-getUser();
-
+  if(!derp === null){
+    redirect('/surveylist')
+  }
+  
   return (
     <div className='login_container'>
       <h1><p className="login_header"><b>Log in</b></p></h1>
