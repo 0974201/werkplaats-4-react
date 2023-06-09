@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { surveys } from '../index.js'
-import { GetDB } from '../universal/manipulateDB.js'
+//import { surveys } from '../index.js'
+//import { GetDB } from '../universal/manipulateDB.js'
 import './surveylist.css'
 
 

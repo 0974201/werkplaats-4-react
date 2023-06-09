@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './questions.css';
 import { questions } from '../index.js'
-import { Question } from '../survey/survey'
+//import { Question } from '../survey/survey'
 import { Link } from 'react-router-dom';
 import { GetDB } from '../universal/manipulateDB.js'
 

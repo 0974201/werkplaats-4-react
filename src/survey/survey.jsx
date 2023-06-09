@@ -42,13 +42,13 @@ export default function Survey({surveyArray}) {
     }
 
     function checkAnswerd() {
-        let amountAnswerd = 0
-        answeredArray.map(question => {
-            if (question.answer !== '') {
-                amountAnswerd++
-            }
-        })
-        return amountAnswerd
+      let amountAnswered = 0
+      answeredArray.questions.map(question => {
+        if (question.answer !== '') {
+          amountAnswered++
+        }
+      })
+      return amountAnswered
     }
 
     const questionList = answeredArray.map((question, questionIndex) => {
