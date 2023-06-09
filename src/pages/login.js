@@ -39,7 +39,8 @@ export function Login() {
       <h1><p className="login_header"><b>Log in</b></p></h1>
       <form onSubmit={handleSubmit}>
           <label htmlFor="email">E-mail:</label> <br/>
-          <input type="email" placeholder="E-mail" onChange={e => setEmail(e.target.value)} /> <br/>
+          <input type="email" placeholder="E-mail" onChange={e => setEmail(e.target.value)} pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+          required /> <br/>
           <label htmlFor="password">Password:</label> <br/>
           <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} /> <br/><br/>
           <input type="submit" className="submit-btn5"/>

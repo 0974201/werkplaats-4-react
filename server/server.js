@@ -426,9 +426,7 @@ app.post("/handle_login", bodyParser.json(), function(req, res, next){
     if (err){
        console.log(err.message);
     } else if(row === undefined) {//als combi niet klopt geeft hij undefined terug
-      res.status(451).json({
-        message: "451 Unavailable For Legal Reasons",
-      }); 
+      res.status(451);
       console.log(row); //kijken of ie ook undefined teruggeeft
     } else {
       console.log(row); //geeft hij een row terug?
