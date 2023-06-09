@@ -7,6 +7,7 @@ function SurveyQuestions() {
     const { id } = useParams();
     const [showAnswer, setShowAnswer] = useState(false)
     const [answer, setAnswer] = useState('')
+    const [data, setData] = useState(null);
 
     /* fetches the data from api surveys:ID*/
     useEffect(() => {
