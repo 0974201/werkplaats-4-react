@@ -123,7 +123,7 @@ export function SurveyList() {
             <div className="outside">
                 {surveyBox()}
                 <div className="box2">
-                    <table width='100%'>
+                    <table className='surveylist_table'>
                         <tbody>
                             <tr>
                                 <th>Id</th>
@@ -146,11 +146,11 @@ export function SurveyList() {
                                             {item.title}
                                         </Link>
                                     </td>
-                                    <td> {/* Conditional checks for Status */}
+                                    <td> {/* Conditional checks for Status */} {console.log()}
                                         {(currentDate <= item.close_date && item.is_reviewed == '1') ? (
-                                            <p style={{ color: "red" }}>Open</p> // If current date < close_date and item is reviewed.. shows open. //
+                                            <p style={{ color: "green" }}>Open</p> // If current date < close_date and item is reviewed.. shows open. //
                                         ) : (currentDate > item.close_date && item.is_reviewed == '1') ? (
-                                            <p style={{ color: "green" }}>Closed</p> // if current date > close_date and item is reviewed.. shows closed. //
+                                            <p style={{ color: "red" }}>Closed</p> // if current date > close_date and item is reviewed.. shows closed. //
                                         ) : (item.is_reviewed == '0') ? (
                                             <p style={{ color: "orange" }}>Being Reviewed</p> // if item is not yet reviewed.. shows this. //
                                         ) : (

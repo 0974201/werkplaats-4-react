@@ -387,13 +387,13 @@ app.get("/api/surveys", function (req, res) {
 
 
   /* The base query that executes.
-  select survey.* gets us everything from survey.
-  We get the Length from table filled_in (User_ID) and give it an alias participants.
+  select survey.* gets us everything from survey. Distinct makes it so every row is unique and thus no duplicates.
+  We get the Length from table filled_in (User_ID) and give it an alias participants so we can use it for mapping {item.participants}.
   The IFNULL checks if it's a NULL Value(default value we will get from the length of the survey)
   and replaces it with a 0. */
-  let sql = `select survey.*, IFNULL(LENGTH(filled_in.User_ID), 0) AS participants
-  from survey
-  LEFT JOIN filled_in on survey.Survey_ID = filled_in.Question_ID`
+  let sql = `select DISTINCT survey.* , IFNULL(LENGTH(filled_in.User_ID), 0) AS participants
+  FROM survey
+  LEFT JOIN filled_in on survey.Survey_ID = filled_in.Survey_ID`;
 
   /* Checks for the parameters and executes additional sql query if condition is met.*/
   if (isOpen) {

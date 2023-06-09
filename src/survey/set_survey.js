@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Survey from "./survey";
 import { useParams } from "react-router-dom";
 import getCurrentDate from "../universal/get_date";
+import CreateSurvey from "../create_survey/create_survey";
 
 export default function SetUpSurvey({ page }) {
     const { id } = useParams();

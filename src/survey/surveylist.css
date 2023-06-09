@@ -109,28 +109,28 @@ td {
 }
 
 /* Table header for 'Id' */
-th:nth-child(1) {
+.surveylist_container th:nth-child(1) {
     border: solid black;
     border-width: 0px 0px 1px 0px;
     text-align: center;
 }
 
 /* Table data for 'Id' */
-td:nth-child(1) {
+.surveylist_container td:nth-child(1) {
     border: solid black;
-    border-width: 0px 0px 1px 1px;
+    border-width: 1px 0px 1px 1px;
     text-align: center;
 }
 
 /* table header for 'Titel' */
-th:nth-child(2) {
+.surveylist_container th:nth-child(2) {
     border: solid black;
     border-width: 0px 0px 1px 0px;
     text-align: center;
 }
 
 /* Table data for 'Titel' */
-td:nth-child(2) {
+.surveylist_container td:nth-child(2) {
     border: solid black;
     border-width: 0px 0px 1px 0px;
     text-align: center;
@@ -142,30 +142,30 @@ td:nth-child(2) {
 }
 
 /* Both header and table data for 'Status'*/
-th:nth-child(3),
-td:nth-child(3) {
+.surveylist_container th:nth-child(3),
+.surveylist_container td:nth-child(3) {
     border: solid black;
     border-width: 0px 0px 1px 0px;
     text-align: center;
 }
 
 /* Both header and data for 'Deelnemers' */
-th:nth-child(4),
-td:nth-child(4) {
+.surveylist_container th:nth-child(4),
+.surveylist_container td:nth-child(4) {
     border: solid black;
     border-width: 0px 0px 1px 0px;
     text-align: center;
 }
 
 /* Header for 'Aanpassen' */
-th:nth-child(5) {
+.surveylist_container th:nth-child(5) {
     border: solid black;
     border-width: 0px 0px 1px 0px;
     text-align: center;
 }
 
 /* Table data for 'Aanpassen' */
-td:nth-child(5) {
+.surveylist_container td:nth-child(5) {
     border: solid black;
     border-width: 0px 1px 1px 0px;
     text-align: center;

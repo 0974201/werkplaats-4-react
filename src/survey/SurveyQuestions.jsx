@@ -31,12 +31,12 @@ function SurveyQuestions() {
     function ShowAnswers() {
         return (
             <>
-                <table>
+                <table className='fetchedanswers_table'>
                     <tbody>
                         <tr>
                             <th>Antwoorden</th>
                             <th>Tijd</th>
-                            <th>User ID</th>
+                            <th>UID</th>
                         </tr>
                         {answer && answer.map((item, index) =>
                             <tr key={index}>
@@ -57,38 +57,43 @@ function SurveyQuestions() {
     }
 
     /* grabs the title outside the map */
-    let surveytitle = survey?.map(item => item.title)
     console.log(survey)
     return (
         <>
-            <div>
-                <h1 className='surveyquestion_title'> {surveytitle}</h1>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Vraag</th>
-                            <th>Type</th>
-                        </tr>
-                        {
-                            survey && survey?.map(item => (
-                                <tr key={item.Survey_ID}> {console.log(item.Question_ID)}
-                                    <td className='question__grey' onClick={() => fetchAnswers(item.Question_ID)}>
-                                        <span>{item.open_question}</span>
-                                        <span>{item.multi_question}</span>
-                                    </td>
-                                    <td> {(item.open_question !== null) ?
-                                        <span>Open</span>
-                                        : <span>Multiple Choice</span>
-                                    }
-                                    </td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
+            <div className='surveyquestion_container'>
+                <div className='boxx1'></div>
+                <div className='boxx2'>
+                    <table className='surveyquestion_table'>
+                        <tbody>
+                            <tr>
+                                <th>Vraag</th>
+                                <th>Type</th>
+                            </tr>
+                            {
+                                survey && survey?.map(item => (
+                                    <tr key={item.Survey_ID}> {console.log(item.Question_ID)}
+                                        <td className='question__grey' onClick={() => fetchAnswers(item.Question_ID)}>
+                                            <span>{item.open_question}</span>
+                                            <span>{item.multi_question}</span>
+                                        </td>
+                                        <td> {(item.open_question !== null) ?
+                                            <span>Open</span>
+                                            : <span>Multiple Choice</span>
+                                        }
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className='boxx3'>
+                    <div className='fetchanswers_box'>
+                        {showanswer &&
+                            <ShowAnswers />
+                        }
+                    </div>
+                </div>
             </div>
-            {showanswer &&
-                <ShowAnswers />
-            }
         </>
     )
 }

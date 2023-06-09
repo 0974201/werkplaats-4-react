@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import './changequestion.css';
 import { useParams, Link } from 'react-router-dom';
 import SwitchAround from '../universal/switch_around.js'
