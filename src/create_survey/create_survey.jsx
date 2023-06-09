@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
@@ -22,6 +23,11 @@ export default function CreateSurvey({ endpoint }) {
     console.log(surveyArray)
 
     sessionStorage.setItem("createSurvey", JSON.stringify(surveyArray))
+
+     //checks if user is in sess storage, if not redirect to login page.
+     if(localStorage.getItem("user") === null){
+        return <Navigate replace to="/login" />;
+    }
 
     function onLoadSurvey() {
         if (JSON.parse(sessionStorage.getItem("createSurvey")) === null) {

@@ -1,11 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-export default function DbTest() {
+export default function GetData() {
   const [dbdata, setData] = useState([]);
   
   useEffect(() => {
-    fetch('http://127.0.0.1:81/test',{
+    fetch('http://127.0.0.1:81/test_birb',{
       'methods':'GET',
       headers: {
         'Content-Type':'application/json'
@@ -18,8 +18,9 @@ export default function DbTest() {
   
   console.log(dbdata[2]);
   const lijst = dbdata.map(data => 
-        <p key={data.name}>
-          <i>{data.name}</i> &nbsp;
+        <p key={data.id}>
+          <i>{data.latijnse_naam}</i> &nbsp;
+          <b>{data.naam}</b>
         </p>);
 
   return(

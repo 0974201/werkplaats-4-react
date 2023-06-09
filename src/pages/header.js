@@ -4,6 +4,11 @@ import '../css/header.css'
 
 // The Header for the website. //
 function Header() {
+
+    const logout = () => {
+        localStorage.removeItem("user");
+    }
+
     return (
         <nav>
             <div className='header'>
@@ -18,6 +23,9 @@ function Header() {
                     <div className='nav_login'>
                         <div className='login_button'>
                             <Link to='./Login' className='link'>Login</Link>
+                        </div>
+                        <div className='login_button'>
+                            <Link to='./Login' onClick={logout} className='link'>Log out</Link>
                         </div>
                     </div>
                 </div>

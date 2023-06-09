@@ -13,11 +13,13 @@ import SurveyQuestion from './survey/SurveyQuestions';
 import SetUpSurvey from "./survey/set_survey";
 import CreateSurvey from "./create_survey/create_survey";
 import './css/App.css';
+import { func } from 'prop-types';
 
 /* The App is what we throw everything inside. 
 The Header in line 23 is imported from header.js.
 The <Layout> is wrapped around the Routes so that they all have the same layout.*/
 function App() {
+
     return (
         <div className='App'>
             <Header />
@@ -48,4 +50,3 @@ ReactDOM.createRoot(root).render(
         <App />
     </BrowserRouter>
 )
-

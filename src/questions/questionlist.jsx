@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { Navigate } from 'react-router';
 import './questionlist.css';
 import { Link } from 'react-router-dom';
 
@@ -27,6 +28,11 @@ function ModifyQuestion() {
             return () => clearTimeout(timer);
         }
     }, [message]);
+
+     //checks if user is in sess storage, if not redirect to login page.
+     if(localStorage.getItem("user") === null){
+        return <Navigate replace to="/login" />;
+    }
 
     /* Updates the is deleted column from questions to a 1, thus essentially 'deleting' it. */
     async function DeleteQuestion(questionId) {
@@ -209,9 +215,9 @@ function ModifyQuestion() {
                                             </Link>
                                         </span>
                                     </td>
-                                    <td> {(item.is_deleted == '0') ?
-                                        <button className='Delete_button' onClick={() => DeleteQuestion(item.Question_ID)}>
-                                            <span>Verwijder</span>
+                                    <td> {(item.is_deleted === '0') ?
+                                        <button className='Delete_button' onClick={() => DeleteQuestion(item.Question_ID)}
+                                        > <span>Verwijder</span>
                                         </button>
                                         /* shows different button if deleted*/
                                         : <button className='restore_button' onClick={() => RetrieveQuestion(item.Question_ID)}>

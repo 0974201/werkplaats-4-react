@@ -1,26 +1,38 @@
 import React from 'react';
-
-/* No idea if forms still work the same here.. 
-   <br> by itself does not work for React
-    Try <br></br> and for input fields they require a /> at the end */
+import { useState } from "react";
+import { UserLogin } from "../universal/loginDB";
+import { useNavigate } from 'react-router';
 
 export function Login() {
-    return (
-        <div className='login_container'>
-            <form action="/handle_login" method="POST" className="login-form">
-                <p className="login_header"><h1><b>Log in</b></h1></p>
-                <p className="username-field">
-                    <label for="username"><b>Username or Email</b></label><br></br>
-                    <input id="username" type="text" name="username" className="login-field" />
-                </p>
-                <p className="password-field">
-                    <label for="password"><b>Password</b></label><br></br>
-                    <input id="password" type="password" name="password" className="login-field" />
-                </p>
-                <p className="submit-btn5">
-                    <input id="submit" type="submit" value="Login" className="submit" />
-                </p>
-            </form>
-        </div>
-    )
+  const navigate = useNavigate();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const user = await UserLogin({
+      email,
+      password
+    });
+    console.log(user);
+    
+    if(user !== null){
+      console.log('yo');
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate('/surveylist');
+    }
+  }
+
+  return (
+    <div className='login_container'>
+      <h1><p className="login_header"><b>Log in</b></p></h1>
+      <form onSubmit={handleSubmit}>
+          <label htmlFor="email">E-mail:</label> <br/>
+          <input type="email" placeholder="E-mail" onChange={e => setEmail(e.target.value)} id="email" required /> <br/>
+          <label htmlFor="password">Password:</label> <br/>
+          <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} /> <br/><br/>
+          <input type="submit" className="submit-btn5"/>
+      </form>
+    </div>
+  );
 }

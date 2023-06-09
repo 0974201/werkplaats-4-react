@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const db = require('./db.js') // connectie met db
 
 const app = express();
+let returned_user;
 
 app.use(cors()); // allow cross orgin req
 app.use(bodyParser.json()) // for parsing application/json
@@ -39,8 +40,8 @@ function runQuery(sql, params) {
 }
 
 app.get("/", function (req, res) {
-  res.send('nothing to see here')
-})
+  res.send('nothing to see here - connected with database');
+});
 
 app.post('/api/saveNewSurvey', bodyParser.json(), async function (req, res) {
   try {
@@ -411,6 +412,44 @@ app.get('/api/filled_surveys/:questionId', function (req, res) {
     }
     res.send(JSON.stringify(row));
   });
+});
+
+app.get("/handle_login", function(req, res){
+  res.send('post');
+});
+
+app.post("/handle_login", bodyParser.json(), function(req, res, next){
+  console.log(req.body.email, req.body.password); // kijken of hij login gegevens door stuurt
+  const { email, password } = req.body;
+
+  db.get('SELECT * FROM login WHERE email = ? AND password = ?', [email, password], (err, row) => {
+    if (err){
+       console.log(err.message);
+    } else if(row === undefined) {//als combi niet klopt geeft hij undefined terug
+      res.status(451);
+      console.log(row); //kijken of ie ook undefined teruggeeft
+    } else {
+      console.log(row); //geeft hij een row terug?
+      console.log(typeof row); //object
+      console.log(Object.entries(row)[1]); //k:v van obj
+      returned_user = Object.values(row)[1]; //maar ik wil alleen de value van de ingelogde user
+      console.log(returned_user); //hoe krijgen we dit in react terug
+      
+      req.body.user = returned_user;
+      console.log(req.body);
+
+      res.redirect("/post_login");
+    }
+    console.log(returned_user);
+  });
+});
+
+app.get("/post_login", function(req, res){
+  console.log("ingelogd") //als t goed gaat zou ik dit moeten zien in console
+  res.status(200).json({
+    user: returned_user
+  });
+  console.log(returned_user);
 });
 
 app.listen(81); // start server

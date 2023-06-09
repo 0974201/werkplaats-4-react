@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import './surveylist.css'
 
 
@@ -7,6 +7,7 @@ export function SurveyList() {
     const [survey, setSurvey] = useState([])
     const [search, setSearch] = useState('')
 
+    
 
     /* formats the current date to YYYY-MM-DD format.*/
     const nowDate = new Date()
@@ -25,6 +26,11 @@ export function SurveyList() {
         }
         fetchData()
     }, [])
+
+    //checks if user is in sess storage, if not redirect to login page.
+    if(localStorage.getItem("user") === null){
+        return <Navigate replace to="/login" />;
+    }
 
     /* Handles the queries in surveybox on the left side */
 
