@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 function UserLogin(user){
   fetch('http://localhost:81/handle_login', {
     method: 'POST',

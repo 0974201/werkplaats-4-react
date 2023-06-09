@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router';
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
@@ -12,6 +13,20 @@ export default function CreateSurvey() {
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
+
+    const navigate = useNavigate();
+    const [getSession, setSession] = useState();
+    useEffect(() => {
+        const user = sessionStorage.getItem("user");
+        if(user){
+            setSession(user);
+        }
+    })
+
+    if(!getSession){
+        navigate('/login')
+    }
+
     console.log(surveyArray)
 
     sessionStorage.setItem("createSurvey", JSON.stringify(surveyArray))
