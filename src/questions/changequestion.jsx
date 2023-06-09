@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import  React, {useState, useEffect } from 'react';
 import './changequestion.css';
 import { useParams, Link } from 'react-router-dom';
 import SwitchAround from '../universal/switch_around.js'
@@ -7,24 +7,21 @@ import { saveToDB } from '../universal/manipulateDB';
 
 export default function ChangeQuestion({ }) {
     const { id } = useParams();
-    const [questionlist, setQuestion] = useState('');
     const [question, showQuestion] = useState([]);
     const [questionvalue, setQuestionValue] = useState('');
     const [options, setOptions] = useState();
     const [message, setMessage] = useState('');
     const [errormessage, setErrorMessage] = useState(false);
     const [showmessage, setShowMessage] = useState(false);
-    const [getoptionid, setoptionId] = useState('');
-
 
     /* Fetches the data from api. Conditionally checks whether the open_questionID in the data[0]
     is null or not. If null it fetches open question. If not null it fetches multiple choice.*/
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`http://localhost:81/api/questions/ ` + id);
-            const data = await response.json();
-            console.log(data[0]);
-            showQuestion(data[0]);
+            const response = await fetch(`http://localhost:81/api/questions/ ` + id)
+            const data = await response.json()
+            console.log(data[0])
+            showQuestion(data[0])
 
             if (data[0].Open_Question_ID !== null) {
                 setQuestionValue(data[0].open_question)
@@ -33,23 +30,22 @@ export default function ChangeQuestion({ }) {
                 setOptions(data);
             }
         }
-            ;
-        fetchData();
+        fetchData()
     }, []
-    );
+    )
 
     console.log(options)
     /* Timer for message... 5000 is 5 seconds */
     useEffect(() => {
         if (message || errormessage) {
             const timer = setTimeout(() => {
-                setShowMessage('');
-                setErrorMessage('');
-            }, 5000);
+                setShowMessage('')
+                setErrorMessage('')
+            }, 5000)
 
-            return () => clearTimeout(timer);
+            return () => clearTimeout(timer)
         }
-    }, [message, errormessage]);
+    }, [message, errormessage])
 
     /* Saves the open question to the database.*/
     function SaveOpenQuestion() {
@@ -67,19 +63,12 @@ export default function ChangeQuestion({ }) {
             setMessage('Veld mag niet leeg zijn!')
             setErrorMessage(true);
         }
-    };
+    }
 
     /* Saves the multiple choice question to the database.*/
     function SaveMultiQuestion() {
         if (questionvalue !== '') {
-            const optionIds = (options && options?.map(item => item.Option_ID))
 
-            const optionid1 = optionIds[0];
-            const optionid2 = optionIds[1];
-            const optionid3 = optionIds[2];
-            console.log(optionid1)
-            console.log(optionid2)
-            console.log(optionid3)
             const saveArray = {
                 question: questionvalue,
                 questionId: question.Multiple_Choice_ID,
@@ -90,7 +79,7 @@ export default function ChangeQuestion({ }) {
                 optionid2: '2',
                 optionid3: '3',
                 type: 'MultipleChoice',
-            }; console.log('option value: ' + optionid1)
+            }
             saveToDB(saveArray, 'questions');
             setMessage('Multi Vraag is succesvol opgeslagen!')
             setShowMessage(true);
@@ -99,18 +88,13 @@ export default function ChangeQuestion({ }) {
             setMessage('Veld mag niet leeg zijn!')
             setErrorMessage(true);
         }
-    };
+    }
 
     /* This is the Up and Down buttons that allow us to change the order of options.*/
     function switchOptions(list, fromIndex, toIndex) {
         const newList = SwitchAround(list, fromIndex, toIndex)
         setOptions(newList)
     }
-
-
-
-
-
 
     /* Changes the option values of multiple choice questions */
     function replaceOptions(radioIndex, value) {
@@ -126,9 +110,6 @@ export default function ChangeQuestion({ }) {
     }
     /* Checks for whether the question type is Open or Multiple Choice depending on the id in the array. */
     function renderQuestion() {
-
-
-
         if (question.Open_Question_ID !== null) {
             return (
                 <>
@@ -136,22 +117,26 @@ export default function ChangeQuestion({ }) {
                     <b>{questionvalue}</b>
                 </>
             )
-        } else if (question.Open_Question_ID == null) {
+        } else {
             return (
                 <div>
                     <h1>Multiple Choice Vraag {id}</h1>
                     <p><b>{questionvalue}</b></p>
                     {options && options?.map((option, optionIndex) => {
                         return (
-                            <div className='radio_box'>{console.log(option, optionIndex)}
+                            <div className='radio_box'>
                                 <div className='radio_div' key={optionIndex}>
                                     <input className='input'
-                                        type='text'
-                                        defaultValue={option.option}
-                                        onChange={event => replaceOptions(optionIndex, event.target.value)}>
+                                           type='text'
+                                           defaultValue={option.option}
+                                           onChange={event => replaceOptions(optionIndex, event.target.value)}>
                                     </input>
-                                    <button onClick={() => switchOptions(option.option, optionIndex, optionIndex - 1)}>Up</button>
-                                    <button onClick={() => switchOptions(option.option, optionIndex, optionIndex + 1)}>Down</button>
+                                    <button
+                                        onClick={() => switchOptions(option.option, optionIndex, optionIndex - 1)}>Up
+                                    </button>
+                                    <button
+                                        onClick={() => switchOptions(option.option, optionIndex, optionIndex + 1)}>Down
+                                    </button>
                                 </div>
                             </div>
                         )
@@ -180,13 +165,12 @@ export default function ChangeQuestion({ }) {
                 }
             </div>
             {renderQuestion()}
-            {console.log(question.Question_ID)}
             {(questionvalue.length !== 250)
                 ? ''
                 : <span style={{ color: 'red' }}>Vraag kan niet meer dan 250 karakters bevatten</span>}
             <div className='save_question_border'>
                 <div className='save_question_box'>
-                    <textarea type='text' className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
+                    <textarea className='textarea' maxLength={250} value={questionvalue} onChange={(e) => setQuestionValue(e.target.value)}></textarea>
                     {/* Checks if the open_question_ID is not null.. if not null show Function SaveOpenQuestion
                     else it will show SaveMultiQuestion. */}
                     {question.Open_Question_ID !== null ? (

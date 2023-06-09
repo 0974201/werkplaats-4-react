@@ -1,4 +1,3 @@
-
 export default function Group(array) {
 // copied from https://dmitripavlutin.com/javascript-array-group/ ,
 // changed values to the correct ones

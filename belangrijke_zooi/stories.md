@@ -2,38 +2,6 @@
 
 ## Te doen
 
-### [10] Antwoorden definitief maken
-
-**Created:** 4/12/2023 2:41:25 PM
-
-**Created by:** Yong Pok Low (1053079)
-
-
-
-**Description:**
-
-Als een gebruiker,
-
-zou ik graag antwoorden definitief kunnen maken
-
-zodat ik de optie heb om te beslissen wanneer ik definitief antwoord wil geven.
-
-### [14] Link om de 360 Graden Feedback tool te starten
-
-**Created:** 4/12/2023 2:43:26 PM
-
-**Created by:** Yong Pok Low (1053079)
-
-
-
-**Description:**
-
-Als een gebruiker,
-
-zou ik graag een link willen hebben naar de tool
-
-zodat ik gebruik kan maken van de applicatie.
-
 ### [26] Laten zien welke vraag niet ingevuld
 
 **Created:** 5/24/2023 4:02:38 PM
@@ -47,22 +15,6 @@ zodat ik gebruik kan maken van de applicatie.
 Als een gebruiker,
 
 wil ik graag zien welke vraag ik nog moet invullen.
-
-### [37] bevestiging toevoegen wanneer je de gemaakte survey opslaad
-
-**Created:** 6/3/2023 4:33:19 PM
-
-**Created by:** Zasha Stigt
-
-
-
-### [38] een survey alleen laten zien als de tijden kloppen
-
-**Created:** 6/3/2023 5:19:52 PM
-
-**Created by:** Zasha Stigt
-
-
 
 ## Bezig
 
@@ -98,22 +50,6 @@ wil ik graag de antwoorden zien bij de vraag,
 
 zodat ik kan zien hoeveel en welke antwoorden er zijn ingevuld bij de vraag.
 
-### [5] Eerder aangemaakte vragen uitkiezen
-
-**Created:** 4/12/2023 1:14:03 PM
-
-**Created by:** Yong Pok Low (1053079)
-
-
-
-**Description:**
-
-Als een Admin,
-
-zou ik graag de optie hebben om eerder aangemaakte vragen uit een pool te kiezen.
-
-Zodat ik vragen kan hergebruiken en niet opnieuw hoef in te typen.
-
 ## Klaar
 
 ### [29] Connectie met Node.JS server naar React
@@ -124,9 +60,9 @@ Zodat ik vragen kan hergebruiken en niet opnieuw hoef in te typen.
 
 
 
-### [4] Vragen verwijderen
+### [10] Antwoorden definitief maken
 
-**Created:** 4/12/2023 1:13:38 PM
+**Created:** 4/12/2023 2:41:25 PM
 
 **Created by:** Yong Pok Low (1053079)
 
@@ -134,11 +70,35 @@ Zodat ik vragen kan hergebruiken en niet opnieuw hoef in te typen.
 
 **Description:**
 
-Als een Admin,
+Als een gebruiker,
 
-wil ik graag vragen kunnen verwijderen,
+zou ik graag antwoorden definitief kunnen maken
 
-zodat ik vragen kan verwijderen die niet meer nodig zijn.
+zodat ik de optie heb om te beslissen wanneer ik definitief antwoord wil geven.
+
+### [14] Link om de 360 Graden Feedback tool te starten
+
+**Created:** 4/12/2023 2:43:26 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een gebruiker,
+
+zou ik graag een link willen hebben naar de tool
+
+zodat ik gebruik kan maken van de applicatie.
+
+### [38] een survey alleen laten zien als de tijden kloppen
+
+**Created:** 6/3/2023 5:19:52 PM
+
+**Created by:** Zasha Stigt
+
+
 
 ### [8] Vragen beantwoorden
 
@@ -156,6 +116,14 @@ zou ik graag vragen willen kunnen beantwoorden
 
 zodat ik feedback kan geven voor de applicatie.
 
+### [37] bevestiging toevoegen wanneer je de gemaakte survey opslaad
+
+**Created:** 6/3/2023 4:33:19 PM
+
+**Created by:** Zasha Stigt
+
+
+
 ### [16] Tussentijds opslaan van vragen
 
 **Created:** 4/12/2023 2:43:43 PM
@@ -171,22 +139,6 @@ Als een gebruiker,
 zou ik graag hebben dat de vragen tussentijds opgeslagen wordt
 
 zodat ik niet elke keer opnieuw moet typen.
-
-### [3] Vragen aanpassen
-
-**Created:** 4/12/2023 1:13:36 PM
-
-**Created by:** Yong Pok Low (1053079)
-
-
-
-**Description:**
-
-Als een Admin,
-
-wil ik graag vragen kunnen aanpassen
-
-zodat ik op elke moment de vraag kan veranderen.
 
 ### [33] Zoek Functie
 
@@ -324,38 +276,6 @@ zodat ik een overzicht heb over alle surveys.
 
 
 
-### [2] Open Vragen aanmaken
-
-**Created:** 4/12/2023 1:13:16 PM
-
-**Created by:** Yong Pok Low (1053079)
-
-
-
-**Description:**
-
-Als een Admin,
-
-zou ik graag open vragen willen aan maken,
-
-zodat ik open vragen aan de gebruikers kan stellen.
-
-### [1] Database aanmaken
-
-**Created:** 4/12/2023 1:11:21 PM
-
-**Created by:** Yong Pok Low (1053079)
-
-
-
-**Description:**
-
-Als een gebruiker,
-
-hebben we een database nodig
-
-om al onze informatie op te slaan.
-
 ### [9] Vragen Volgorde aanpassen
 
 **Created:** 4/12/2023 2:41:09 PM
@@ -463,6 +383,86 @@ Als een gebruiker,
 zou ik graag terug willen gaan naar een vorige vraag
 
 zodat ik terug kan kijken naar eerder beantwoorde vragen.
+
+### [4] Vragen verwijderen
+
+**Created:** 4/12/2023 1:13:38 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een Admin,
+
+wil ik graag vragen kunnen verwijderen,
+
+zodat ik vragen kan verwijderen die niet meer nodig zijn.
+
+### [5] Eerder aangemaakte vragen uitkiezen
+
+**Created:** 4/12/2023 1:14:03 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een Admin,
+
+zou ik graag de optie hebben om eerder aangemaakte vragen uit een pool te kiezen.
+
+Zodat ik vragen kan hergebruiken en niet opnieuw hoef in te typen.
+
+### [3] Vragen aanpassen
+
+**Created:** 4/12/2023 1:13:36 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een Admin,
+
+wil ik graag vragen kunnen aanpassen
+
+zodat ik op elke moment de vraag kan veranderen.
+
+### [2] Open Vragen aanmaken
+
+**Created:** 4/12/2023 1:13:16 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een Admin,
+
+zou ik graag open vragen willen aan maken,
+
+zodat ik open vragen aan de gebruikers kan stellen.
+
+### [1] Database aanmaken
+
+**Created:** 4/12/2023 1:11:21 PM
+
+**Created by:** Yong Pok Low (1053079)
+
+
+
+**Description:**
+
+Als een gebruiker,
+
+hebben we een database nodig
+
+om al onze informatie op te slaan.
 
 ## notities
 

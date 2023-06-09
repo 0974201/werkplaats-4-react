@@ -1,75 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-//import { GetDB } from '../universal/manipulateDB.js'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import './surveylist.css'
 
 
 export function SurveyList() {
-    const [survey, setSurvey] = useState([]);
+    const [survey, setSurvey] = useState([])
     const [search, setSearch] = useState('')
 
 
     /* formats the current date to YYYY-MM-DD format.*/
-    const nowDate = new Date();
-    const year = nowDate.getFullYear();
-    const month = String(nowDate.getMonth() + 1).padStart(2, '0');
-    const day = String(nowDate.getDate()).padStart(2, '0');
-    const currentDate = `${year}-${month}-${day}`;
+    const nowDate = new Date()
+    const year = nowDate.getFullYear()
+    const month = String(nowDate.getMonth() + 1).padStart(2, '0')
+    const day = String(nowDate.getDate()).padStart(2, '0')
+    const currentDate = `${year}-${month}-${day}`
 
 
     /* Fetches the API endpoint from surveys in server.js */
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/surveys');
-            const data = await result.json();
+            const result = await fetch('http://localhost:81/api/surveys')
+            const data = await result.json()
             setSurvey(data)
-        };
-        fetchData();
-    }, []);
+        }
+        fetchData()
+    }, [])
 
     /* Handles the queries in surveybox on the left side */
 
     // Shows every Survey that is under review (is_reviewed = 0)//
     function showBeingReviewed() {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/surveys?open=reviewed');
-            const data = await result.json();
+            const result = await fetch('http://localhost:81/api/surveys?open=reviewed')
+            const data = await result.json()
             setSurvey(data)
-        };
-        fetchData();
-    };
+        }
+        fetchData()
+    }
 
     // Shows all Open Surveys that passed review (is_reviewed = 1) (is_deleted = 0)
     // And current date is not past the close_date. //
     function showOpenSurveys() {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/surveys?open=true');
-            const data = await result.json();
+            const result = await fetch('http://localhost:81/api/surveys?open=true')
+            const data = await result.json()
             setSurvey(data)
-        };
-        fetchData();
-    };
+        }
+        fetchData()
+    }
 
     // Shows all Closed Surveys that passed review (is_reviewed = 1) (is_deleted = 0)
     // And Current date is past the close_date. //
     function showClosedSurveys() {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/surveys?open=false');
-            const data = await result.json();
+            const result = await fetch('http://localhost:81/api/surveys?open=false')
+            const data = await result.json()
             setSurvey(data)
         };
-        fetchData();
-    };
+        fetchData()
+    }
 
     // Shows everything. //
     function showAll() {
         const fetchData = async () => {
-            const result = await fetch('http://localhost:81/api/surveys');
-            const data = await result.json();
+            const result = await fetch('http://localhost:81/api/surveys')
+            const data = await result.json()
             setSurvey(data)
-        };
-        fetchData();
-    };
+        }
+        fetchData()
+    }
 
 
     /* This controls the left side of surveylist and is outside the container

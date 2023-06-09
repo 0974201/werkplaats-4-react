@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import '../css/header.css'
 
 // The Header for the website. //
-
 function Header() {
     return (
         <nav>
