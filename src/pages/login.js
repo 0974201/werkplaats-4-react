@@ -31,7 +31,7 @@ export function Login() {
 
     if(user !== null){
       console.log('yo');
-      navigate('/login');
+      navigate('/survey');
     }
   }
 
