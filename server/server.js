@@ -196,38 +196,61 @@ app.post('/api/questions', bodyParser.json(), function (req, res) {
   /* Checks if the type is open and if so updates open_question. */
   if (type === 'Open') {
     db.run('UPDATE open_question SET open_question = ? WHERE Open_Question_ID = ?', [question, questionId],
-      function (err) {
-        console.log(err.message);
+      function (error) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log('top')
+        }
       }
-
     )
   } /* If not open then it updates multiple choice */
   else if (type === 'MultipleChoice') {
     db.run('UPDATE multiple_choice SET multi_question = ? WHERE Multiple_Choice_ID = ?', [question, questionId],
-      function (err) {
-        console.log(err.message);
+      function (error) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log('top')
+        }
       }
     ) /* Multiple choice also has to update options so we put that after it has ran the first query. */
     db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [option1, optionid1],
-      function (err) {
-        console.log(err.message);
+      function (error) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log('top')
+        }
       }
     )
-      db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [option2, optionid2],
-        function (err) {
-          console.log(err.message);
+    db.run('UPDATE option SET option = ? WHERE Option_ID = ? ', [option2, optionid2],
+      function (error) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log('top')
         }
-      )
+      }
+    )
     if (option3)
       db.run('UPDATE option SET option = ? WHERE Option_ID = ?', [option3, optionid3],
-        function (err) {
-          console.log(err.message);
+        function (error) {
+          if (error) {
+            console.log(error)
+          } else {
+            console.log('top')
+          }
         }
       )
   } if (option4)
     db.run('UPDATE option SET option = ? WHERE Option_ID = ?', [option4, optionid4],
-      function (err) {
-        console.log(err.message);
+      function (error) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log('top')
+        }
       }
     )
 },
@@ -414,18 +437,18 @@ app.get('/api/filled_surveys/:questionId', function (req, res) {
   });
 });
 
-app.get("/handle_login", function(req, res){
+app.get("/handle_login", function (req, res) {
   res.send('post');
 });
 
-app.post("/handle_login", bodyParser.json(), function(req, res, next){
+app.post("/handle_login", bodyParser.json(), function (req, res, next) {
   console.log(req.body.email, req.body.password); // kijken of hij login gegevens door stuurt
   const { email, password } = req.body;
 
   db.get('SELECT * FROM login WHERE email = ? AND password = ?', [email, password], (err, row) => {
-    if (err){
-       console.log(err.message);
-    } else if(row === undefined) {//als combi niet klopt geeft hij undefined terug
+    if (err) {
+      console.log(err.message);
+    } else if (row === undefined) {//als combi niet klopt geeft hij undefined terug
       res.status(451);
       console.log(row); //kijken of ie ook undefined teruggeeft
     } else {
@@ -434,7 +457,7 @@ app.post("/handle_login", bodyParser.json(), function(req, res, next){
       console.log(Object.entries(row)[1]); //k:v van obj
       returned_user = Object.values(row)[1]; //maar ik wil alleen de value van de ingelogde user
       console.log(returned_user); //hoe krijgen we dit in react terug
-      
+
       req.body.user = returned_user;
       console.log(req.body);
 
@@ -444,7 +467,7 @@ app.post("/handle_login", bodyParser.json(), function(req, res, next){
   });
 });
 
-app.get("/post_login", function(req, res){
+app.get("/post_login", function (req, res) {
   console.log("ingelogd") //als t goed gaat zou ik dit moeten zien in console
   res.status(200).json({
     user: returned_user
