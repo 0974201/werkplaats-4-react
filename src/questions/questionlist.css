@@ -89,7 +89,7 @@
 
 .questionlist_message {
     position: absolute;
-    top: 0;
+    top: -10;
     left: 0;
     display: flex;
     justify-content: center;
