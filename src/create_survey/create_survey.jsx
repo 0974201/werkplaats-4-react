@@ -1,5 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, {useEffect} from "react";
+import { useState } from "react";
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
