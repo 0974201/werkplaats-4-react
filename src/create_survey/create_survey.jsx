@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import Survey from '../survey/survey'
 import SwitchAround from "../universal/switch_around";
 import './creat_survey.css'
@@ -14,6 +15,7 @@ let nextOrder = 0
 // type in an input field the field loses focus, and you stop typing
 export default function CreateSurvey({ endpoint }) {
     console.log(endpoint)
+    const [getSession, setSession] = useState(null);
     const [questionArray, setQuestionArray] = useState(onLoadArray())
     const [surveyArray, setSurveyArray] = useState(onLoadSurvey())
     const [buttonState, setButtonState] = useState(false)
@@ -22,6 +24,18 @@ export default function CreateSurvey({ endpoint }) {
     console.log(surveyArray)
 
     sessionStorage.setItem("createSurvey", JSON.stringify(surveyArray))
+
+    //checks if user is in sess storage, if not redirect to login page.
+    useEffect(() => {
+        const user = sessionStorage.getItem("user");
+        if(user){
+            setSession(user);
+        }
+    })
+
+    if(!getSession){
+        return <Navigate replace to="/login" />;
+    }
 
     function onLoadSurvey() {
         if (JSON.parse(sessionStorage.getItem("createSurvey")) === null) {

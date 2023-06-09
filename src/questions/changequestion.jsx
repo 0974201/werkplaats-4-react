@@ -1,4 +1,5 @@
 import  React, {useState, useEffect } from 'react';
+import { Navigate } from 'react-router';
 import './changequestion.css';
 import { useParams, Link } from 'react-router-dom';
 import SwitchAround from '../universal/switch_around.js'
@@ -6,6 +7,7 @@ import { saveToDB } from '../universal/manipulateDB';
 
 
 export default function ChangeQuestion({ }) {
+    const [getSession, setSession] = useState(null);
     const { id } = useParams();
     const [question, showQuestion] = useState([]);
     const [questionvalue, setQuestionValue] = useState('');
@@ -46,6 +48,18 @@ export default function ChangeQuestion({ }) {
             return () => clearTimeout(timer)
         }
     }, [message, errormessage])
+
+    //checks if user is in sess storage, if not redirect to login page.
+    useEffect(() => {
+        const user = sessionStorage.getItem("user");
+        if(user){
+            setSession(user);
+        }
+    })
+
+    if(!getSession){
+        return <Navigate replace to="/login" />;
+    }
 
     /* Saves the open question to the database.*/
     function SaveOpenQuestion() {

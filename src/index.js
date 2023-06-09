@@ -12,7 +12,6 @@ import { SurveyList } from './survey/surveylist';
 import SurveyQuestion from './survey/SurveyQuestions';
 import SetUpSurvey from "./survey/set_survey";
 import CreateSurvey from "./create_survey/create_survey";
-import GetData from './db_test/getdata';
 import './css/App.css';
 import { func } from 'prop-types';
 
@@ -51,4 +50,3 @@ ReactDOM.createRoot(root).render(
         <App />
     </BrowserRouter>
 )
-
