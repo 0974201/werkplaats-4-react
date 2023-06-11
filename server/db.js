@@ -1,7 +1,7 @@
 require('dotenv').config();
 const sqlite3 = require("sqlite3").verbose();
 // const path = require('node:path');
-// const db_file = path.resolve(__dirname, "./database/test.db"); //uncomment deze regels als de /env bestand ontbreekt.
+// const db_file = path.resolve(__dirname, "./database/test_data.db"); //uncomment deze regels als de /env bestand ontbreekt.
 const db_file = process.env.DB_PATH;
 
 function db() {
